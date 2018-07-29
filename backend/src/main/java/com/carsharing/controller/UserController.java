@@ -12,9 +12,11 @@ import lombok.extern.slf4j.Slf4j;
 import com.carsharing.model.User;
 import com.carsharing.model.UserInfo;
 import com.carsharing.repository.UserRepository;
-import com.carsharing.repository.UserInfoRepository;
 
 import io.swagger.annotations.*;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 class CSResponse<T> {
     private Boolean success;
@@ -48,15 +50,12 @@ public class UserController {
     @Autowired
     UserRepository userRepository;
 
-    @Autowired
-    UserInfoRepository userInfoRepository;
-
     @PostMapping(value="/registration", produces=MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Регистрация пользователя в системе",
             response = CSResponse.class)
     @ApiResponses(value = {
             @ApiResponse(code = 409, message = "Пользователь с таким Email уже существует"),
-            @ApiResponse(code = 201, message = "Пользователь успешно зарегистрирован") })
+            @ApiResponse(code = 200, message = "Пользователь успешно зарегистрирован") })
     public ResponseEntity<?> createUser(
             @ApiParam(value = "EMail пользователя", required = true) @RequestBody String email) {
 
@@ -72,10 +71,12 @@ public class UserController {
 
         apiMessage = "Пользователь с Email " + email + " успешно создан";
         log.info(apiMessage);
-        User user = userRepository.save(new User(email, "1", 1));
+
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        User user = userRepository.save(new User(email, passwordEncoder.encode("1"), 1));
 
         return new ResponseEntity<>(new CSResponse<>(
-                true, apiMessage, null), HttpStatus.CREATED);
+                true, apiMessage, null), HttpStatus.OK);
     }
 
 
@@ -85,7 +86,7 @@ public class UserController {
     )
     @ApiResponses(value = {
             @ApiResponse(code = 404, message = "Пользователь не найден"),
-            @ApiResponse(code = 302, message = "Информация о пользователе успешно получена") })
+            @ApiResponse(code = 200, message = "Информация о пользователе успешно получена") })
     public ResponseEntity<?> getUserInfo(
             @ApiParam(value = "ID пользователя", required = true) @PathVariable Long id) {
 
@@ -107,16 +108,16 @@ public class UserController {
         UserInfo userInfo = user.getUserInfo();
 
         return new ResponseEntity<>(new CSResponse<>(
-                true, apiMessage, userInfo), HttpStatus.FOUND);
+                true, apiMessage, userInfo), HttpStatus.OK);
     }
 
 
     @PutMapping(value="/userinfo/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Обновлении информации о пользователе",
+    @ApiOperation(value = "Обновление информации о пользователе",
             response = CSResponse.class)
     @ApiResponses(value = {
             @ApiResponse(code = 404, message = "Пользователь не найден"),
-            @ApiResponse(code = 302, message = "Информация о пользователе успешно обновлена") })
+            @ApiResponse(code = 200, message = "Информация о пользователе успешно обновлена") })
     public ResponseEntity<?> updateUserInfo(
             @ApiParam(value = "ID пользователя", required = true) @PathVariable Long id,
             @ApiParam(value = "Информация о пользователе", required = true) @RequestBody UserInfo userInfo) {
@@ -140,7 +141,7 @@ public class UserController {
         userRepository.save(user);
 
         return new ResponseEntity<>(new CSResponse<>(
-                true, apiMessage, null), HttpStatus.FOUND);
+                true, apiMessage, null), HttpStatus.OK);
     }
 
 
@@ -149,7 +150,7 @@ public class UserController {
             response = CSResponse.class)
     @ApiResponses(value = {
             @ApiResponse(code = 404, message = "Пользователь не найден"),
-            @ApiResponse(code = 302, message = "Пользователь успешно удален") })
+            @ApiResponse(code = 200, message = "Пользователь успешно удален") })
     public ResponseEntity<?> deleteUser(
             @ApiParam(value = "ID пользователя", required = true) @PathVariable long id) {
 
@@ -171,6 +172,6 @@ public class UserController {
         userRepository.deleteById(id);
 
         return new ResponseEntity<>(new CSResponse<>(
-                true, apiMessage, null), HttpStatus.FOUND);
+                true, apiMessage, null), HttpStatus.OK);
     }
 }

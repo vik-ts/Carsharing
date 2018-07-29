@@ -1,11 +1,8 @@
 package com.carsharing.model;
 
 import java.io.Serializable;
-import java.sql.Blob;
 import java.sql.Date;
-
 import javax.persistence.*;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
@@ -13,47 +10,47 @@ import lombok.*;
 @Table(name = "user_info")
 @Data
 @EqualsAndHashCode(exclude={"id"}) @ToString (exclude={"id"})
-@NoArgsConstructor @RequiredArgsConstructor
+@NoArgsConstructor
 public class UserInfo implements Serializable {
 
     @JsonIgnore
     @Id private long id;
 
     @Column(name = "fullname")
-    @NonNull private String fullname;
+    private String fullname;
 
     @Column(name = "telephone")
-    @NonNull private String telephone;
+    private String telephone;
 
     @Column(name = "series_number_passport")
-    @NonNull private String seriesNumberPassport;
+    private String seriesNumberPassport;
 
     @Column(name = "issued_passport")
-    @NonNull private String issuedPassport;
+    private String issuedPassport;
 
     @Column(name = "issued_date_passport")
-    @NonNull private Date issuedDatePassport;
+    private Date issuedDatePassport;
 
     @Column(name = "birthday")
-    @NonNull private Date birthday;
+    private Date birthday;
 
     @Column(name = "birth_place")
-    @NonNull private String birthPlace;
+    private String birthPlace;
 
     @Column(name = "series_number_licence")
-    @NonNull private String seriesNumberLicence;
+    private String seriesNumberLicence;
 
     @Column(name = "issued_license")
-    @NonNull private String issuedLicense;
+    private String issuedLicense;
 
     @Column(name = "issued_date_license")
-    @NonNull private Date issuedDateLicense;
+    private Date issuedDateLicense;
 
     @Column(name = "really_license")
-    @NonNull private Date reallyLicense;
+    private Date reallyLicense;
 
     @Column(name = "category")
-    @NonNull private String category;
+    private String category;
 
     @Column(name = "photo")
     private byte[] photo;

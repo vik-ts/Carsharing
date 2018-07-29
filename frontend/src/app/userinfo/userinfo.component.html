@@ -1,0 +1,85 @@
+<div class="container"><br>  
+  <h1 class = "h1">Личный кабинет</h1><br>
+  <div class="row"></div>
+    <div class="col-md-6">
+      <form (ngSubmit)="editUserInfo()" #userinfoForm="ngForm"> 
+        <a (click)="openBox('box')">Сменить e-mail/password</a><br><br>
+          <div id="box" style="display: none;">
+            <div class="form-group">
+              <label for="email">Почта</label>
+              <input type="email" class="form-control" id="email" name="email">
+            </div>
+            <div class="form-group">
+              <label for="passwordOld">Введите старый пароль</label>
+              <input type="password" class="form-control" id="passwordOld" name="passwordOld">
+            </div>
+            <div class="form-group">
+              <label for="passwordNew">Введите новый пароль</label>
+              <input type="password" class="form-control" id="passwordNew" name="passwordNew">
+            </div>  
+          </div>
+         
+          <div class="form-group">
+              <label for="telephone">Телефон</label>
+              <input type="telephone" class="form-control" id="telephone" [(ngModel)]="userinfo.telephone" name="telephone" #telephone="ngModel">
+          </div>
+          <br>     
+        <label>ПАСПОРТНЫЕ ДАННЫЕ</label><br><br>    
+        <fieldset>          
+            <div class="form-group">
+              <label for="fullname">ФИО</label>
+              <input type="fullname" class="form-control" id="fullname" [(ngModel)]="userinfo.fullname" name="fullname" #fullname="ngModel">
+            </div>
+            <div class="form-group">
+              <label for="seriesNumberPassport">Серия и номер</label>
+              <input type="seriesNumberPassport" class="form-control" id="seriesNumberPassport" [(ngModel)]="userinfo.seriesNumberPassport" name="seriesNumberPassport" #seriesNumberPassport="ngModel">
+            </div>
+            <div class="form-group">
+              <label for="issuedPassport">Кем выдан</label>
+              <input type="issuedPassport" class="form-control" id="issuedPassport" [(ngModel)]="userinfo.issuedPassport" name="issuedPassport" #issuedPassport="ngModel">
+            </div>
+            <div class="form-group">
+              <label for="issuedDatePassport">Когда выдан</label>
+              <input type='date' class="form-control" id="issuedDatePassport" [(ngModel)]="userinfo.issuedDatePassport" name="issuedDatePassport" #issuedDatePassport="ngModel">
+            </div>
+            <div class="form-group">
+              <label for="birthday">Дата рождения</label>
+              <input type='date' class="form-control" id="birthday" [(ngModel)]="userinfo.birthday" name="birthday" #birthday="ngModel">
+            </div>
+            <div class="form-group">
+              <label for="birthPlace">Место рождения</label>
+              <input type="birthPlace" class="form-control" id="birthPlace" [(ngModel)]="userinfo.birthPlace" name="birthPlace" #birthPlace="ngModel">
+            </div>
+        </fieldset><br><br>    
+        <label>ВОДИТЕЛЬСКОЕ УДОСТОВЕРЕНИЕ</label><br><br>
+        <fieldset>          
+            <div class="form-group">
+              <label for="seriesNumberLicence">Серия и номер</label>
+              <input type="seriesNumberLicence" class="form-control" id="seriesNumberLicence" [(ngModel)]="userinfo.seriesNumberLicence" name="seriesNumberLicence" #seriesNumberLicence="ngModel">
+            </div>
+            <div class="form-group">
+              <label for="issuedLicense">Кем выдано</label>
+              <input type="issuedLicense" class="form-control" id="issuedLicense" [(ngModel)]="userinfo.issuedLicense" name="issuedLicense" #issuedLicense="ngModel">
+            </div>
+            <div class="form-group">
+              <label for="issuedDateLicense">Когда выдано</label>
+              <input type='date' class="form-control" id="issuedDateLicense" [(ngModel)]="userinfo.issuedDateLicense" name="issuedDateLicense" #issuedDateLicense="ngModel">
+            </div>
+            <div class="form-group">
+              <label for="reallyLicense">Действительно до</label>
+              <input type='date' class="form-control" id="reallyLicense" [(ngModel)]="userinfo.reallyLicense" name="reallyLicense" #reallyLicense="ngModel">
+            </div>
+            <div class="form-group">
+              <label for="category">Категория</label>
+              <input type="category" class="form-control" id="category" [(ngModel)]="userinfo.category" name="category" #category="ngModel">
+            </div>
+        </fieldset><br>  
+        <div>{{message | uppercase}}</div><br>        
+        <div class="form-group">
+          <a href="/home" class="btn btn-primary">Назад</a>
+          <button class="btn btn-danger" (click)="delete()">Удалить</button> 
+          <button type="submit" class="btn btn-success" [disabled]="!userinfoForm.form.valid">ОК</button>
+        </div>        
+      </form>
+   </div>
+</div>

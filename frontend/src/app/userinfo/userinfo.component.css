@@ -1,0 +1,11 @@
+fieldset {
+    border: 1px solid rgb(8, 14, 77);
+ }
+ img {
+     width: 100px; 
+     height: 100px;
+}
+.rightpic {
+    float: right;
+    margin: 0 0 5px 5px; /* Отступы вокруг фотографии */
+}

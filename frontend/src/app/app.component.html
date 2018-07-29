@@ -1,8 +1,11 @@
 <nav>
-    <ul>
-      <li>
-        <a routerLink="/home" routerLinkActive="active">Главная</a>
-      </li>     
-    </ul>
+  <ul>
+    <li>
+      <a routerLink="/home" routerLinkActive="active">Главная</a>
+    </li>    
+    <li>
+      <a [routerLink]="['/userinfo', '114']" routerLinkActive="active">Личный кабинет</a>        
+    </li> 
+  </ul>
 </nav>
 <router-outlet></router-outlet>
