@@ -16,7 +16,7 @@
           <a href="/" class="btn btn-primary">Назад</a>    
           <button type="submit" class="btn btn-success" [disabled]="!signupform.form.valid">OK</button>
         </div>        
-        <div [ngStyle]="{'color': success? 'black' : 'red'}">{{message | uppercase}}</div>         
+        <div [ngStyle]="{'color': colorMessage? 'black' : 'red'}">{{message | uppercase}}</div>         
       </form>      
     </div>  
   </div>

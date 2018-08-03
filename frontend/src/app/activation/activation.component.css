@@ -1,0 +1,54 @@
+input[type="comment"] {  
+    width: 100%; 
+}
+
+#window {
+    width: 40%;
+    height: 90%;
+    margin: 50px auto;
+    display: none;
+    background: rgb(245, 245, 248);
+    z-index: 200;
+    position: absolute;   
+    top: 0;
+    left: 30%;
+    padding: 16px;
+    color: #040e36;
+    font-size: 15px;    
+    font-weight:bold;
+    overflow-x: scroll;
+    overflow-y: scroll;
+}
+
+.h2 {
+    color: #040e36;
+    font-size: 20px;
+    font-style: oblique;
+    font-weight:bold; 
+    margin-left: 50px;
+}
+
+.btn-close {
+    margin-left: 170px;
+    margin-top: 4px;
+    cursor: pointer;
+}
+
+dt { 
+    float: left;   
+    font-size: 13px;
+    font-style: oblique;
+    color: rgb(126, 6, 6);
+}
+
+dd { 
+    float: left;
+    font-size: 12px;
+    margin-left: 3em;
+}
+
+.h4 {
+    float: left;
+    color: #040e36;
+    font-size: 10px;  
+}

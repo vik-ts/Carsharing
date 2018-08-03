@@ -1,29 +1,24 @@
 <div class="container"><br>  
-  <h1 class = "h1">Личный кабинет</h1><br>
+  <h1 class = "h1">Личный кабинет</h1><br>  
   <div class="row"></div>
     <div class="col-md-6">
       <form (ngSubmit)="editUserInfo()" #userinfoForm="ngForm"> 
         <a (click)="openBox('box')">Сменить e-mail/password</a><br><br>
           <div id="box" style="display: none;">
             <div class="form-group">
-              <label for="email">Почта</label>
-              <input type="email" class="form-control" id="email" name="email">
+              <label for="email">* Почта</label>
+              <input type="email" class="form-control" id="email" required [(ngModel)]="email" name="email">              
             </div>
             <div class="form-group">
-              <label for="passwordOld">Введите старый пароль</label>
-              <input type="password" class="form-control" id="passwordOld" name="passwordOld">
-            </div>
-            <div class="form-group">
-              <label for="passwordNew">Введите новый пароль</label>
-              <input type="password" class="form-control" id="passwordNew" name="passwordNew">
-            </div>  
-          </div>
-         
+              <label for="password">Введите новый пароль</label>
+              <input type="password" class="form-control" id="password" [(ngModel)]="password" name="password">
+            </div>            
+          </div>         
           <div class="form-group">
               <label for="telephone">Телефон</label>
               <input type="telephone" class="form-control" id="telephone" [(ngModel)]="userinfo.telephone" name="telephone" #telephone="ngModel">
-          </div>
-          <br>     
+          </div>       
+          <br>
         <label>ПАСПОРТНЫЕ ДАННЫЕ</label><br><br>    
         <fieldset>          
             <div class="form-group">
@@ -74,10 +69,10 @@
               <input type="category" class="form-control" id="category" [(ngModel)]="userinfo.category" name="category" #category="ngModel">
             </div>
         </fieldset><br>  
-        <div>{{message | uppercase}}</div><br>        
+        <div>{{message | uppercase}}</div><br>     
         <div class="form-group">
-          <a href="/home" class="btn btn-primary">Назад</a>
-          <button class="btn btn-danger" (click)="delete()">Удалить</button> 
+          <button class="btn btn-success" (click)="backClicked()">Назад</button> 
+          <button type=button class="btn btn-primary"  (click)="delete()">Удалить</button>
           <button type="submit" class="btn btn-success" [disabled]="!userinfoForm.form.valid">ОК</button>
         </div>        
       </form>

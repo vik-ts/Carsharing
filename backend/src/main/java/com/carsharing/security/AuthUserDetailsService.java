@@ -29,9 +29,8 @@ public class AuthUserDetailsService implements UserDetailsService {
         User user = userRepository.findUserByEmail(username);
 
         if (user == null) {
-            throw new UsernameNotFoundException(String.format("No user found with username '%s'.", username));
+            throw new EmailNotFoundException(String.format("No user found with email '%s'.", username));
         }
-
         return user;
     }
 }

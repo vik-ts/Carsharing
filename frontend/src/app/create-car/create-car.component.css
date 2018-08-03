@@ -1,0 +1,43 @@
+fieldset {
+    border: 1px solid rgb(8, 14, 77);
+}
+
+select {
+    width: 200px;
+}
+
+label[type="active"] {  
+    color: rgb(126, 6, 6); 
+}
+
+.h2 {
+    color: #040e36;
+    font-size: 20px;
+    font-weight:bold;
+    white-space:nowrap;
+}
+
+.h3 {
+    color: #040e36;
+    font-size: 15px;
+    font-weight:bold;
+    white-space:nowrap;
+}
+
+li {
+    white-space:nowrap;
+}
+
+iframe {
+    width: 360;
+    height: 215;    
+}
+
+img {
+    width: 100px; 
+    height: 120px;
+}
+.rightpic {
+   float: right;
+   margin: 0 0 5px 5px; /* Отступы вокруг фотографии */
+}

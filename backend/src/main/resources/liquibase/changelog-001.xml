@@ -1,0 +1,92 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="Viktoria (generated)" id="1533237644808-1">
+        <createTable tableName="cars">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="accessories" type="VARCHAR(255)"/>
+            <column name="active" type="BIT(1)"/>
+            <column name="ad_text" type="VARCHAR(500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="body_type" type="VARCHAR(255)"/>
+            <column name="comment" type="VARCHAR(255)"/>
+            <column name="drive" type="VARCHAR(255)"/>
+            <column name="engine_type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fuel_consumption" type="VARCHAR(255)"/>
+            <column name="fuel_type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="gearbox_type" type="VARCHAR(255)"/>
+            <column name="insurance" type="VARCHAR(255)"/>
+            <column name="location" type="VARCHAR(255)"/>
+            <column name="mark" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="mileage" type="INT"/>
+            <column name="model" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="price" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="reject" type="BIT(1)"/>
+            <column name="seats_number" type="SMALLINT"/>
+            <column name="state" type="VARCHAR(255)"/>
+            <column name="state_number" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="year_issued" type="SMALLINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Viktoria (generated)" id="1533237644808-2">
+        <createTable tableName="user_info">
+            <column name="birth_place" type="VARCHAR(255)"/>
+            <column name="birthday" type="date"/>
+            <column name="category" type="VARCHAR(255)"/>
+            <column name="fullname" type="VARCHAR(255)"/>
+            <column name="issued_date_license" type="date"/>
+            <column name="issued_date_passport" type="date"/>
+            <column name="issued_license" type="VARCHAR(255)"/>
+            <column name="issued_passport" type="VARCHAR(255)"/>
+            <column name="photo" type="TINYBLOB"/>
+            <column name="really_license" type="date"/>
+            <column name="series_number_licence" type="VARCHAR(255)"/>
+            <column name="series_number_passport" type="VARCHAR(255)"/>
+            <column name="telephone" type="VARCHAR(255)"/>
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Viktoria (generated)" id="1533237644808-3">
+        <createTable tableName="users">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="email" type="VARCHAR(65)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="VARCHAR(128)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Viktoria (generated)" id="1533237644808-4">
+        <addPrimaryKey columnNames="user_id" constraintName="PRIMARY" tableName="user_info"/>
+    </changeSet>
+    <changeSet author="Viktoria (generated)" id="1533237644808-5">
+        <createIndex indexName="FKqw4c8e6nqrvy3ti1xj8w8wyc9" tableName="cars">
+            <column name="user_id"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>

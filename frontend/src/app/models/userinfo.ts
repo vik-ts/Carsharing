@@ -13,4 +13,4 @@ export class UserInfo {
     public category: string;
     public photo: Blob;
     public telephone: string;
-  }
+}

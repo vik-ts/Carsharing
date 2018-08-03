@@ -1,0 +1,36 @@
+<div class="container"><br>
+  <h1 class = "h1">Мои объявления</h1><br><br>
+  <a [routerLink]="['/createcar']" class="btn btn-primary">Добавить</a><br><br> 
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Марка</th>
+        <th>Модель</th>        
+        <th>Гос. номер</th>
+        <th>Объявление</th>
+        <th>Активировано</th>
+        <th>Отклонено</th>
+        <th>Комментарий</th>      
+        <th class="col-sm-1"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let car of cars">
+        <td>{{ car.mark }}</td>
+        <td>{{ car.model }}</td>        
+        <td>{{ car.stateNumber }}</td>
+        <td>{{ car.adText }}</td>
+        <td>
+          <input type="checkbox" [(ngModel)]="car.active" disabled/>        
+        </td>
+        <td>
+          <input type="checkbox" [(ngModel)]="car.reject" disabled/>
+        </td>
+        <td>{{ car.comment }}</td>
+        <td class="col-sm-1"> 
+          <a class="btn btn-success" (click)="goToEdit(car.id)" >редак-ть >></a>       				
+				</td>        
+      </tr>
+    </tbody>
+  </table>
+</div>

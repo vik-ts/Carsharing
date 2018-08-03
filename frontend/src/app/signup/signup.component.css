@@ -3,17 +3,15 @@
     height: 200px;
     margin: 50px auto;
     display: none;
-    background: rgb(218, 220, 245);
+    background: rgb(245, 245, 248);
     z-index: 200;
-    position: fixed;
-    left: 0;
-    right: 0;
+    position: absolute;   
     top: 0;
-    bottom: 0;
+    left: 30%;
     padding: 16px;
     color: #040e36;
     font-size: 15px;    
-    font-weight:bold;    
+    font-weight:bold; 
 }
 
 .close{

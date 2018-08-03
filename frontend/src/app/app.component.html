@@ -1,11 +1,30 @@
 <nav>
   <ul>
-    <li>
+    <li *ngIf="!auth.loggedIn">
       <a routerLink="/home" routerLinkActive="active">Главная</a>
-    </li>    
-    <li>
-      <a [routerLink]="['/userinfo', '114']" routerLinkActive="active">Личный кабинет</a>        
-    </li> 
+    </li>
+    <ul *ngIf="auth.loggedIn&&!auth.isAdmin">
+      <li>
+        <a routerLink="/homeuser" routerLinkActive="active">Главная</a>
+      </li>
+      <li>
+        <a routerLink="/userinfo" routerLinkActive="active">Личный кабинет</a>
+      </li>    
+      <li>
+        <a (click)="logout()">Выход {{auth.email}}</a>
+      </li>
+    </ul>
+    <ul *ngIf="auth.loggedIn&&auth.isAdmin">
+      <li>
+        <a routerLink="/homeuser" routerLinkActive="active">Главная</a>
+      </li>      
+      <li>
+        <a routerLink="/activation" routerLinkActive="active">Активация объявлений</a>
+      </li>       
+      <li>
+        <a (click)="logout()">Выход {{auth.email}}</a>
+      </li>
+    </ul>
   </ul>
 </nav>
 <router-outlet></router-outlet>

@@ -27,11 +27,7 @@ public class JwtTokenUtil implements Serializable {
 
     public String getUsernameFromToken(String token) { return getClaimFromToken(token, Claims::getSubject); }
 
-    public Date getIssuedAtDateFromToken(String token) { return getClaimFromToken(token, Claims::getIssuedAt); }
-
-    public Date getExpirationDateFromToken(String token) {
-        return getClaimFromToken(token, Claims::getExpiration);
-    }
+    public Date getExpirationDateFromToken(String token) { return getClaimFromToken(token, Claims::getExpiration); }
 
     public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = getAllClaimsFromToken(token);
@@ -50,8 +46,9 @@ public class JwtTokenUtil implements Serializable {
         return expiration.before(cal.getTime());
     }
 
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(UserDetails userDetails, long idUser) {
         Map<String, Object> claims = new HashMap<>();
+        claims.put("idUser", idUser);
         return doGenerateToken(claims, userDetails.getUsername());
     }
 

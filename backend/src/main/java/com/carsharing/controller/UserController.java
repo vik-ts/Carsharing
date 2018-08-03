@@ -1,8 +1,8 @@
 package com.carsharing.controller;
 
+import com.carsharing.util.CSResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,33 +15,6 @@ import com.carsharing.repository.UserRepository;
 
 import io.swagger.annotations.*;
 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-
-class CSResponse<T> {
-    private Boolean success;
-    private String message;
-    private T body;
-
-    public CSResponse(final Boolean success, final String message, @Nullable T body) {
-        this.success = success;
-        this.message = message;
-        this.body = body;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public Boolean getSuccess() {
-        return success;
-    }
-
-    public T getBody() {
-        return body;
-    }
-}
-
 @RestController
 @Slf4j
 @Api
@@ -50,36 +23,6 @@ public class UserController {
     @Autowired
     UserRepository userRepository;
 
-    @PostMapping(value="/registration", produces=MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Регистрация пользователя в системе",
-            response = CSResponse.class)
-    @ApiResponses(value = {
-            @ApiResponse(code = 409, message = "Пользователь с таким Email уже существует"),
-            @ApiResponse(code = 200, message = "Пользователь успешно зарегистрирован") })
-    public ResponseEntity<?> createUser(
-            @ApiParam(value = "EMail пользователя", required = true) @RequestBody String email) {
-
-        String apiMessage;
-
-        if (userRepository.findUserByEmail(email) != null) {
-            apiMessage = "Пользователь с Email " + email + " уже существует";
-
-            log.warn(apiMessage);
-            return new ResponseEntity<>(new CSResponse<>(
-                    false, apiMessage,null), HttpStatus.CONFLICT);
-        }
-
-        apiMessage = "Пользователь с Email " + email + " успешно создан";
-        log.info(apiMessage);
-
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        User user = userRepository.save(new User(email, passwordEncoder.encode("1"), 1));
-
-        return new ResponseEntity<>(new CSResponse<>(
-                true, apiMessage, null), HttpStatus.OK);
-    }
-
-
     @GetMapping(value="userinfo/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Получение информации о пользователе",
             response = UserInfo.class
@@ -87,8 +30,11 @@ public class UserController {
     @ApiResponses(value = {
             @ApiResponse(code = 404, message = "Пользователь не найден"),
             @ApiResponse(code = 200, message = "Информация о пользователе успешно получена") })
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "x-token", value = "Токен для доступа к методу", required = true, dataType = "string", paramType = "header"),
+    })
     public ResponseEntity<?> getUserInfo(
-            @ApiParam(value = "ID пользователя", required = true) @PathVariable Long id) {
+            @ApiParam(value = "ID пользователя", required = true) @PathVariable long id) {
 
         String apiMessage;
 
@@ -96,19 +42,19 @@ public class UserController {
 
         if (user == null) {
             apiMessage = "Пользователь с ID " + id + " не найден";
-
             log.warn(apiMessage);
+
             return new ResponseEntity<>(new CSResponse<>(
-                            false, apiMessage,null), HttpStatus.NOT_FOUND);
+                            apiMessage, null), HttpStatus.NOT_FOUND);
         }
 
-        apiMessage = "Информация о пользователе с ID " + id + " успешно получена";
-
-        log.info(apiMessage);
         UserInfo userInfo = user.getUserInfo();
 
+        apiMessage = "Информация о пользователе с ID " + id + " успешно получена";
+        log.info(apiMessage);
+
         return new ResponseEntity<>(new CSResponse<>(
-                true, apiMessage, userInfo), HttpStatus.OK);
+                apiMessage, userInfo), HttpStatus.OK);
     }
 
 
@@ -118,8 +64,11 @@ public class UserController {
     @ApiResponses(value = {
             @ApiResponse(code = 404, message = "Пользователь не найден"),
             @ApiResponse(code = 200, message = "Информация о пользователе успешно обновлена") })
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "x-token", value = "Токен для доступа к методу", required = true, dataType = "string", paramType = "header"),
+    })
     public ResponseEntity<?> updateUserInfo(
-            @ApiParam(value = "ID пользователя", required = true) @PathVariable Long id,
+            @ApiParam(value = "ID пользователя", required = true) @PathVariable long id,
             @ApiParam(value = "Информация о пользователе", required = true) @RequestBody UserInfo userInfo) {
 
         String apiMessage;
@@ -128,20 +77,20 @@ public class UserController {
 
         if (user == null) {
             apiMessage = "Пользователь с ID " + id + " не найден";
-
             log.warn(apiMessage);
+
             return new ResponseEntity<>(new CSResponse<>(
-                    false, apiMessage,null), HttpStatus.NOT_FOUND);
+                    apiMessage,null), HttpStatus.NOT_FOUND);
         }
 
-        apiMessage = "Информация о пользователе с ID " + id + " успешно обновлена";
-
-        log.info(apiMessage);
         user.updateUserInfo(userInfo);
         userRepository.save(user);
 
+        apiMessage = "Информация о пользователе с ID " + id + " успешно обновлена";
+        log.info(apiMessage);
+
         return new ResponseEntity<>(new CSResponse<>(
-                true, apiMessage, null), HttpStatus.OK);
+                apiMessage, null), HttpStatus.OK);
     }
 
 
@@ -151,6 +100,9 @@ public class UserController {
     @ApiResponses(value = {
             @ApiResponse(code = 404, message = "Пользователь не найден"),
             @ApiResponse(code = 200, message = "Пользователь успешно удален") })
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "x-token", value = "Токен для доступа к методу", required = true, dataType = "string", paramType = "header"),
+    })
     public ResponseEntity<?> deleteUser(
             @ApiParam(value = "ID пользователя", required = true) @PathVariable long id) {
 
@@ -160,18 +112,18 @@ public class UserController {
 
         if (user == null) {
             apiMessage = "Пользователь с ID " + id + " не найден";
-
             log.warn(apiMessage);
+
             return new ResponseEntity<>(new CSResponse<>(
-                    false, apiMessage,null), HttpStatus.NOT_FOUND);
+                    apiMessage, null), HttpStatus.NOT_FOUND);
         }
 
-        apiMessage = "Пользователь с ID " + id + " успешно удален";
-
-        log.info(apiMessage);
         userRepository.deleteById(id);
 
+        apiMessage = "Пользователь с ID " + id + " успешно удален";
+        log.info(apiMessage);
+
         return new ResponseEntity<>(new CSResponse<>(
-                true, apiMessage, null), HttpStatus.OK);
+                apiMessage, null), HttpStatus.OK);
     }
 }

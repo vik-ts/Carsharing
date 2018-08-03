@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { User} from '../models/user';
-import { UserService} from '../services/user.service';
+import { AuthService} from '../services/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -12,33 +12,28 @@ export class SignupComponent implements OnInit {
 
   user = new User;
   message = '';
-  success: boolean;
+  colorMessage: boolean;
 
-  constructor(private userService: UserService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
   }
 
   saveUser() {
-
-    this.userService.createUser(this.user.email).subscribe(res => {
-    this.success = res['success'];   // to set the color of the message
-    if (this.success) {
-        this.show('block');
-        this.message = '';
-      } else {
-        this.message = res['message'];
-    }
-    },
-    (err: any) => {
-      this.success = false;
-      try {
-        this.message = err.error['message'];
-      } catch (ce) {
-        this.message = err['message'];
+    this.authService.registerUser(this.user.email).subscribe(res => {
+      this.colorMessage = true;   // to set the color of the message
+      this.show('block');
+      this.message = '';
+      },
+       (err: any) => {
+        this.colorMessage = false;
+        try {
+          this.message = err.error['message'];
+        } catch (ce) {
+          this.message = err['message'];
+        }
       }
-    }
-  );
+    );
   }
 
   show(state) {

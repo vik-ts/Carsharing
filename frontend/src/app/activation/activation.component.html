@@ -1,0 +1,94 @@
+<div class="container">
+  <br>
+  <h1 class="h1">Активация объявлений</h1>
+  <br>
+  <br>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Марка</th>
+        <th>Модель</th>
+        <th>Гос. номер</th>
+        <th>Текст объявления</th>
+        <th>Активировать</th>
+        <th>Отклонить</th>
+        <th>Комментарий</th>
+        <th class="col-sm-1"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let car of cars">
+        <td>{{ car.mark }}</td>
+        <td>{{ car.model }}</td>
+        <td>{{ car.stateNumber }}</td>
+        <td>{{ car.adText }}</td>
+        <td>
+          <input type="checkbox" id="active" name="active" [(ngModel)]="car.active" (click)="changeActiveReject(car,$event,1)">
+        </td>
+        <td>
+          <input type="checkbox" id="reject" name="reject" [(ngModel)]="car.reject" (click)="changeActiveReject(car,$event,2)">
+        </td>
+        <td type="comment">
+          <input type="comment" [(ngModel)]="car.comment">
+        </td>
+        <td class="col-sm-1">
+          <a class="btn btn-success" (click)="goToDetail(car)">Подробно >></a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div>{{message | uppercase}}</div>
+  <br>
+  <div class="form-group">
+    <button class="btn btn-success" (click)="backClicked()">Назад</button>
+    <button class="btn btn-success" (click)="putCars()">Сохранить</button>
+  </div>
+  <div id="window" (click)="show('none')">
+    <div class="container">
+      <h4 class="h4">* Щелкните по окну для его закрытия</h4><br>    
+      <h2 class="h2">Детальная информация</h2><br>           
+      <dl class="list">
+        <dt>Текст объявления:</dt><br>
+        <dd>{{ carDetail.adText }}</dd><br>
+        <dt>Марка:</dt><br>
+        <dd>{{ carDetail.mark }}</dd><br>
+        <dt>Модель:</dt><br>
+        <dd>{{ carDetail.model }}</dd><br>
+        <dt>Год выпуска:</dt><br>
+        <dd>{{ carDetail.yearIssued }}</dd><br>
+        <dt>Гос. номер:</dt><br>
+        <dd>{{ carDetail.stateNumber }}</dd><br>
+        <dt>Пробег:</dt><br>
+        <dd>{{ carDetail.mileage }}</dd><br>
+        <dt>Количество мест (шт):</dt><br>
+        <dd>{{ carDetail.seatsNumber }}</dd><br>
+        <dt>Местонахождение автомобиля:</dt><br>
+        <dd>{{ carDetail.location }}</dd><br>
+        <dt>Тип коробки передач:</dt><br>
+        <dd>{{ carDetail.gearboxType }}</dd><br>
+        <dt>Тип кузова:</dt><br>
+        <dd>{{ carDetail.bodyType }}</dd><br>
+        <dt>Привод:</dt><br>
+        <dd>{{ carDetail.drive }}</dd><br>
+        <dt>ДВС/электрическая:</dt><br>
+        <dd>{{ carDetail.engineType }}</dd><br>
+        <dt>Тип топлива:</dt><br>
+        <dd>{{ carDetail.fuelType }}</dd><br>
+        <dt>Расход топлива (л/100 км):</dt><br>
+        <dd>{{ carDetail.fuelConsumption }}</dd><br>
+        <dt>Данные о состоянии машины:</dt><br>
+        <dd>{{ carDetail.state }}</dd><br>
+        <dt>Наличие доп. аксессуаров:</dt><br>
+        <dd>{{ carDetail.accessories }}</dd><br>
+        <dt>Информация о страховке:</dt><br>
+        <dd>{{ carDetail.insurance }}</dd><br>
+        <dt>Цена за сутки (BYN):</dt><br>
+        <dd>{{ carDetail.price }}</dd><br>
+        <dt>Календарь доступности автомобиля:</dt><br>
+        <dd>{{ carDetail.calendar }}</dd><br>
+        <dt>Фотографии:</dt><br>
+        <dd>{{ carDetail.photo }}</dd><br>      
+      </dl>     
+    </div>
+  </div>
+</div>

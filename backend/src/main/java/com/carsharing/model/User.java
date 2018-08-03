@@ -5,7 +5,11 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+import lombok.NonNull;
+import org.hibernate.mapping.Set;
 import org.springframework.beans.BeanUtils;
 
 import javax.validation.constraints.NotNull;
@@ -15,19 +19,22 @@ import javax.validation.constraints.Email;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
 @Data
-@EqualsAndHashCode(exclude={"id"}) @ToString(exclude={"id"})
+@EqualsAndHashCode(of=("id")) @ToString(exclude={"id"})
 //@NoArgsConstructor
 //@RequiredArgsConstructor
 public class User implements UserDetails, Serializable {
 
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id private long id;
 
     @Column(name = "email") /*@Email*/ @NotNull @Size(max = 65)
@@ -38,7 +45,7 @@ public class User implements UserDetails, Serializable {
     @NonNull private String password;
 
     @Column(name = "role") @NotNull
-    @NonNull private long role;
+    private long role;
 
     @OneToOne(
             mappedBy = "user",
@@ -46,6 +53,33 @@ public class User implements UserDetails, Serializable {
             fetch = FetchType.LAZY
     )
     @NonNull private UserInfo userInfo;
+
+    @OneToMany(
+            mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Car> cars;
+
+    public void addCar(Car car) {
+        cars.add(car);
+        car.setUser(this);
+    }
+
+    public void removeCar(Car car) {
+        cars.remove(car);
+        car.setUser(null);
+    }
+
+    public void updateCar(Car car) {
+        int indexCarForUpdate = cars.indexOf(car);
+
+        if (indexCarForUpdate < 0) {
+            addCar(car);
+        } else {
+            BeanUtils.copyProperties(car, cars.get(indexCarForUpdate), "id", "user");
+        }
+    }
 
     public User() { }
 
@@ -74,7 +108,12 @@ public class User implements UserDetails, Serializable {
         }
     }
 
-    //implementations of abstract methods of UserDetails class
+    public void setPassword(String password) {
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        this.password = passwordEncoder.encode(password);
+    }
+
+    //implementations of abstract methods of the UserDetails class
     @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -3,6 +3,7 @@ package com.carsharing.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,12 +16,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.carsharing.security.AuthUserDetailsService;
-import com.carsharing.security.JwtTokenFilter;
+import com.carsharing.security.AuthEntryPoint;
+import com.carsharing.security.JwtTokenAuthFilter;
 
-/**
- * @author ITBird
- *
- */
 @Configurable
 @EnableWebSecurity
 // Modifying or overriding the default spring boot security.
@@ -29,9 +27,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     AuthUserDetailsService authUserDetailsService;
 
-    // Custom JWT based security filter
     @Autowired
-    JwtTokenFilter jwtTokenFilter;
+    private AuthEntryPoint authEntryPoint;
 
     // This method is for overriding the default AuthenticationManagerBuilder.
     // We can specify how the user details are kept in the application. It may
@@ -53,6 +50,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
+    @Bean
+    public JwtTokenAuthFilter jwtTokenAuthFilterBean() throws Exception {
+        return new JwtTokenAuthFilter();
+    }
+
     // This method is for overriding some configuration of the WebSecurity
     // If you want to ignore some request or request patterns then you can
     // specify that inside this method
@@ -65,8 +67,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 "/configuration/security/**",
                 "/swagger-resources/**",
                 "/swagger-ui.html/**",
-                "/swagger-ui.html#/**");
-        super.configure(web);
+                "/swagger-ui.html#/**"
+                );
     }
 
     // This method is used for override HttpSecurity of the web Application.
@@ -77,17 +79,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // we don't need CSRF because our token is invulnerable
                 .csrf().disable()
 
+                // set custom auth entry point
+                .exceptionHandling().authenticationEntryPoint(authEntryPoint).and()
+
                 // don't create session
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 
                 .authorizeRequests()
 
-                .antMatchers("/registration", "/login", "/logout").permitAll()
+                .antMatchers(HttpMethod.POST, "/registration", "/login").permitAll()
 
-                //.antMatchers("/login").permitAll()
-                .anyRequest().authenticated();
+                .anyRequest().authenticated().and()
 
-        httpSecurity
-                .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtTokenAuthFilterBean(), UsernamePasswordAuthenticationFilter.class);
     }
 }
