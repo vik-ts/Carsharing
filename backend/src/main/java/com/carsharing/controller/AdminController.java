@@ -1,5 +1,6 @@
 package com.carsharing.controller;
 
+import com.carsharing.service.MailNotificationService;
 import com.carsharing.util.CSResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -40,6 +41,9 @@ public class AdminController {
 
     @Autowired
     CarRepository carRepository;
+
+    @Autowired
+    private MailNotificationService mailNotificationService;
 
     @GetMapping(value="inactivecars", produces=MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Получение списка всех неактивных объявлений об аренде авто",
@@ -86,6 +90,13 @@ public class AdminController {
                 car.setComment(updateInactiveCar.getComment());
 
                 carRepository.save(car);
+
+                mailNotificationService.sendDecisionByCar(
+                        car.getUser().getEmail(),
+                        car.getActive(),
+                        car.getReject(),
+                        car.getComment()
+                );
             }
         }
 

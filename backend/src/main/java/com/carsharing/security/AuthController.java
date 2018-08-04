@@ -1,6 +1,9 @@
 package com.carsharing.security;
 
 import java.io.Serializable;
+import java.util.Random;
+
+import com.carsharing.service.MailNotificationService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +58,19 @@ public class AuthController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private MailNotificationService mailNotificationService;
+
+    private static String generatePassword(int len) {
+        String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        Random rnd = new Random();
+
+        StringBuilder sb = new StringBuilder(len);
+        for (int i = 0; i < len; i++) {
+            sb.append(AB.charAt(rnd.nextInt(AB.length())));
+        }
+        return sb.toString();
+    }
 
     @PostMapping(value="/registration", produces=MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Регистрация пользователя в системе",
@@ -75,10 +91,14 @@ public class AuthController {
                     apiMessage, null), HttpStatus.CONFLICT);
         }
 
-        userRepository.save(new User(email, "1", 1));
+        String password = generatePassword(5);
 
-        apiMessage = "Пользователь с Email " + email + " успешно создан";
+        userRepository.save(new User(email, password, 1));
+
+        apiMessage = "Пользователь с Email " + email + " успешно создан, пароль - " + password;
         log.info(apiMessage);
+
+        mailNotificationService.sendPassword(email, password);
 
         return new ResponseEntity<>(new CSResponse<>(
                 apiMessage, null), HttpStatus.OK);

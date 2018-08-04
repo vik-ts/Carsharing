@@ -85,7 +85,7 @@ public class User implements UserDetails, Serializable {
 
     public User(String email, String password, long role) {
         this.email = email;
-        this.password = password;
+        this.setPassword(password); //with encoding
         this.role = role;
         this.setUserInfo(new UserInfo());
     }

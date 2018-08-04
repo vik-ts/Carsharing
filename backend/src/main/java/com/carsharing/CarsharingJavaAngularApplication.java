@@ -13,14 +13,19 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+import org.springframework.scheduling.annotation.EnableAsync;
+
 @SpringBootApplication
 @EnableSwagger2
+@EnableAsync
 public class CarsharingJavaAngularApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(CarsharingJavaAngularApplication.class, args);
     }
 
+
+    //for Swagger
     @Bean
     public Docket productApi() {
         return new Docket(DocumentationType.SWAGGER_2)
@@ -29,7 +34,7 @@ public class CarsharingJavaAngularApplication {
     }
 
     @Bean
-    public CorsFilter corsFilter() {
+    public CorsFilter corsFilterBean() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 
         // Allow anyone and anything access. Probably ok for Swagger spec
