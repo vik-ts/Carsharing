@@ -19,7 +19,7 @@ import { HomeUserComponent } from './home-user/home-user.component';
 import { UserCarsComponent } from './user-cars/user-cars.component';
 import { EditCarComponent } from './edit-car/edit-car.component';
 import { AdminService } from './services/admin.service';
-import { DetailCarComponent } from './detail-car/detail-car.component';
+import { SearchCarComponent } from './search-car/search-car.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +33,7 @@ import { DetailCarComponent } from './detail-car/detail-car.component';
     HomeUserComponent,
     UserCarsComponent,
     EditCarComponent,
-    DetailCarComponent
+    SearchCarComponent
   ],
   imports: [
     BrowserModule,

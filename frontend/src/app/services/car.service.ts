@@ -33,6 +33,14 @@ getUserCar(idCar, car) {
   );
 }
 
+getSearchUsersCars(str) {
+  return this.http.get('/searchcars' + str).map(
+      (res: Response) => {
+        return res;
+  }
+  );
+}
+
 putUserCar(idCar, car) {
   return this.http.put('/car/' + idCar, car).map(
     (res: Response) => {

@@ -1,0 +1,185 @@
+<div class="container"><br>  
+  <h1 class = "h1">Поиск автомобилей</h1><br> 
+  <div class="row"></div>
+    <div class="col-md-6">
+      <form> 
+        <a (click)="openBox()">Скрыть/показать фильтр</a><br><br>
+          <div id="box" style="display: none;">
+            <fieldset>          
+              <div class="form-group">
+                <label for="mark">Марка</label>
+                <input type="mark" class="form-control" id="mark" [(ngModel)]="mark" name="mark">
+              </div>
+              <div class="form-group">
+                <label for="model">Модель</label>
+                <input type="model" class="form-control" id="model" [(ngModel)]="model" name="model">
+              </div>
+              <div class="row">              
+                <div class="col-sm-4">                
+                  <label for="lowYearIssued">Год выпуска от</label>
+                  <input type='number' class="form-control" id="lowYearIssued" [(ngModel)]="lowYearIssued" name="lowYearIssued" min=0 max=4 step=5>                  
+                </div>
+                <div class="col-sm-4">
+                  <label for="highYearIssued">до</label>
+                  <input type='number' class="form-control" id="highYearIssued" [(ngModel)]="highYearIssued" name="highYearIssued" min=0 max=4 step=5>                  
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-4">
+                  <label for="lowMileage">Пробег от</label>
+                  <input type="lowMileage" class="form-control" id="lowMileage" [(ngModel)]="lowMileage" name="lowMileage">
+                </div>
+                <div class="col-sm-4">
+                  <label for="highMileage">до</label>
+                  <input type="highMileage" class="form-control" id="highMileage" [(ngModel)]="highMileage" name="highMileage">
+                </div>
+              </div><br>           
+              <div class="form-group">
+                <label for="seatsNumber">Количество мест (шт)</label>
+                <input type="number" class="form-control" id="seatsNumber" [(ngModel)]="seatsNumber" name="seatsNumber" min=0 max=4 step=5>
+              </div>
+              <div class="form-group">
+                <label for="gearboxType">Тип коробки передач</label>                               
+                <select type="selectedGearboxTypes" [(ngModel)]="selectedGearboxTypes" (ngModelChange)="GearboxTypesChanged($event)" name="selectedGearboxTypes">
+                  <option *ngFor="let c of gearboxTypes" [ngValue]="c"> {{c}} </option>
+                </select>                
+              </div>
+              <div class="form-group">
+                <label for="bodyType">Тип кузова</label>                
+                <select [(ngModel)]="selectedBodyTypes" (ngModelChange)="BodyTypesChanged($event)" name="selectedBodyTypes">
+                  <option *ngFor="let c of bodyTypes" [ngValue]="c"> {{c}} </option>
+                </select> 
+              </div>
+              <div class="form-group">
+                <label for="drive">Привод</label>
+                <input type="drive" class="form-control" id="drive" [(ngModel)]="drive" name="drive">
+              </div>
+              <div class="form-group">
+                <label for="engineType">ДВС/электрическая</label>
+                <input type="engineType" class="form-control" id="engineType" required [(ngModel)]="engineType" name="engineType">
+              </div>
+              <div class="form-group">
+                <label for="fuelType">Тип топлива</label>
+                <select [(ngModel)]="selectedFuelTypes" (ngModelChange)="FuelTypesChanged($event)" name="selectedFuelTypes">
+                  <option *ngFor="let c of fuelTypes" [ngValue]="c"> {{c}} </option>
+                </select>
+              </div>
+              <div class="row">
+                <div class="col-sm-4">
+                  <label for="lowPrice">Цена за сутки (BYN)  от</label>
+                  <input type="lowPrice" class="form-control" id="lowPrice" [(ngModel)]="lowPrice" name="lowPrice">                                
+                </div>
+                <div class="col-sm-4">
+                  <label for="highPrice">до</label>
+                  <input type="highPrice" class="form-control" id="highPrice" [(ngModel)]="highPrice" name="highPrice">                                
+                </div>
+              </div><br>
+              <button class="btn btn-success" (click)="Filter()">Применить</button>                   
+            </fieldset>     
+          </div><br><br> 
+          <table class="table table-bordered">
+            <thead>
+                <tr>
+                <th>№</th>
+                <th><a (click)="clickSort(0)">Марка{{sort[0].view}} </a></th>
+                <th><a (click)="clickSort(1)">Модель{{sort[1].view}}</a></th>              
+                <th><a (click)="clickSort(2)">Год.вып.{{sort[2].view}}</a></th>
+                <th><a (click)="clickSort(3)">Пробег{{sort[3].view}}</a></th>
+                <th><a (click)="clickSort(4)">Кол.мест{{sort[4].view}}</a></th>
+                <th><a (click)="clickSort(5)">Кор.передач{{sort[5].view}}</a></th>
+                <th><a (click)="clickSort(6)">Кузов{{sort[6].view}}</a></th>
+                <th><a (click)="clickSort(7)">Привод{{sort[7].view}}</a></th> 
+                <th><a (click)="clickSort(8)">ДВС{{sort[8].view}}</a></th> 
+                <th><a (click)="clickSort(9)">Топливо{{sort[9].view}}</a></th> 
+                <th><a (click)="clickSort(10)">Цена{{sort[10].view}}</a></th>                
+              </tr>
+            </thead>
+            <tbody>        
+                <tr *ngFor="let car of cars; let i=index" (dblclick)="openCard(car)">
+                <td>{{i+1+(currentPage-1)*pageSize}}</td>
+                <td>{{ car.mark }}</td>
+                <td>{{ car.model }}</td>        
+                <td>{{ car.yearIssued }}</td>
+                <td>{{ car.mileage }}</td>
+                <td>{{ car.seatsNumber }}</td>
+                <td>{{ car.gearboxType }}</td>
+                <td>{{ car.bodyType }}</td>
+                <td>{{ car.drive }}</td>
+                <td>{{ car.engineType }}</td>
+                <td>{{ car.fuelType }}</td>
+                <td>{{ car.price }}</td>      
+              </tr>
+            </tbody>
+          </table>         
+          <ul class="pagination">
+              <li [ngClass]="{disabled:currentPage === 1}">
+                  <a (click)="setPage(1)">Начало</a>
+              </li>
+              <li [ngClass]="{disabled:currentPage === 1}">
+                  <a (click)="setPage(currentPage - 1)">Пред.</a>
+              </li>
+              <li *ngFor="let page of pages" [ngClass]="{active:currentPage === page.num}">
+                  <a (click)="setPage(page.num)">{{page.num}}</a>
+              </li>
+              <li [ngClass]="{disabled:currentPage === totalPages}">
+                  <a (click)="setPage(currentPage + 1)">След.</a>
+              </li>
+              <li [ngClass]="{disabled:currentPage === totalPages}">
+                  <a (click)="setPage(totalPages)">Конец</a>
+              </li>
+          </ul>         
+          <div>{{message | uppercase}}</div><br>                       
+          <div class="form-group">         
+            <button class="btn btn-success" (click)="backClicked()">Назад</button>                       
+          </div>          
+      </form>
+   </div>
+   <div id="window" (click)="show('none')">
+    <div class="container">
+      <h4 class="h4">* Щелкните по окну для его закрытия</h4><br>    
+      <h2 class="h2">Детальная информация</h2><br>           
+      <dl class="list">
+        <dt>Текст объявления:</dt><br>
+        <dd>{{ carDetail.adText }}</dd><br>
+        <dt>Марка:</dt><br>
+        <dd>{{ carDetail.mark }}</dd><br>
+        <dt>Модель:</dt><br>
+        <dd>{{ carDetail.model }}</dd><br>
+        <dt>Год выпуска:</dt><br>
+        <dd>{{ carDetail.yearIssued }}</dd><br>
+        <dt>Гос. номер:</dt><br>
+        <dd>{{ carDetail.stateNumber }}</dd><br>
+        <dt>Пробег:</dt><br>
+        <dd>{{ carDetail.mileage }}</dd><br>
+        <dt>Количество мест (шт):</dt><br>
+        <dd>{{ carDetail.seatsNumber }}</dd><br>
+        <dt>Местонахождение автомобиля:</dt><br>
+        <dd>{{ carDetail.location }}</dd><br>
+        <dt>Тип коробки передач:</dt><br>
+        <dd>{{ carDetail.gearboxType }}</dd><br>
+        <dt>Тип кузова:</dt><br>
+        <dd>{{ carDetail.bodyType }}</dd><br>
+        <dt>Привод:</dt><br>
+        <dd>{{ carDetail.drive }}</dd><br>
+        <dt>ДВС/электрическая:</dt><br>
+        <dd>{{ carDetail.engineType }}</dd><br>
+        <dt>Тип топлива:</dt><br>
+        <dd>{{ carDetail.fuelType }}</dd><br>
+        <dt>Расход топлива (л/100 км):</dt><br>
+        <dd>{{ carDetail.fuelConsumption }}</dd><br>
+        <dt>Данные о состоянии машины:</dt><br>
+        <dd>{{ carDetail.state }}</dd><br>
+        <dt>Наличие доп. аксессуаров:</dt><br>
+        <dd>{{ carDetail.accessories }}</dd><br>
+        <dt>Информация о страховке:</dt><br>
+        <dd>{{ carDetail.insurance }}</dd><br>
+        <dt>Цена за сутки (BYN):</dt><br>
+        <dd>{{ carDetail.price }}</dd><br>
+        <dt>Календарь доступности автомобиля:</dt><br>
+        <dd>{{ carDetail.calendar }}</dd><br>
+        <dt>Фотографии:</dt><br>
+        <dd>{{ carDetail.photo }}</dd><br>      
+      </dl>     
+    </div>
+  </div>
+</div>

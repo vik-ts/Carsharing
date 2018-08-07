@@ -7,7 +7,7 @@ import { ActivationComponent } from './activation/activation.component';
 import { HomeUserComponent } from './home-user/home-user.component';
 import { UserCarsComponent } from './user-cars/user-cars.component';
 import { EditCarComponent } from './edit-car/edit-car.component';
-import { DetailCarComponent } from './detail-car/detail-car.component';
+import { SearchCarComponent } from './search-car/search-car.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -21,7 +21,7 @@ const routes: Routes = [
   {path: 'homeuser', component: HomeUserComponent},
   {path: 'usercars', component: UserCarsComponent},
   {path: 'editcar/:id', component: EditCarComponent},
-  {path: 'detailcar/:id', component: DetailCarComponent},
+  {path: 'searchcar', component: SearchCarComponent},
   {path: '', redirectTo: '/home', pathMatch: 'full'},
 ];
 
