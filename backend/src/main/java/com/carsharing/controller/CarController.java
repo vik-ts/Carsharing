@@ -1,7 +1,9 @@
 package com.carsharing.controller;
 
+import com.carsharing.service.SearchCarsService;
 import com.carsharing.util.CSResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
@@ -15,7 +17,11 @@ import com.carsharing.repository.UserRepository;
 import com.carsharing.repository.CarRepository;
 
 import io.swagger.annotations.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -28,6 +34,9 @@ public class CarController {
 
     @Autowired
     CarRepository carRepository;
+
+    @Autowired
+    SearchCarsService searchCarsService;
 
     @PostMapping(value="/car/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Создание объвления об аренде авто",
@@ -203,5 +212,48 @@ public class CarController {
 
         return new ResponseEntity<>(new CSResponse<>(
                 apiMessage, user.getCars()), HttpStatus.OK);
+    }
+
+
+    @GetMapping(value="/searchcars", produces=MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Поиск объявлений об аренде авто",
+            response = CSResponse.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Поиск объявлений об аренде авто успешно выполнен") })
+    @ApiImplicitParams({
+            //@ApiImplicitParam(name = "x-token", value = "Токен для доступа к методу", required = true, dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "page", dataType = "int", paramType = "query",
+                    value = "Номер страницы с результатом (0..N)"),
+            @ApiImplicitParam(name = "size", dataType = "int", paramType = "query",
+                    value = "Количество записей на странице"),
+            @ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query",
+                    value = "Сортировка задается в виде: имя_поля(,asc|desc). Поддерживается сортировка по нескольким полям.")
+    })
+    public ResponseEntity<?> searchCars(Pageable pageRequest,
+            @RequestParam(required = false) String mark,
+            @RequestParam(required = false) String model,
+            @RequestParam(required = false) Short lowYearIssued,
+            @RequestParam(required = false) Short highYearIssued,
+            @RequestParam(required = false) Integer lowMileage,
+            @RequestParam(required = false) Integer highMileage,
+            @RequestParam(required = false) Short seatsNumber,
+            @RequestParam(required = false) String gearboxType,
+            @RequestParam(required = false) String bodyType,
+            @RequestParam(required = false) String drive,
+            @RequestParam(required = false) String engineType,
+            @RequestParam(required = false) String fuelType,
+            @RequestParam(required = false) Double lowPrice,
+            @RequestParam(required = false) Double highPrice,
+            @RequestParam(required = false) Date rentBeginDate,
+            @RequestParam(required = false) Short rentCountDays) {
+
+        Page<Car> foundCars = searchCarsService.find(pageRequest, mark, model, lowYearIssued, highYearIssued,
+                lowMileage, highMileage, seatsNumber, gearboxType, bodyType, drive, engineType, fuelType,
+                lowPrice, highPrice, rentBeginDate, rentCountDays);
+
+        String apiMessage = "Поиск объявлений об аренде авто успешно выполнен";
+
+        return new ResponseEntity<>(new CSResponse<>(
+                apiMessage, foundCars), HttpStatus.OK);
     }
 }
