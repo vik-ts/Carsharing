@@ -91,7 +91,7 @@ public class AuthController {
                     apiMessage, null), HttpStatus.CONFLICT);
         }
 
-        String password = generatePassword(5);
+        String password = "1"; //generatePassword(5);
 
         userRepository.save(new User(email, password, 1));
 

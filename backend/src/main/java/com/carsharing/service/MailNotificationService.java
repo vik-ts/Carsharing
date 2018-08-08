@@ -38,7 +38,7 @@ public class MailNotificationService {
     }
 
     @Async
-    public void sendDecisionByCar(String email, Boolean Active, Boolean Reject, String comment) throws MailException {
+    public void sendDecisionByCar(String email, Boolean activated, Boolean rejected, String comment) throws MailException {
 
         log.info(email + " - Отправка решения по объявлению на почту...");
 
@@ -46,9 +46,9 @@ public class MailNotificationService {
         mail.setTo(email);
         mail.setSubject("Решение об активации объявления в сервисе Каршеринг");
 
-        if (Active) {
+        if (activated) {
             mail.setText("Ваше объявление об аренде авто АКТИВИРОВАНО.");
-        } else if (Reject) {
+        } else if (rejected) {
             mail.setText("Ваше объявление об аренде авто ОТКЛОНЕНО.");
         }
 
@@ -57,6 +57,67 @@ public class MailNotificationService {
         try {
             javaMailSender.send(mail);
             log.info(email + " - Решение по объявлению отправлено на почту");
+        } catch (Exception e) {
+            log.info(email + " - Не удалось отправить письмо: " + e.getMessage());
+        }
+    }
+
+    @Async
+    public void sendDecisionByCarBookingFromAdmin(String emailCarOwner, String emailCarBookingOwner, Boolean activated,
+                                         Boolean rejected, String comment) throws MailException {
+
+        SimpleMailMessage mail = new SimpleMailMessage();
+        String email = "";
+
+        mail.setSubject("Уведомление от сервиса Каршеринг");
+
+        if (activated) {
+            email = emailCarOwner;
+
+            log.info(email + " - Бронь на аренду авто активирована администратором, отправка уведомления на почту арендодателя...");
+            mail.setText("На ваше объявление об аренде авто создана бронь. Зайдите на сайт Каршеринг и подтвердите бронь.");
+        } else if (rejected) {
+            email = emailCarBookingOwner;
+
+            log.info(email + " - Бронь на аренду авто отклонена администратором, отправка уведомления на почту арендатора...");
+            mail.setText("Ваша бронь на аренду авто отклонена администратором.");
+        }
+
+        mail.setTo(email);
+        mail.setText("Комментарий от администратора: " + (comment.length() == 0? "<отсутствуют>" : comment));
+
+        try {
+            javaMailSender.send(mail);
+            log.info(email + " - Решение от администратора по брони на аренду авто отправлено на почту");
+        } catch (Exception e) {
+            log.info(email + " - Не удалось отправить письмо: " + e.getMessage());
+        }
+    }
+
+    @Async
+    public void sendDecisionByCarBookingFromCarOwner(String email, Boolean confirmed, Boolean rejected,
+                                                     String comment) throws MailException {
+
+        SimpleMailMessage mail = new SimpleMailMessage();
+
+        mail.setSubject("Уведомление от сервиса Каршеринг");
+
+        if (confirmed) {
+            log.info(email + " - Бронь на аренду авто одобрена арендодателем, отправка уведомления на почту арендатора...");
+
+            mail.setText("Ваша бронь на аренду авто одобрена.");
+        } else if (rejected) {
+            log.info(email + " - Бронь на аренду авто отклонена арендодателем, отправка уведомления на почту арендатора...");
+
+            mail.setText("Ваша бронь на аренду авто отклонена арендодателем.");
+        }
+
+        mail.setTo(email);
+        mail.setText("Комментарий от арендодателя: " + (comment.length() == 0? "<отсутствуют>" : comment));
+
+        try {
+            javaMailSender.send(mail);
+            log.info(email + " - Решение от арендодателя по брони на аренду авто отправлено на почту");
         } catch (Exception e) {
             log.info(email + " - Не удалось отправить письмо: " + e.getMessage());
         }

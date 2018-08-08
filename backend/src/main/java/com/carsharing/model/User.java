@@ -27,7 +27,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Table(name = "users")
+@Table(name = "user")
 @Data
 @EqualsAndHashCode(of=("id")) @ToString(exclude={"id"})
 //@NoArgsConstructor
@@ -77,9 +77,16 @@ public class User implements UserDetails, Serializable {
         if (indexCarForUpdate < 0) {
             addCar(car);
         } else {
-            BeanUtils.copyProperties(car, cars.get(indexCarForUpdate), "id", "user");
+            BeanUtils.copyProperties(car, cars.get(indexCarForUpdate), "id", "user", "carBookings");
         }
     }
+
+    @OneToMany(
+            mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<CarBooking> carBookings;
 
     public User() { }
 

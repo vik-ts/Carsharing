@@ -6,12 +6,12 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
-@Table(name = "cars")
+@Table(name = "car")
 @Data
 @EqualsAndHashCode(of={"id"}) @ToString(exclude={"id", "user"})
 public class Car implements Serializable {
@@ -19,11 +19,11 @@ public class Car implements Serializable {
     @Id
     private long id;
 
-    @Column(name = "active")
-    private Boolean active;
+    @Column(name = "activated")
+    private Boolean activated;
 
-    @Column(name = "reject")
-    private Boolean reject;
+    @Column(name = "rejected")
+    private Boolean rejected;
 
     @Column(name = "comment")
     private String comment;
@@ -86,4 +86,12 @@ public class Car implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+    @JsonIgnore
+    @OneToMany(
+            mappedBy = "car",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<CarBooking> carBookings;
 }

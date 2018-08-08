@@ -3,7 +3,6 @@ package com.carsharing.controller;
 import com.carsharing.service.SearchCarsService;
 import com.carsharing.util.CSResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
@@ -18,11 +17,9 @@ import com.carsharing.repository.CarRepository;
 
 import io.swagger.annotations.*;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.util.Date;
-import java.util.List;
 
 @RestController
 @Slf4j
@@ -66,8 +63,9 @@ public class CarController {
         apiMessage = "Объявление об аренде авто успешно создано";
         log.info(apiMessage);
 
-        car.setActive(false);
-        car.setReject(false);
+        car.setActivated(false);
+        car.setRejected(false);
+        car.setComment("");
         user.addCar(car);
         userRepository.save(user);
 
@@ -108,7 +106,6 @@ public class CarController {
                 apiMessage, car), HttpStatus.OK);
     }
 
-
     @PutMapping(value="/car/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Обновление объявления об аренде авто",
             response = CSResponse.class)
@@ -137,8 +134,8 @@ public class CarController {
         apiMessage = "Объявление об аренде авто с успешно обновлено";
         log.info(apiMessage);
 
-        car.setActive(false);
-        car.setReject(false);
+        car.setActivated(false);
+        car.setRejected(false);
         updateCar.getUser().updateCar(car);
         carRepository.save(updateCar);
 
