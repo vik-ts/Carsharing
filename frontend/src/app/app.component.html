@@ -17,10 +17,7 @@
     <ul *ngIf="auth.loggedIn&&auth.isAdmin">
       <li>
         <a routerLink="/homeuser" routerLinkActive="active">Главная</a>
-      </li>      
-      <li>
-        <a routerLink="/activation" routerLinkActive="active">Активация объявлений</a>
-      </li>       
+      </li>           
       <li>
         <a (click)="logout()">Выход {{auth.email}}</a>
       </li>

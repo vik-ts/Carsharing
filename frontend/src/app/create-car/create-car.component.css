@@ -6,7 +6,7 @@ select {
     width: 200px;
 }
 
-label[type="active"] {  
+label[type="activated"] {  
     color: rgb(126, 6, 6); 
 }
 

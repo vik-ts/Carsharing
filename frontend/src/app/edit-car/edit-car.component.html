@@ -6,12 +6,12 @@
         <div class="col-md-6">
             <form (ngSubmit)="edit(car.id)" #carForm="ngForm">
                 <div class="form-group">
-                    <label for="active" type="active">
-                    <input type="checkbox" id="active" name="active" [(ngModel)]="car.active" disabled>Активировано</label>
+                    <label for="activated" type="activated">
+                    <input type="checkbox" id="activated" name="activated" [(ngModel)]="car.activated" disabled>Активировано</label>
                 </div>
                 <div class="form-group">
-                    <label for="reject" type="reject">
-                    <input type="checkbox" id="reject" name="reject" [(ngModel)]="car.reject" disabled>Отклонено</label>
+                    <label for="rejected" type="rejected">
+                    <input type="checkbox" id="rejected" name="rejected" [(ngModel)]="car.rejected" disabled>Отклонено</label>
                 </div>
                 <div class="form-group">
                     <label for="comment">Комментарий</label>

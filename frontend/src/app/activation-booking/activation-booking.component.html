@@ -1,0 +1,83 @@
+<div class="container"><br>
+  <h1 class="h1">Активация броней</h1><br><br>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>№</th>
+          <th>email</th>
+          <th>Марка</th>
+          <th>Дата начала</th>
+          <th>Кол-во дней</th>
+          <th>Комментарий</th>
+          <th>Активировать</th>
+          <th>Отклонить</th>         
+          <th class="col-sm-1"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let booking of bookings; let i=index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ booking.userEmail }}</td>
+          <td>{{ booking.carMark }}</td>
+          <td>{{ booking.beginDate | date: 'dd/MM/yyyy HH:mm' }}</td>
+          <td>{{ booking.countDays }}</td>
+          <td type="comment">
+            <input type="comment" class="comment" [(ngModel)]="booking.comment" (change)="updateComment(booking)">
+          </td>
+          <td>
+            <input type="checkbox" id="activated" name="activated" [(ngModel)]="booking.activated" (click)="changeActiveReject(booking,$event,1)">
+          </td>
+          <td>
+            <input type="checkbox" id="rejected" name="rejected" [(ngModel)]="booking.rejected" (click)="changeActiveReject(booking,$event,2)">
+          </td>         
+          <td class="col-sm-1">
+            <a class="btn btn-success" (click)="goToUserInfo(booking.idUser)">ЛК >></a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  <div>{{message | uppercase}}</div>
+  <br>
+  <div class="form-group">
+    <button class="btn btn-success" (click)="backClicked()">Назад</button>
+    <button class="btn btn-success" (click)="putBookings()">Сохранить</button>
+  </div>
+  <div id="window" (click)="show('none')">
+      <div class="container">
+        <h4 class="h4">* Щелкните по окну для его закрытия</h4><br>    
+        <h2 class="h2">Личная карточка</h2><br>        
+        <dl class="list">
+          <dt>Телефон</dt><br>
+          <dd>{{ userinfo.telephone }}</dd><br>          
+        </dl>
+        <label>Паспортные данные</label><br><br>                 
+        <dl class="list">         
+          <dt>ФИО</dt><br>
+          <dd>{{ userinfo.fullname }}</dd><br>
+          <dt>Серия и номер</dt><br>
+          <dd>{{ userinfo.seriesNumberPassport }}</dd><br>
+          <dt>Кем выдан</dt><br>
+          <dd>{{ userinfo.issuedPassport }}</dd><br>
+          <dt>Когда выдан</dt><br>
+          <dd>{{ userinfo.issuedDatePassport | date: 'dd/MM/yyyy' }}</dd><br>
+          <dt>Дата рождения</dt><br>
+          <dd>{{ userinfo.birthday | date: 'dd/MM/yyyy' }}</dd><br>
+          <dt>Место рождения</dt><br>
+          <dd>{{ userinfo.birthPlace }}</dd><br>        
+        </dl>
+        <label>Водительское удостоверение</label><br><br>             
+        <dl class="list">         
+          <dt>Серия и номер</dt><br>
+          <dd>{{ userinfo.seriesNumberLicence }}</dd><br>
+          <dt>Кем выдано</dt><br>
+          <dd>{{ userinfo.issuedLicense }}</dd><br>
+          <dt>Когда выдано</dt><br>
+          <dd>{{ userinfo.issuedDateLicense | date: 'dd/MM/yyyy' }}</dd><br>
+          <dt>Действительно до</dt><br>
+          <dd>{{ userinfo.reallyLicense | date: 'dd/MM/yyyy' }}</dd><br>
+          <dt>Категория</dt><br>
+          <dd>{{ userinfo.category }}</dd><br>                  
+        </dl>
+      </div>
+  </div>
+</div>

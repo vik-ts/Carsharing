@@ -1,7 +1,7 @@
 export class Car {
     public id: number;
-    public active: boolean;
-    public reject: boolean;
+    public activated: boolean;
+    public rejected: boolean;
     public mark: string;
     public model: string;
     public yearIssued: number;

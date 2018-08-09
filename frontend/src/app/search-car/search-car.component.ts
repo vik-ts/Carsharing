@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { CarService} from '../services/car.service';
 import { Location } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-search-car',
@@ -40,7 +41,7 @@ export class SearchCarComponent implements OnInit {
   bodyTypes = ['не выбран', 'Седан', 'Хэтчбек', 'Универсал', 'Лифтбэк', 'Купе', 'Кабриолет', 'Родстер', 'Тарга',
    'Лимузин', 'Стретч', 'Внедорожник', 'Кроссовер', 'Пикап', 'Фургон', 'Минивэн', 'Микроавтобус', 'Автобус'];
 
-  constructor(private auth: AuthService, private carService: CarService, private location: Location) { }
+  constructor(private auth: AuthService, private carService: CarService, private router: Router, private location: Location) { }
 
   ngOnInit() {
     this.id = this.auth.id;
@@ -203,5 +204,9 @@ export class SearchCarComponent implements OnInit {
 
   backClicked() {
     this.location.back();
+  }
+
+  goToBooking(itemCar) {
+    this.router.navigate(['carbooking/' + itemCar.id], {queryParams: {mark: itemCar.mark } });
   }
 }

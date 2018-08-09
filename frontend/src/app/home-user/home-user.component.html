@@ -14,10 +14,10 @@
   </div>
 </div>
 <div *ngIf="auth.isAdmin" class="jumbotron text-center"><br> 
-	<h1 class = "h1">Меню</h1><br><hr><br><br>  
-  <div class="row">
-    <div class="col-sm-6"><a [routerLink]="['/activation']" class="btn btn-primary">Активация</a></div>
-    <div class="col-sm-6"><a [routerLink]="['/homeuser']" class="btn btn-primary">???</a></div><br><br>
-  </div> 
+  <h1 class = "h1">Меню</h1><br><hr><br><br>
+  <div class="col-md-4 col-md-offset-4">
+      <a [routerLink]="['/activation']" class="btn btn-primary">Активация объявлений</a><br><br><br>
+      <a [routerLink]="['/activationbooking']" class="btn btn-primary">Активация броней</a><br>	
+  </div>
 </div>
 

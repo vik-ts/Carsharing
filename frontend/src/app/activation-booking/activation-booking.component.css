@@ -1,7 +1,3 @@
-input[type="comment"] {  
-    width: 100%; 
-}
-
 #window {
     width: 40%;
     height: 90%;
@@ -28,13 +24,17 @@ input[type="comment"] {
     margin-left: 50px;
 }
 
-.btn-close {
-    margin-left: 170px;
-    margin-top: 4px;
-    cursor: pointer;
+.h4 {
+    float: left;
+    color: #040e36;
+    font-size: 10px;  
 }
 
-dt { 
+fieldset {
+    border: 1px solid rgb(8, 14, 77);
+}
+
+ dt { 
     float: left;   
     font-size: 13px;
     font-style: oblique;
@@ -45,12 +45,6 @@ dd {
     float: left;
     font-size: 12px;
     margin-left: 3em;
-}
-
-.h4 {
-    float: left;
-    color: #040e36;
-    font-size: 10px;  
 }
 
 .comment {

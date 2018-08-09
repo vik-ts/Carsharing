@@ -8,6 +8,8 @@ import { HomeUserComponent } from './home-user/home-user.component';
 import { UserCarsComponent } from './user-cars/user-cars.component';
 import { EditCarComponent } from './edit-car/edit-car.component';
 import { SearchCarComponent } from './search-car/search-car.component';
+import { CarBookingComponent } from './car-booking/car-booking.component';
+import { ActivationBookingComponent } from './activation-booking/activation-booking.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -22,6 +24,8 @@ const routes: Routes = [
   {path: 'usercars', component: UserCarsComponent},
   {path: 'editcar/:id', component: EditCarComponent},
   {path: 'searchcar', component: SearchCarComponent},
+  {path: 'carbooking/:id', component: CarBookingComponent},
+  {path: 'activationbooking', component: ActivationBookingComponent},
   {path: '', redirectTo: '/home', pathMatch: 'full'},
 ];
 

@@ -91,7 +91,8 @@
                 <th><a (click)="clickSort(7)">Привод{{sort[7].view}}</a></th> 
                 <th><a (click)="clickSort(8)">ДВС{{sort[8].view}}</a></th> 
                 <th><a (click)="clickSort(9)">Топливо{{sort[9].view}}</a></th> 
-                <th><a (click)="clickSort(10)">Цена{{sort[10].view}}</a></th>                
+                <th><a (click)="clickSort(10)">Цена{{sort[10].view}}</a></th>
+                <th class="col-sm-1"></th>                
               </tr>
             </thead>
             <tbody>        
@@ -107,7 +108,10 @@
                 <td>{{ car.drive }}</td>
                 <td>{{ car.engineType }}</td>
                 <td>{{ car.fuelType }}</td>
-                <td>{{ car.price }}</td>      
+                <td>{{ car.price }}</td>
+                <td class="col-sm-1"> 
+                  <a class="btn btn-success" (click)="goToBooking(car)" >бронь >></a>       				
+                </td>      
               </tr>
             </tbody>
           </table>         

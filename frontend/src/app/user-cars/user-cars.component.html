@@ -4,6 +4,7 @@
   <table class="table table-bordered">
     <thead>
       <tr>
+        <th>№</th>
         <th>Марка</th>
         <th>Модель</th>        
         <th>Гос. номер</th>
@@ -15,21 +16,22 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let car of cars">
+      <tr *ngFor="let car of cars; let i=index">
+        <td>{{ i + 1 }}</td>
         <td>{{ car.mark }}</td>
         <td>{{ car.model }}</td>        
         <td>{{ car.stateNumber }}</td>
         <td>{{ car.adText }}</td>
         <td>
-          <input type="checkbox" [(ngModel)]="car.active" disabled/>        
+          <input type="checkbox" [(ngModel)]="car.activated" disabled/>        
         </td>
         <td>
-          <input type="checkbox" [(ngModel)]="car.reject" disabled/>
+          <input type="checkbox" [(ngModel)]="car.rejected" disabled/>
         </td>
         <td>{{ car.comment }}</td>
         <td class="col-sm-1"> 
           <a class="btn btn-success" (click)="goToEdit(car.id)" >редак-ть >></a>       				
-				</td>        
+				</td>    
       </tr>
     </tbody>
   </table>

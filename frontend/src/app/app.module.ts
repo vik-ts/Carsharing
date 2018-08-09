@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { UserService } from './services/user.service';
 import { CarService } from './services/car.service';
+import { CarBookingService } from './services/car-booking.service';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { SignupComponent } from './signup/signup.component';
@@ -20,6 +21,8 @@ import { UserCarsComponent } from './user-cars/user-cars.component';
 import { EditCarComponent } from './edit-car/edit-car.component';
 import { AdminService } from './services/admin.service';
 import { SearchCarComponent } from './search-car/search-car.component';
+import { CarBookingComponent } from './car-booking/car-booking.component';
+import { ActivationBookingComponent } from './activation-booking/activation-booking.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +36,9 @@ import { SearchCarComponent } from './search-car/search-car.component';
     HomeUserComponent,
     UserCarsComponent,
     EditCarComponent,
-    SearchCarComponent
+    SearchCarComponent,
+    CarBookingComponent,
+    ActivationBookingComponent
   ],
   imports: [
     BrowserModule,
@@ -41,7 +46,7 @@ import { SearchCarComponent } from './search-car/search-car.component';
     HttpClientModule,
     AppRoutingModule
   ],
-  providers: [UserService, CarService, AdminService,
+  providers: [UserService, CarService, AdminService, CarBookingService,
     AuthService,
     {
       provide: HTTP_INTERCEPTORS,

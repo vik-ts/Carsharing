@@ -23,28 +23,28 @@ export class ActivationComponent implements OnInit {
     this.getCars();
   }
 
-  // 1. prepare an array to save (active or rejected items)
-  // 2. work with checkboxes: if active is true, then reject = false and on the contrary
+  // 1. prepare an array to save (activated or rejected items)
+  // 2. work with checkboxes: if activated is true, then rejected = false and on the contrary
   changeActiveReject(car, event, checkbox) {
 
     // press the flag, set to car true or false, the second flag is not set
     if (checkbox === 1) {
-      car.active = event.target.checked;
+      car.activated = event.target.checked;
     } else if (checkbox === 2) {
-      car.reject = event.target.checked;
+      car.rejected = event.target.checked;
     }
 
     if (event.target.checked) {
       // if one flag is set, and another is set, then the first one is taken off,
       // we write down the changes in the car
-      if ((checkbox === 1) && (car.reject === true)) {
-        car.reject = false;
-        this.UpdateCarArray(car.id, car.active, car.reject);
-      } else if ((checkbox === 2) && (car.active === true)) {
-        car.active = false;
-        this.UpdateCarArray(car.id, car.active, car.reject);
+      if ((checkbox === 1) && (car.rejected === true)) {
+        car.rejected = false;
+        this.UpdateCarArray(car.id, car.activated, car.rejected, car.comment);
+      } else if ((checkbox === 2) && (car.activated === true)) {
+        car.activated = false;
+        this.UpdateCarArray(car.id, car.activated, car.rejected, car.comment);
       } else {
-        this.pushCarArray(car.id, car.active, car.reject, car.comment);
+        this.pushCarArray(car.id, car.activated, car.rejected, car.comment);
       }
     } else {
       if (!event.target.checked) {
@@ -53,10 +53,17 @@ export class ActivationComponent implements OnInit {
     }
   }
 
-  UpdateCarArray(id, active, reject) {
+  updateComment(car) {
+    this.UpdateCarArray(car.id, car.activated, car.rejected, car.comment);
+  }
+
+  UpdateCarArray(id, activated, rejected, comment) {
     this.element = this.inactivCars.find(x => x.id === id);
-    this.element.active = active;
-    this.element.reject = reject;
+    if (this.element) {
+      this.element.activated = activated;
+      this.element.rejected = rejected;
+      this.element.comment = comment;
+    }
   }
 
   DeleteCarArray(id) {
@@ -64,11 +71,11 @@ export class ActivationComponent implements OnInit {
     this.inactivCars.splice(this.element, 1);
   }
 
-  pushCarArray(id, active, reject, comment) {
+  pushCarArray(id, activated, rejected, comment) {
     return this.inactivCars.push({
       'id':     id,
-      'active': active,
-      'reject': reject,
+      'activated': activated,
+      'rejected': rejected,
       'comment': comment
     });
   }

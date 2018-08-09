@@ -24,4 +24,21 @@ putInactiveCars(CarsArray) {
     }
     );
 }
+
+getInactiveCarBookings() {
+    return this.http.get('/inactivecarbookings').map(
+        (res: Response) => {
+          return res;
+    }
+    );
+}
+
+putInactiveCarBookings(BookingsArray) {
+    return this.http.put('/inactivecarbookings', BookingsArray).map(
+        (res) => {
+          return res;
+    }
+    );
+}
+
 }

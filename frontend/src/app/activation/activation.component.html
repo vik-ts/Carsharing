@@ -6,31 +6,33 @@
   <table class="table table-bordered">
     <thead>
       <tr>
+        <th>№</th>
         <th>Марка</th>
         <th>Модель</th>
         <th>Гос. номер</th>
         <th>Текст объявления</th>
-        <th>Активировать</th>
-        <th>Отклонить</th>
         <th>Комментарий</th>
+        <th>Активировать</th>
+        <th>Отклонить</th>        
         <th class="col-sm-1"></th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let car of cars">
+      <tr *ngFor="let car of cars; let i=index">
+        <td>{{ i + 1 }}</td>
         <td>{{ car.mark }}</td>
         <td>{{ car.model }}</td>
         <td>{{ car.stateNumber }}</td>
         <td>{{ car.adText }}</td>
-        <td>
-          <input type="checkbox" id="active" name="active" [(ngModel)]="car.active" (click)="changeActiveReject(car,$event,1)">
-        </td>
-        <td>
-          <input type="checkbox" id="reject" name="reject" [(ngModel)]="car.reject" (click)="changeActiveReject(car,$event,2)">
-        </td>
         <td type="comment">
-          <input type="comment" [(ngModel)]="car.comment">
+          <input type="comment" class="comment" [(ngModel)]="car.comment" (change)="updateComment(car)">
         </td>
+        <td>
+          <input type="checkbox" id="activated" name="activated" [(ngModel)]="car.activated" (click)="changeActiveReject(car,$event,1)">
+        </td>
+        <td>
+          <input type="checkbox" id="rejected" name="rejected" [(ngModel)]="car.rejected" (click)="changeActiveReject(car,$event,2)">
+        </td>       
         <td class="col-sm-1">
           <a class="btn btn-success" (click)="goToDetail(car)">Подробно >></a>
         </td>
