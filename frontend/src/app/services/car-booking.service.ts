@@ -17,4 +17,36 @@ createBooking(params) {
   );
 }
 
+getConfirmBookings(id) {
+  return this.http.get('/confirmbooking/' + id).map(
+    (res: Response) => {
+      return res;
+  }
+  );
+}
+
+putConfirmBookings(BookingsArray) {
+  return this.http.put('/confirmbooking', BookingsArray).map(
+      (res) => {
+        return res;
+  }
+  );
+}
+
+getUserBookings(id) {
+  return this.http.get('/userbookings/' + id).map(
+    (res: Response) => {
+      return res;
+  }
+  );
+}
+
+getCarUserBookings(id) {
+  return this.http.get('/caruserbookings/' + id).map(
+    (res: Response) => {
+      return res;
+  }
+  );
+}
+
 }

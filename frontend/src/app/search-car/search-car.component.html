@@ -114,7 +114,7 @@
                 </td>      
               </tr>
             </tbody>
-          </table>         
+          </table>       
           <ul class="pagination">
               <li [ngClass]="{disabled:currentPage === 1}">
                   <a (click)="setPage(1)">Начало</a>
@@ -131,7 +131,8 @@
               <li [ngClass]="{disabled:currentPage === totalPages}">
                   <a (click)="setPage(totalPages)">Конец</a>
               </li>
-          </ul>         
+          </ul><br>
+          <h4 class="h4">* Максимум 5 объявлений на странице</h4><br>         
           <div>{{message | uppercase}}</div><br>                       
           <div class="form-group">         
             <button class="btn btn-success" (click)="backClicked()">Назад</button>                       

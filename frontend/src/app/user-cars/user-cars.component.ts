@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { CarService} from '../services/car.service';
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-user-cars',
@@ -14,7 +15,7 @@ export class UserCarsComponent implements OnInit {
   id: any;
   message = '';
 
-  constructor(private auth: AuthService, private carService: CarService, private router: Router) { }
+  constructor(private auth: AuthService, private carService: CarService, private router: Router, private location: Location) { }
 
   ngOnInit() {
     this.id = this.auth.id;
@@ -31,5 +32,9 @@ export class UserCarsComponent implements OnInit {
 
   goToEdit(idCar) {  // id car
     this.router.navigate(['editcar/' + idCar]);
+  }
+
+  backClicked() {
+    this.location.back();
   }
 }

@@ -1,0 +1,43 @@
+<div class="container"><br>
+  <h1 class="h1">Подтверждение броней</h1><br><br>
+  <h4 class="h4">* список активированных (администратором) броней к подтверждению</h4><br><br>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>№</th>
+          <th>email</th>
+          <th>Марка</th>
+          <th>Дата начала</th>
+          <th>Кол-во дней</th>
+          <th>Комментарий</th>
+          <th>Подтвердить</th>
+          <th>Отклонить</th>         
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let booking of bookings; let i=index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ booking.userEmail }}</td>
+          <td>{{ booking.carMark }}</td>
+          <td>{{ booking.beginDate | date: 'dd/MM/yyyy HH:mm' }}</td>
+          <td>{{ booking.countDays }}</td>
+          <td type="comment">
+            <input type="comment" class="comment" [(ngModel)]="booking.comment" (change)="updateComment(booking)">
+          </td>
+          <td>
+            <input type="checkbox" id="confirmed" name="confirmed" [(ngModel)]="booking.confirmed" (click)="changeConfirmedRejected(booking,$event,1)">
+          </td>
+          <td>
+            <input type="checkbox" id="rejected" name="rejected" [(ngModel)]="booking.rejected" (click)="changeConfirmedRejected(booking,$event,2)">
+          </td>         
+        </tr>
+      </tbody>
+    </table>
+  <div>{{message | uppercase}}</div>
+  <br>
+  <h4 class="h4">* на почту арендодателям будут отправлены письма об подтверждении или отклонении броней</h4><br><br>
+  <div class="form-group">
+    <button class="btn btn-success" (click)="backClicked()">Назад</button>
+    <button class="btn btn-success" (click)="putBookings()">Сохранить</button>
+  </div>  
+</div>

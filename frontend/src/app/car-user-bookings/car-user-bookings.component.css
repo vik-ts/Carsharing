@@ -1,0 +1,24 @@
+.green {
+    color: green;
+}
+
+.red {
+    color: red;
+}
+
+.blue {
+    color: blue;
+}
+
+.orange {
+    color: rgb(255, 166, 0); 
+}
+
+.btn {
+    background-color: #061558;
+    font-size: 14px;  
+    cursor: pointer;
+    width:120px; 
+    background: #061558;
+}
+  

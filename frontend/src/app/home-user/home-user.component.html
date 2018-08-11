@@ -1,16 +1,24 @@
 <div *ngIf="!auth.isAdmin" class="jumbotron text-center"><br> 
 	<h1 class = "h1">Меню</h1><br><hr><br><br>
   <div class="row">
-    <div class="col-sm-6"><h2 class = "h2">Арендатор</h2></div>
     <div class="col-sm-6"><h2 class = "h2">Арендодатель</h2></div>
+    <div class="col-sm-6"><h2 class = "h2">Арендатор</h2></div>    
   </div><br><br>
-  <div class="row">    
-    <div class="col-sm-6"><a [routerLink]="['/searchcar']" class="btn btn-primary">Поиск объявлений</a></div>
-    <div class="col-sm-6"><a [routerLink]="['/createcar']" class="btn btn-primary">Добавить объявление</a></div><br><br>
+  <div class="row">
+    <div class="col-sm-6"><a [routerLink]="['/createcar']" class="btn btn-primary">Добавить объявление</a></div>   
+    <div class="col-sm-6"><a [routerLink]="['/searchcar']" class="btn btn-primary">Поиск объявлений</a></div><br><br>    
   </div>
-  <div class="row">    
-    <div class="col-sm-6"><a [routerLink]="['/homeuser']" class="btn btn-primary">???</a></div>
-    <div class="col-sm-6"><a [routerLink]="['/usercars']" class="btn btn-primary">Мои объявления</a></div>
+  <div class="row">
+    <div class="col-sm-6"><a [routerLink]="['/usercars']" class="btn btn-primary">Мои объявления</a></div>    
+    <div class="col-sm-6"><a [routerLink]="['/userbookings']" class="btn btn-primary">Список моих броней</a></div><br><br>
+  </div>
+  <div class="row">
+    <div class="col-sm-6"><a [routerLink]="['/confirmbooking']" class="btn btn-primary">Подтверждение броней</a></div>   
+    <div class="col-sm-6"></div><br><br>    
+  </div>
+  <div class="row">
+    <div class="col-sm-6"><a [routerLink]="['/caruserbookings']" class="btn btn-primary">Список броней на мои авто</a></div>    
+    <div class="col-sm-6"></div><br><br>    
   </div>
 </div>
 <div *ngIf="auth.isAdmin" class="jumbotron text-center"><br> 

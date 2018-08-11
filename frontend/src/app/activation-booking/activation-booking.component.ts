@@ -53,7 +53,7 @@ export class ActivationBookingComponent implements OnInit {
   }
 
   updateComment(booking) {
-    this.UpdateBookingArray(booking.id, booking.activated, booking.rejected, booking.comment);
+    this.UpdateBookingArray(booking.idCarBooking, booking.activated, booking.rejected, booking.comment);
   }
 
   UpdateBookingArray(id, activated, rejected, comment) {

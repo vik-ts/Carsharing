@@ -54,10 +54,12 @@ export class ActivationComponent implements OnInit {
   }
 
   updateComment(car) {
+    alert(JSON.stringify(car.comment));
     this.UpdateCarArray(car.id, car.activated, car.rejected, car.comment);
   }
 
   UpdateCarArray(id, activated, rejected, comment) {
+
     this.element = this.inactivCars.find(x => x.id === id);
     if (this.element) {
       this.element.activated = activated;

@@ -10,6 +10,9 @@ import { EditCarComponent } from './edit-car/edit-car.component';
 import { SearchCarComponent } from './search-car/search-car.component';
 import { CarBookingComponent } from './car-booking/car-booking.component';
 import { ActivationBookingComponent } from './activation-booking/activation-booking.component';
+import { ConfirmationBookingComponent } from './confirmation-booking/confirmation-booking.component';
+import { UserBookingsComponent } from './user-bookings/user-bookings.component';
+import { CarUserBookingsComponent } from './car-user-bookings/car-user-bookings.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -26,6 +29,9 @@ const routes: Routes = [
   {path: 'searchcar', component: SearchCarComponent},
   {path: 'carbooking/:id', component: CarBookingComponent},
   {path: 'activationbooking', component: ActivationBookingComponent},
+  {path: 'confirmbooking', component: ConfirmationBookingComponent},
+  {path: 'userbookings', component: UserBookingsComponent},
+  {path: 'caruserbookings', component: CarUserBookingsComponent},
   {path: '', redirectTo: '/home', pathMatch: 'full'},
 ];
 

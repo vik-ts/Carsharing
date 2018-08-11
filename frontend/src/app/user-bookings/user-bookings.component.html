@@ -1,0 +1,44 @@
+<div class="container"><br>
+  <h1 class="h1">Список моих броней</h1><br><br>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>№</th>         
+          <th>Марка</th>
+          <th>Дата начала</th>
+          <th>Кол-во дней</th>
+          <th>Комментарий</th>
+          <th>Состояние</th>           
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let booking of bookings; let i=index">
+          <td>{{ i + 1 }}</td>         
+          <td>{{ booking.carMark }}</td>
+          <td>{{ booking.beginDate | date: 'dd/MM/yyyy HH:mm' }}</td>
+          <td>{{ booking.countDays }}</td>
+          <td>{{ booking.comment }}</td>
+          <td class="green" *ngIf="booking.activated === true&&booking.confirmed === true">
+            забронировано
+          </td>
+          <td class="blue" *ngIf="booking.activated === false&&booking.confirmed === false&&booking.rejected === false">
+            на активации у админа
+          </td>
+          <td class="red" *ngIf="booking.activated === false&&booking.rejected === true">
+            отказано админом
+          </td>
+          <td class="blue" *ngIf="booking.activated === true&&booking.rejected === false&&booking.confirmed === false">
+            на подтверждении у аренд-ля
+          </td>
+          <td class="red" *ngIf="booking.activated === true&&booking.rejected === true">
+            отказано арендодателем
+          </td> 
+        </tr>
+      </tbody>
+    </table>
+  <div>{{message | uppercase}}</div>
+  <br>
+  <div class="form-group">
+    <button class="btn btn-success" (click)="backClicked()">Назад</button>   
+  </div>  
+</div>

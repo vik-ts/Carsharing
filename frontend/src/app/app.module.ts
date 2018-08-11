@@ -23,6 +23,9 @@ import { AdminService } from './services/admin.service';
 import { SearchCarComponent } from './search-car/search-car.component';
 import { CarBookingComponent } from './car-booking/car-booking.component';
 import { ActivationBookingComponent } from './activation-booking/activation-booking.component';
+import { ConfirmationBookingComponent } from './confirmation-booking/confirmation-booking.component';
+import { UserBookingsComponent } from './user-bookings/user-bookings.component';
+import { CarUserBookingsComponent } from './car-user-bookings/car-user-bookings.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +41,10 @@ import { ActivationBookingComponent } from './activation-booking/activation-book
     EditCarComponent,
     SearchCarComponent,
     CarBookingComponent,
-    ActivationBookingComponent
+    ActivationBookingComponent,
+    ConfirmationBookingComponent,
+    UserBookingsComponent,
+    CarUserBookingsComponent
   ],
   imports: [
     BrowserModule,
