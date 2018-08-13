@@ -7,32 +7,43 @@
           <th>Марка</th>
           <th>Дата начала</th>
           <th>Кол-во дней</th>
+          <th>Цена за сут.</th>
           <th>Комментарий</th>
-          <th>Состояние</th>           
+          <th>Состояние</th>
+          <th>Дата возврата</th>
+          <th class="col-sm-1"></th>           
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let booking of bookings; let i=index">
+        <tr *ngFor="let booking of bookings; let i=index" [ngStyle]="{'background-color': booking.returnDate===null? 'white' : 'silver'}">
           <td>{{ i + 1 }}</td>         
           <td>{{ booking.carMark }}</td>
           <td>{{ booking.beginDate | date: 'dd/MM/yyyy HH:mm' }}</td>
           <td>{{ booking.countDays }}</td>
+          <td>{{ booking.price }}</td>
           <td>{{ booking.comment }}</td>
-          <td class="green" *ngIf="booking.activated === true&&booking.confirmed === true">
+          <td *ngIf="booking.returnDate!=null">
+            возвращено
+          </td>
+          <td class="green" *ngIf="booking.activated === true&&booking.confirmed === true&&booking.returnDate===null">
             забронировано
           </td>
-          <td class="blue" *ngIf="booking.activated === false&&booking.confirmed === false&&booking.rejected === false">
+          <td class="blue" *ngIf="booking.activated === false&&booking.confirmed === false&&booking.rejected === false&&booking.returnDate===null">
             на активации у админа
           </td>
-          <td class="red" *ngIf="booking.activated === false&&booking.rejected === true">
+          <td class="red" *ngIf="booking.activated === false&&booking.rejected === true&&booking.returnDate===null">
             отказано админом
           </td>
-          <td class="blue" *ngIf="booking.activated === true&&booking.rejected === false&&booking.confirmed === false">
+          <td class="blue" *ngIf="booking.activated === true&&booking.rejected === false&&booking.confirmed === false&&booking.returnDate===null">
             на подтверждении у аренд-ля
           </td>
-          <td class="red" *ngIf="booking.activated === true&&booking.rejected === true">
+          <td class="red" *ngIf="booking.activated === true&&booking.rejected === true&&booking.returnDate===null">
             отказано арендодателем
-          </td> 
+          </td>
+          <td>{{ booking.returnDate | date: 'dd/MM/yyyy HH:mm' }}</td>
+          <td class="col-sm-1"> 
+            <button class="btn btn-success" (click)="returnCar(booking.idCarBooking)"  [disabled]="booking.activated===false||booking.confirmed===false||booking.returnDate!=null">возврат</button>       				
+          </td>           
         </tr>
       </tbody>
     </table>

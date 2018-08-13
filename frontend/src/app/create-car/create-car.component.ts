@@ -55,11 +55,11 @@ export class CreateCarComponent implements OnInit {
     if (checked) {
       document.getElementById('boxinput').style.display = 'block';
       document.getElementById('box').style.display = 'none';
-      document.getElementById('buttonAdd').style.display = 'black';
+     // document.getElementById('buttonAdd').style.display = 'black';
 
     } else {
       document.getElementById('boxinput').style.display = 'none';
-      document.getElementById('buttonAdd').style.display = 'none';
+     // document.getElementById('buttonAdd').style.display = 'none';
     }
   }
 
@@ -76,7 +76,7 @@ export class CreateCarComponent implements OnInit {
   }
 
   onFileChange(event) {
-    if (event.target.files && event.target.files.length > 0) {
+   /* if (event.target.files && event.target.files.length > 0) {
       this.file = event.target.files[0];
       this.reader.readAsDataURL(this.file);
       this.reader.onload = (onLoadPhotoEvent: any) => {
@@ -87,7 +87,7 @@ export class CreateCarComponent implements OnInit {
           value: this.reader.result.split(',')[0]
         });
       };
-     }
+     }*/
 /*
     if (event.target.files && event.target.files.length > 0) {
       this.file = event.target.files[0];
@@ -100,13 +100,13 @@ export class CreateCarComponent implements OnInit {
         });
       };
     }*/
- alert(this.form.get('photo'));
+ // alert(this.form.get('photo'));
   }
 
   clearFile() {
-    alert(this.form.get('photo'));
-    this.form.get('photo').setValue(null);
-    this.fileInput.nativeElement.value = '';
+   // alert(this.form.get('photo'));
+   // this.form.get('photo').setValue(null);
+   // this.fileInput.nativeElement.value = '';
   }
 
   backClicked() {

@@ -10,22 +10,31 @@
   </div>
   <div class="row">
     <div class="col-sm-6"><a [routerLink]="['/usercars']" class="btn btn-primary">Мои объявления</a></div>    
-    <div class="col-sm-6"><a [routerLink]="['/userbookings']" class="btn btn-primary">Список моих броней</a></div><br><br>
+    <div class="col-sm-6"><a [routerLink]="['/userbookings']" class="btn btn-primary">Мои брони</a></div><br><br>
   </div>
   <div class="row">
     <div class="col-sm-6"><a [routerLink]="['/confirmbooking']" class="btn btn-primary">Подтверждение броней</a></div>   
+    <div class="col-sm-6"><a [routerLink]="['/closingpayment']" class="btn btn-primary">Закрытие платежей</a></div><br><br>       
+  </div>
+  <div class="row">
+    <div class="col-sm-6"><a [routerLink]="['/caruserbookings']" class="btn btn-primary">Брони на мои авто</a></div>    
+    <div class="col-sm-6"><a [routerLink]="['/allpayments']" class="btn btn-primary">Платежи</a></div><br><br>    
+  </div>
+  <div class="row">
+    <div class="col-sm-6"><a [routerLink]="['/confirmpayment']" class="btn btn-primary">Подтверждение стоимости</a></div>    
     <div class="col-sm-6"></div><br><br>    
   </div>
   <div class="row">
-    <div class="col-sm-6"><a [routerLink]="['/caruserbookings']" class="btn btn-primary">Список броней на мои авто</a></div>    
+    <div class="col-sm-6"><a [routerLink]="['/allpayments']" class="btn btn-primary">Платежи</a></div>    
     <div class="col-sm-6"></div><br><br>    
   </div>
 </div>
 <div *ngIf="auth.isAdmin" class="jumbotron text-center"><br> 
   <h1 class = "h1">Меню</h1><br><hr><br><br>
   <div class="col-md-4 col-md-offset-4">
-      <a [routerLink]="['/activation']" class="btn btn-primary">Активация объявлений</a><br><br><br>
-      <a [routerLink]="['/activationbooking']" class="btn btn-primary">Активация броней</a><br>	
+    <a [routerLink]="['/activation']" class="btn btn-primary">Активация объявлений</a><br><br><br>
+    <a [routerLink]="['/activationbooking']" class="btn btn-primary">Активация броней</a><br><br><br>	
+    <a [routerLink]="['/confirmaddpayment']" class="btn btn-primary">Подтверждение доп. оплат</a><br>      
   </div>
 </div>
 

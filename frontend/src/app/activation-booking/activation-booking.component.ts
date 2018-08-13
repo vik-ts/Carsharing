@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { AdminService} from '../services/admin.service';
 import { UserService} from '../services/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-activation-booking',
@@ -16,7 +17,7 @@ export class ActivationBookingComponent implements OnInit {
   inactivBookings = [];
   element: any;
 
-  constructor(private adminService: AdminService, private userService: UserService, private location: Location) { }
+  constructor(private adminService: AdminService, private userService: UserService, private location: Location, private router: Router) { }
 
   ngOnInit() {
     this.getBookings();
@@ -111,7 +112,11 @@ export class ActivationBookingComponent implements OnInit {
       this.message = 'Не выбрано ни одной брони для активации / отклонения.';
     } else {
       this.adminService.putInactiveCarBookings(this.inactivBookings).subscribe(res => {
-      this.message = res['message'];
+        this.message = res['message'];
+        setTimeout(() => {
+          this.router.navigate(['/homeuser']);
+        },
+        2000);
       }, (err) => {
       this.message = err['message'];
       });

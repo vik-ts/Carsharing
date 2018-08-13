@@ -13,6 +13,10 @@ import { ActivationBookingComponent } from './activation-booking/activation-book
 import { ConfirmationBookingComponent } from './confirmation-booking/confirmation-booking.component';
 import { UserBookingsComponent } from './user-bookings/user-bookings.component';
 import { CarUserBookingsComponent } from './car-user-bookings/car-user-bookings.component';
+import { ConfirmationPaymentComponent } from './confirmation-payment/confirmation-payment.component';
+import { ConfirmationAdditionalPaymentComponent } from './confirmation-additional-payment/confirmation-additional-payment.component';
+import { ClosingPaymentComponent } from './closing-payment/closing-payment.component';
+import { AllPaymentsComponent } from './all-payments/all-payments.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -32,6 +36,10 @@ const routes: Routes = [
   {path: 'confirmbooking', component: ConfirmationBookingComponent},
   {path: 'userbookings', component: UserBookingsComponent},
   {path: 'caruserbookings', component: CarUserBookingsComponent},
+  {path: 'confirmpayment', component: ConfirmationPaymentComponent},
+  {path: 'confirmaddpayment', component: ConfirmationAdditionalPaymentComponent},
+  {path: 'closingpayment', component: ClosingPaymentComponent},
+  {path: 'allpayments', component: AllPaymentsComponent},
   {path: '', redirectTo: '/home', pathMatch: 'full'},
 ];
 

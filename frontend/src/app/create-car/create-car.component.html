@@ -97,21 +97,21 @@
                   <label for="price">* Цена за сутки (BYN)</label>
                   <input type="price" class="form-control" id="price" required [(ngModel)]="car.price" name="price" #price="ngModel">                                
                 </div>
-                <div class="form-group">
-                  <label for="calendar">* Календарь доступности автомобиля</label>
-                  <input type="calendar" class="form-control" id="calendar" required [(ngModel)]="car.calendar" name="calendar" #calendar="ngModel">
-                </div>
-              </fieldset>              
+              </fieldset>
               <div class="form-group">
+                <label for="calendar">* Календарь доступности автомобиля</label>
+                <input type="calendar" class="form-control" id="calendar" required [(ngModel)]="car.calendar" name="calendar" #calendar="ngModel">
+              </div>            
+              <!--<div class="form-group">
                 <img [src] = "url" class="rightpic"> 
                 <label for="photo">Фотографии</label>
                 <input type="file" accept="image/x-png,image/gif,image/jpeg" id="photo" (change)="onFileChange($event)" #fileInput><br>
                 <button type="button" class="btn btn-sm btn-default" (click)="clearFile()">Очистить</button>                     
-              </div>              
+              </div>-->
               <div class="form-group">
                 <label for="adText">* Текст объявления</label>
-                <textarea type="adText" class="form-control" id="adText" required [(ngModel)]="car.adText" name="adText" #adText="ngModel"></textarea>
-              </div>
+                <textarea type="Text" class="form-control" id="Text" required [(ngModel)]="car.adText" name="adText" #adText="ngModel"></textarea>
+              </div> 
               <div class="form-group">                
                 <label for="activated" type="activated">
                 <input type="checkbox" id="activated" name="activated" [(ngModel)]="car.activated" disabled>объявление неактивно</label>

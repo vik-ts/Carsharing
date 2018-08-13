@@ -20,12 +20,17 @@ import { HomeUserComponent } from './home-user/home-user.component';
 import { UserCarsComponent } from './user-cars/user-cars.component';
 import { EditCarComponent } from './edit-car/edit-car.component';
 import { AdminService } from './services/admin.service';
+import { PaymentService } from './services/payment.service';
 import { SearchCarComponent } from './search-car/search-car.component';
 import { CarBookingComponent } from './car-booking/car-booking.component';
 import { ActivationBookingComponent } from './activation-booking/activation-booking.component';
 import { ConfirmationBookingComponent } from './confirmation-booking/confirmation-booking.component';
 import { UserBookingsComponent } from './user-bookings/user-bookings.component';
 import { CarUserBookingsComponent } from './car-user-bookings/car-user-bookings.component';
+import { ConfirmationPaymentComponent } from './confirmation-payment/confirmation-payment.component';
+import { ConfirmationAdditionalPaymentComponent } from './confirmation-additional-payment/confirmation-additional-payment.component';
+import { ClosingPaymentComponent } from './closing-payment/closing-payment.component';
+import { AllPaymentsComponent } from './all-payments/all-payments.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +49,11 @@ import { CarUserBookingsComponent } from './car-user-bookings/car-user-bookings.
     ActivationBookingComponent,
     ConfirmationBookingComponent,
     UserBookingsComponent,
-    CarUserBookingsComponent
+    CarUserBookingsComponent,
+    ConfirmationPaymentComponent,
+    ConfirmationAdditionalPaymentComponent,
+    ClosingPaymentComponent,
+    AllPaymentsComponent
   ],
   imports: [
     BrowserModule,
@@ -52,7 +61,7 @@ import { CarUserBookingsComponent } from './car-user-bookings/car-user-bookings.
     HttpClientModule,
     AppRoutingModule
   ],
-  providers: [UserService, CarService, AdminService, CarBookingService,
+  providers: [UserService, CarService, AdminService, CarBookingService, PaymentService,
     AuthService,
     {
       provide: HTTP_INTERCEPTORS,

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { CarBookingService } from '../services/car-booking.service';
 import { AuthService } from '../services/auth.service';
+import { PaymentService } from '../services/payment.service';
 
 @Component({
   selector: 'app-user-bookings',
@@ -14,11 +15,21 @@ export class UserBookingsComponent implements OnInit {
   message = '';
   id: any;
 
-  constructor(private auth: AuthService, private location: Location, private carBookingService: CarBookingService) { }
+  constructor(private auth: AuthService, private paymentService: PaymentService,
+    private location: Location, private carBookingService: CarBookingService) { }
 
   ngOnInit() {
     this.id = this.auth.id;
     this.getBookings();
+  }
+
+  returnCar(idBooking) {
+    this.paymentService.returnCar(idBooking).subscribe(res => {
+      this.message = res['message'];
+      this.getBookings();
+      }, (err) => {
+       this.message = err['message'];
+      });
   }
 
   getBookings() {
@@ -32,4 +43,6 @@ export class UserBookingsComponent implements OnInit {
   backClicked() {
     this.location.back();
   }
+
 }
+

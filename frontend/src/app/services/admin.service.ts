@@ -41,4 +41,19 @@ putInactiveCarBookings(BookingsArray) {
     );
 }
 
+getUnconfirmedPayments() {
+    return this.http.get('/unconfirmedpayments').map(
+        (res: Response) => {
+          return res;
+    }
+    );
+}
+
+putUnconfirmedPayments(PaymentsArray) {
+    return this.http.put('/unconfirmedpayments', PaymentsArray).map(
+        (res) => {
+          return res;
+    }
+    );
+}
 }

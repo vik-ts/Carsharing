@@ -1,0 +1,59 @@
+<div class="container"><br>
+  <h1 class="h1">Закрытие платежей</h1><br><br>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>№</th>
+          <!--<th>Арендодатель</th>
+          <th>Марка</th>-->
+          <th>Сумма(BYN)</th>
+          <th>Доп.опл.(BYN)</th>        
+          <th>Реквизиты платежа</th>
+          <th>Комментарий</th>          
+          <th>Оплачено</th>          
+          <th class="col-sm-1"></th>           
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let payment of payments; let i=index">
+          <td>{{ i + 1 }}</td>
+          <!--<td>{{ payment.emailCarUser }}</td>
+          <td>{{ payment.mark }}</td>-->
+          <td>{{ payment.amountToPay }}</td>
+          <td>{{ payment.addAmountToPay }}</td>
+          <td>{{ payment.paymentRequisites }}</td>                
+          <td>{{ payment.comment }}</td>         
+          <td>            
+            <input type="checkbox" id="closed" name="closed" [(ngModel)]="payment.closed" (click)="changeClosed(payment,$event)">
+          </td>     
+          <td class="col-sm-1">
+            <a class="btn btn-success" (click)="goToDetail(payment)">Подробно >></a>
+          </td>              
+        </tr>
+      </tbody>
+    </table>
+  <div>{{message | uppercase}}</div>
+  <br>  
+  <div class="form-group">
+    <button class="btn btn-success" (click)="backClicked()">Назад</button>
+    <button class="btn btn-success" (click)="putPayments()">Сохранить</button>
+  </div>
+  <div id="window" (click)="show('none')">
+    <div class="container">
+      <h4 class="h4">* Щелкните по окну для его закрытия</h4><br>    
+      <h2 class="h2">Дополнительная информация</h2><br>           
+      <dl class="list">
+        <!--<dt>Марка:</dt><br>
+        <dd>{{ paymentDetail.mark }}</dd><br>
+        <dt>Дата начала:</dt><br>
+        <dd>{{ paymentDetail.beginDate | date: 'dd/MM/yyyy HH:mm' }}</dd><br>
+        <dt>Количество дней:</dt><br>
+        <dd>{{ paymentDetail.countDays }}</dd><br>
+        <dt>Цена за сут.:</dt><br>
+        <dd>{{ paymentDetail.price }}</dd><br>
+        <dt>Дата возврата:</dt><br>
+        <dd>{{ paymentDetail.returnDate | date: 'dd/MM/yyyy HH:mm' }}</dd><br>-->                 
+      </dl>     
+    </div>
+  </div>
+</div>

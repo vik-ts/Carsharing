@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { AdminService} from '../services/admin.service';
-import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -54,7 +53,6 @@ export class ActivationComponent implements OnInit {
   }
 
   updateComment(car) {
-    alert(JSON.stringify(car.comment));
     this.UpdateCarArray(car.id, car.activated, car.rejected, car.comment);
   }
 
@@ -109,7 +107,11 @@ export class ActivationComponent implements OnInit {
       this.message = 'Не выбрано ни одного объявления для активации / отклонения.';
     } else {
       this.adminService.putInactiveCars(this.inactivCars).subscribe(res => {
-      this.message = res['message'];
+        this.message = res['message'];
+        setTimeout(() => {
+          this.router.navigate(['/homeuser']);
+        },
+        2000);
       }, (err) => {
       this.message = err['message'];
       });
