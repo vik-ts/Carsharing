@@ -1,0 +1,3 @@
+﻿fullname,telephone,series_number_passport,issued_passport,issued_date_passport,birthday,birth_place,series_number_licence,issued_license,issued_date_license,really_license,category,photo,user_id
+"Иванов Иван","+3752900000000","КН111111","ОКТЯБРЬСКИЙ РОВД г. Гродно","2011-09-13","1988-01-01","г.Гродно","KF09876543","ГАИ г.Гродно","2011-09-13","2019-01-01","AB",null,2
+"Петров Петр","+3752900000000","КН222222","ЛЕНИНСКИЙ РОВД г. Гродно","2010-08-12","1987-01-01","г.Гродно","KS19577740","ГАИ г.Гродно","2010-08-12","2020-01-01","AB",null,3

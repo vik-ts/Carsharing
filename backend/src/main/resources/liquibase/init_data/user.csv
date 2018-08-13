@@ -1,0 +1,4 @@
+﻿id,email,password,role
+1,admin@test.te,$2a$10$dqHKbcfDDuM2GA6VNHceCePyOKbLXw.1Cqhy6YLovBneesTdrikf.,0
+2,vik-ts@mail.ru,$2a$10$dqHKbcfDDuM2GA6VNHceCePyOKbLXw.1Cqhy6YLovBneesTdrikf.,1
+3,user@mail.ru,$2a$10$dqHKbcfDDuM2GA6VNHceCePyOKbLXw.1Cqhy6YLovBneesTdrikf.,1

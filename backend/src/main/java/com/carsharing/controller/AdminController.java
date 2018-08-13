@@ -1,8 +1,10 @@
 package com.carsharing.controller;
 
+import com.carsharing.model.Payment;
+import com.carsharing.repository.PaymentRepository;
 import com.carsharing.service.MailNotificationService;
 import com.carsharing.util.CSResponse;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -46,7 +48,6 @@ class InactiveCarBookingRequest implements Serializable {
 }
 
 @Data
-@AllArgsConstructor
 class InactiveCarBookingResponse implements Serializable {
 
     private long idCarBooking;
@@ -56,6 +57,71 @@ class InactiveCarBookingResponse implements Serializable {
     private String carMark;
     private Date beginDate;
     private short countDays;
+    private Boolean activated;
+    private Boolean rejected;
+    private String comment;
+
+    InactiveCarBookingResponse(CarBooking carBooking) {
+
+        this.idCarBooking = carBooking.getId();
+        this.idUser = carBooking.getUser().getId();
+        this.userEmail = carBooking.getUser().getEmail();
+        this.idCar = carBooking.getCar().getId();
+        this.carMark = carBooking.getCar().getMark();
+
+        BeanUtils.copyProperties(carBooking, this);
+    }
+}
+
+@Data
+class UnconfirmedPaymentResponseForAdmin implements Serializable {
+
+    private long id;
+    private long idCarUser;
+    private String emailCarUser;
+    private long idUser;
+    private String emailUser;
+    private String mark;
+    private Double price;
+    private Date beginDate;
+    private Short countDays;
+    private Date returnDate;
+
+    private String paymentRequisites;
+    private Double amountToPay;
+    private Double addAmountToPay;
+    private Boolean confirmedUser;
+    private Boolean confirmedAdmin;
+    private Boolean rejectedAdmin;
+    private Boolean closed;
+    private String comment;
+
+    UnconfirmedPaymentResponseForAdmin(Payment payment) {
+        CarBooking carBooking = payment.getCarBooking();
+        BeanUtils.copyProperties(carBooking, this);
+
+        Car car = carBooking.getCar();
+        BeanUtils.copyProperties(car, this);
+
+        User user = car.getUser();
+        this.idCarUser = user.getId();
+        this.emailCarUser = user.getEmail();
+
+        user = carBooking.getUser();
+        this.idUser = user.getId();
+        this.emailUser = user.getEmail();
+
+        BeanUtils.copyProperties(payment, this);
+    }
+}
+
+@Data
+class UnconfirmedPaymentRequestForAdmin implements Serializable {
+
+    private long id;
+    private Boolean confirmedAdmin;
+    private Boolean rejectedAdmin;
+    private String comment;
 }
 
 @RestController
@@ -70,6 +136,9 @@ public class AdminController {
 
     @Autowired
     CarBookingRepository carBookingRepository;
+
+    @Autowired
+    PaymentRepository paymentRepository;
 
     @Autowired
     private MailNotificationService mailNotificationService;
@@ -97,7 +166,7 @@ public class AdminController {
     }
 
     @PutMapping(value="inactivecars", produces=MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Обновление (подтверждено/отклонено) определенных объявлений об аренде авто",
+    @ApiOperation(value = "Обновление (активировано/отклонено) определенных объявлений об аренде авто",
             response = CSResponse.class
     )
     @ApiResponses(value = {
@@ -153,19 +222,11 @@ public class AdminController {
 
         List<CarBooking> carBookings = carBookingRepository.findCarBookingsByActivatedFalseAndRejectedFalseAndCanceledFalse();
 
-        List<InactiveCarBookingResponse> inactiveCarBookings = new ArrayList<InactiveCarBookingResponse>();
+        List<InactiveCarBookingResponse> inactiveCarBookings = new ArrayList<>();
 
         for (CarBooking carBooking : carBookings) {
 
-            inactiveCarBookings.add(new InactiveCarBookingResponse(
-                    carBooking.getId(),
-                    carBooking.getUser().getId(),
-                    carBooking.getUser().getEmail(),
-                    carBooking.getCar().getId(),
-                    carBooking.getCar().getMark(),
-                    carBooking.getBeginDate(),
-                    carBooking.getCountDays()
-            ));
+            inactiveCarBookings.add(new InactiveCarBookingResponse(carBooking));
         }
 
         apiMessage = "Список неактивных броней на аренду авто успешно получен";
@@ -176,7 +237,7 @@ public class AdminController {
     }
 
     @PutMapping(value="inactivecarbookings", produces=MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Обновление (подтверждено/отклонено) определенных броней на аренду авто",
+    @ApiOperation(value = "Обновление (активировано/отклонено) определенных броней на аренду авто",
             response = CSResponse.class
     )
     @ApiResponses(value = {
@@ -212,6 +273,74 @@ public class AdminController {
         String apiMessage;
 
         apiMessage = "Список неактивных броней на аренду авто успешно обновлен";
+        log.info(apiMessage);
+
+        return new ResponseEntity<>(new CSResponse<>(
+                apiMessage, null), HttpStatus.OK);
+    }
+
+    @GetMapping(value="unconfirmedpayments", produces=MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Получение списка всех неподтвержденных платежей с допоплатой",
+            response = UnconfirmedPaymentResponseForAdmin.class, responseContainer = "List"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Список неподтвержденных платежей с допоплатой") })
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "x-token", value = "Токен для доступа к методу", required = true, dataType = "string", paramType = "header"),
+    })
+    public ResponseEntity<?> getUnconfirmedPaymentsWithAddAmount() {
+
+        String apiMessage;
+
+        List<Payment> payments =
+                paymentRepository.findPaymentsByConfirmedAdminFalseAndRejectedAdminFalseAndConfirmedUserTrue();
+
+        List<UnconfirmedPaymentResponseForAdmin> unconfirmedPayments = new ArrayList<>();
+
+        for (Payment payment : payments) {
+            unconfirmedPayments.add(new UnconfirmedPaymentResponseForAdmin(payment));
+        }
+
+        apiMessage = "Список неподтвержденных платежей с допоплатой успешно получен";
+        log.info(apiMessage);
+
+        return new ResponseEntity<>(new CSResponse<>(
+                apiMessage, unconfirmedPayments), HttpStatus.OK);
+    }
+
+    @PutMapping(value="unconfirmedpayments", produces=MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Обновление (подтверждено/отклонено) определенных платежей с допоплатой",
+            response = CSResponse.class
+    )
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Список платежей с допоплатой успешно обновлен") })
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "x-token", value = "Токен для доступа к методу", required = true, dataType = "string", paramType = "header"),
+    })
+    public ResponseEntity<?> updateUnconfirmedPayments(
+            @ApiParam(value = "Список платежей с допоплатой для обновления", required = true)
+            @RequestBody List<UnconfirmedPaymentRequestForAdmin> unconfirmedPayments
+    ) {
+
+        for (UnconfirmedPaymentRequestForAdmin unconfirmedPayment : unconfirmedPayments) {
+            Payment payment = paymentRepository.findPaymentById(unconfirmedPayment.getId());
+
+            if (payment != null) {
+                payment.setConfirmedAdmin(unconfirmedPayment.getConfirmedAdmin());
+                payment.setRejectedAdmin(unconfirmedPayment.getRejectedAdmin());
+                payment.setComment(unconfirmedPayment.getComment());
+
+                if (payment.getRejectedAdmin()) {
+                    payment.setConfirmedUser(false);
+                }
+
+                paymentRepository.save(payment);
+            }
+        }
+
+        String apiMessage;
+
+        apiMessage = "Список платежей с допоплатой успешно обновлен";
         log.info(apiMessage);
 
         return new ResponseEntity<>(new CSResponse<>(

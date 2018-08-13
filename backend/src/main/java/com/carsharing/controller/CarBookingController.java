@@ -1,11 +1,14 @@
 package com.carsharing.controller;
 
 import com.carsharing.model.CarBooking;
+import com.carsharing.model.Payment;
 import com.carsharing.repository.CarBookingRepository;
 import com.carsharing.service.MailNotificationService;
 import com.carsharing.util.CSResponse;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
@@ -47,20 +50,22 @@ class UnconfirmedCarBookingRequest implements Serializable {
 }
 
 @Data
-@AllArgsConstructor
 class CarBookingResponse implements Serializable {
 
     private long idCarBooking;
     private long idUser;
     private String userEmail;
     private long idCar;
+    private Double price;
     private String carMark;
     private Date beginDate;
     private short countDays;
+    private Date returnDate;
     private Boolean activated;
     private Boolean confirmed;
     private Boolean rejected;
     private Boolean canceled;
+    private String comment;
 
     CarBookingResponse(CarBooking carBooking) {
         this.idCarBooking = carBooking.getId();
@@ -68,12 +73,9 @@ class CarBookingResponse implements Serializable {
         this.userEmail = carBooking.getUser().getEmail();
         this.idCar = carBooking.getCar().getId();
         this.carMark = carBooking.getCar().getMark();
-        this.beginDate = carBooking.getBeginDate();
-        this.countDays = carBooking.getCountDays();
-        this.activated = carBooking.getActivated();
-        this.confirmed = carBooking.getConfirmed();
-        this.rejected = carBooking.getRejected();
-        this.canceled = carBooking.getCanceled();
+        this.price = carBooking.getCar().getPrice();
+
+        BeanUtils.copyProperties(carBooking, this);
     }
 }
 
@@ -144,20 +146,43 @@ public class CarBookingController {
                 apiMessage, null), HttpStatus.OK);
     }
 
-    @GetMapping(value = "confirmbooking", produces = MediaType.APPLICATION_JSON_VALUE)
+    private Specification<CarBooking> GetUnconfirmedCarBookingForCarUser(User user) {
+        return (root, query, builder) ->
+                builder.and(builder.equal(root.get("car").get("user"), user),
+                            builder.isTrue(root.get("activated")),
+                            builder.isFalse(root.get("rejected")),
+                            builder.isFalse(root.get("confirmed")),
+                            builder.isFalse(root.get("canceled")));
+    }
+
+    @GetMapping(value = "confirmbooking/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Получение списка всех неподтвержденных броней на аренду авто для арендодателя",
             response = CarBookingResponse.class, responseContainer = "List"
     )
     @ApiResponses(value = {
+            @ApiResponse(code = 404, message = "Пользователь не найден"),
             @ApiResponse(code = 200, message = "Список неподтвержденных броней на аренду авто успешно получен")})
     @ApiImplicitParams({
             @ApiImplicitParam(name = "x-token", value = "Токен для доступа к методу", required = true, dataType = "string", paramType = "header"),
     })
-    public ResponseEntity<?> getUnconfirmedCarBookings() {
+    public ResponseEntity<?> getUnconfirmedCarBookings(
+            @ApiParam(value = "ID пользователя (арендодателя)", required = true)
+            @PathVariable long id) {
 
         String apiMessage;
 
-        List<CarBooking> CarBookings = carBookingRepository.findCarBookingsByActivatedTrueAndRejectedFalseAndCanceledFalse();
+        User user = userRepository.findUserById(id);
+
+        if (user == null) {
+            apiMessage = "Пользователь с ID " + id + " не найден";
+            log.warn(apiMessage);
+
+            return new ResponseEntity<>(new CSResponse<>(
+                    apiMessage, null), HttpStatus.NOT_FOUND);
+        }
+
+        List<CarBooking> CarBookings =
+                carBookingRepository.findAll(GetUnconfirmedCarBookingForCarUser(user));
 
         List<CarBookingResponse> unconfirmedCarBookings = new ArrayList<>();
 
@@ -226,7 +251,7 @@ public class CarBookingController {
     })
     public ResponseEntity<?> cancelCarBooking(
             @ApiParam(value = "ID брони на аренду авто", required = true)
-            @RequestPart long id) {
+            @PathVariable long id) {
 
         String apiMessage;
 
@@ -272,7 +297,7 @@ public class CarBookingController {
     })
     public ResponseEntity<?> getUserCarBookings(
             @ApiParam(value = "ID пользователя (арендатора)", required = true)
-            @RequestPart long id) {
+            @PathVariable long id) {
 
         String apiMessage;
 
@@ -313,7 +338,7 @@ public class CarBookingController {
     })
     public ResponseEntity<?> getCarUserCarBookings(
             @ApiParam(value = "ID пользователя (арендодателя)", required = true)
-            @RequestPart long id) {
+            @PathVariable long id) {
 
         String apiMessage;
 

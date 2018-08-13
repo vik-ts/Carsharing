@@ -5,10 +5,7 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
-import lombok.NonNull;
+import lombok.*;
 import org.hibernate.mapping.Set;
 import org.springframework.beans.BeanUtils;
 
@@ -29,9 +26,8 @@ import java.util.List;
 @Entity
 @Table(name = "user")
 @Data
-@EqualsAndHashCode(of=("id")) @ToString(exclude={"id"})
 //@NoArgsConstructor
-//@RequiredArgsConstructor
+@EqualsAndHashCode(of=("id")) @ToString(exclude={"id"})
 public class User implements UserDetails, Serializable {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,6 +42,8 @@ public class User implements UserDetails, Serializable {
 
     @Column(name = "role") @NotNull
     private long role;
+
+    public User() {}
 
     @OneToOne(
             mappedBy = "user",
@@ -87,8 +85,6 @@ public class User implements UserDetails, Serializable {
             orphanRemoval = true
     )
     private List<CarBooking> carBookings;
-
-    public User() { }
 
     public User(String email, String password, long role) {
         this.email = email;

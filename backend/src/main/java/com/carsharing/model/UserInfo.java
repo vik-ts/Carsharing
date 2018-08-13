@@ -9,8 +9,8 @@ import lombok.*;
 @Entity
 @Table(name = "user_info")
 @Data
-@EqualsAndHashCode(of={"id"}) @ToString (exclude={"id", "user"})
 @NoArgsConstructor
+@EqualsAndHashCode(of={"id"}) @ToString (exclude={"id", "user"})
 public class UserInfo implements Serializable {
 
     @JsonIgnore

@@ -3,6 +3,7 @@ package com.carsharing.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
@@ -13,6 +14,7 @@ import java.util.List;
 @Entity
 @Table(name = "car")
 @Data
+@NoArgsConstructor
 @EqualsAndHashCode(of={"id"}) @ToString(exclude={"id", "user"})
 public class Car implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)

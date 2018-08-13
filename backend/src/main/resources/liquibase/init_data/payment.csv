@@ -1,0 +1,6 @@
+﻿confirmed_user,confirmed_admin,rejected_admin,comment,payment_requisites,amount_to_pay,add_amount_to_pay,closed,car_booking_id
+false,false,false,null,null,7,0,false,8
+true,true,false,null,"Р/С: 1234 4321 5678 8765",18,0,false,9
+true,true,false,null,"Р/С: 1234 4321 5678 8765",9,0,true,10
+true,false,false,"арендодатель: авто повреждено","Р/С: 1234 4321 5678 8765",9,100,false,11
+true,false,true,"админ: допоплата завышена","Р/С: 1234 4321 5678 8765",9,100.10,false,12

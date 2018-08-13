@@ -19,7 +19,7 @@ public class SearchCarsService {
 
     private Specification<Car> init() {
         return (root, query, builder) ->
-             builder.ge(root.get("id"), 0);
+             builder.isTrue(root.get("activated"));
     }
 
     private Specification<Car> likeString(String field, String value) {

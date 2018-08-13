@@ -1,18 +1,20 @@
 package com.carsharing.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Calendar;
 import java.util.Date;
 
 @Entity
 @Table(name = "car_booking")
 @Data
+//@NoArgsConstructor
 @EqualsAndHashCode(of={"id"}) @ToString(exclude={"id", "user", "car"})
 public class CarBooking implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,6 +26,9 @@ public class CarBooking implements Serializable {
 
     @Column(name = "count_days") @NotNull
     private short countDays;
+
+    @Column(name = "return_date")
+    private Date returnDate;
 
     @Column(name = "activated")
     private Boolean activated;
@@ -39,6 +44,8 @@ public class CarBooking implements Serializable {
 
     @Column(name = "comment")
     private String comment;
+
+    public CarBooking() {}
 
     public CarBooking(User user, Car car, Date beginDate, short countDays) {
         this.user = user;
@@ -60,4 +67,32 @@ public class CarBooking implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "car_id")
     private Car car;
+
+    @OneToOne(
+            mappedBy = "carBooking",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY
+    )
+    private Payment payment;
+
+    public void addPayment() {
+        this.payment = new Payment();
+        this.payment.setCarBooking(this);
+
+        Double amountToPay = this.car.getPrice() * this.countDays;
+        amountToPay = new BigDecimal(amountToPay).setScale(2, RoundingMode.HALF_UP).doubleValue();
+
+        Double addAmountToPay = 0.0;
+        long MILLISECONDS_PER_DAY = (24 * 60 * 60 * 1000);
+
+        long diff = this.returnDate.getTime() - (this.beginDate.getTime() + this.countDays * MILLISECONDS_PER_DAY);
+
+        if (diff > 0) {
+            addAmountToPay = this.car.getPrice() * diff / MILLISECONDS_PER_DAY;
+            addAmountToPay = new BigDecimal(addAmountToPay).setScale(2, RoundingMode.HALF_UP).doubleValue();
+        }
+
+        this.payment.setAmountToPay(amountToPay);
+        this.payment.setAddAmountToPay(addAmountToPay);
+    }
 }
