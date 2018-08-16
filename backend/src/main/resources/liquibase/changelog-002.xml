@@ -31,6 +31,9 @@
       <column name="rejected_admin" type="boolean"/>
       <column name="closed" type="boolean"/>
     </loadData>
+
+    <loadData tableName="calendar" encoding="UTF-8" file="classpath:/liquibase/init_data/calendar.csv">
+    </loadData>
   </changeSet>
 
 </databaseChangeLog>

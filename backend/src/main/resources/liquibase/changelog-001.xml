@@ -1,6 +1,16 @@
 <?xml version="1.1" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
-    <changeSet author="Viktoria (generated)" id="1534108221895-1">
+    <changeSet author="Viktoria (generated)" id="1534368972022-1">
+        <createTable tableName="calendar">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="begin_date" type="datetime(6)"/>
+            <column name="count_days" type="SMALLINT"/>
+            <column name="car_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Viktoria (generated)" id="1534368972022-2">
         <createTable tableName="car">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints primaryKey="true"/>
@@ -16,7 +26,7 @@
             <column name="engine_type" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="fuel_consumption" type="VARCHAR(255)"/>
+            <column name="fuel_consumption" type="DOUBLE"/>
             <column name="fuel_type" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
@@ -45,7 +55,7 @@
             <column name="user_id" type="BIGINT"/>
         </createTable>
     </changeSet>
-    <changeSet author="Viktoria (generated)" id="1534108221895-2">
+    <changeSet author="Viktoria (generated)" id="1534368972022-3">
         <createTable tableName="car_booking">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints primaryKey="true"/>
@@ -54,22 +64,23 @@
             <column name="begin_date" type="datetime(6)">
                 <constraints nullable="false"/>
             </column>
+            <column name="canceled" type="BIT(1)"/>
             <column name="comment" type="VARCHAR(255)"/>
             <column name="confirmed" type="BIT(1)"/>
             <column name="count_days" type="SMALLINT">
                 <constraints nullable="false"/>
             </column>
             <column name="rejected" type="BIT(1)"/>
+            <column name="return_date" type="datetime(6)"/>
             <column name="car_id" type="BIGINT"/>
             <column name="user_id" type="BIGINT"/>
-            <column name="canceled" type="BIT(1)"/>
-            <column name="return_date" type="datetime(6)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Viktoria (generated)" id="1534108221895-3">
+    <changeSet author="Viktoria (generated)" id="1534368972022-4">
         <createTable tableName="payment">
             <column name="add_amount_to_pay" type="DOUBLE"/>
             <column name="amount_to_pay" type="DOUBLE"/>
+            <column name="closed" type="BIT(1)"/>
             <column name="comment" type="VARCHAR(255)"/>
             <column name="confirmed_admin" type="BIT(1)"/>
             <column name="confirmed_user" type="BIT(1)"/>
@@ -78,10 +89,9 @@
             <column name="car_booking_id" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
-            <column name="closed" type="BIT(1)"/>
         </createTable>
     </changeSet>
-    <changeSet author="Viktoria (generated)" id="1534108221895-4">
+    <changeSet author="Viktoria (generated)" id="1534368972022-5">
         <createTable tableName="user">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints primaryKey="true"/>
@@ -97,7 +107,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="Viktoria (generated)" id="1534108221895-5">
+    <changeSet author="Viktoria (generated)" id="1534368972022-6">
         <createTable tableName="user_info">
             <column name="birth_place" type="VARCHAR(255)"/>
             <column name="birthday" type="date"/>
@@ -117,23 +127,28 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="Viktoria (generated)" id="1534108221895-6">
+    <changeSet author="Viktoria (generated)" id="1534368972022-7">
         <addPrimaryKey columnNames="car_booking_id" constraintName="PRIMARY" tableName="payment"/>
     </changeSet>
-    <changeSet author="Viktoria (generated)" id="1534108221895-7">
+    <changeSet author="Viktoria (generated)" id="1534368972022-8">
         <addPrimaryKey columnNames="user_id" constraintName="PRIMARY" tableName="user_info"/>
     </changeSet>
-    <changeSet author="Viktoria (generated)" id="1534108221895-8">
+    <changeSet author="Viktoria (generated)" id="1534368972022-9">
+        <createIndex indexName="FKcasi3mtqoifs10kunmetj5bkh" tableName="calendar">
+            <column name="car_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Viktoria (generated)" id="1534368972022-10">
         <createIndex indexName="FKj63x79w6k11o3w4lefpyhx1i5" tableName="car_booking">
             <column name="user_id"/>
         </createIndex>
     </changeSet>
-    <changeSet author="Viktoria (generated)" id="1534108221895-9">
+    <changeSet author="Viktoria (generated)" id="1534368972022-11">
         <createIndex indexName="FKja1j4mm4rqlv6cnhgp1qqgtuj" tableName="car">
             <column name="user_id"/>
         </createIndex>
     </changeSet>
-    <changeSet author="Viktoria (generated)" id="1534108221895-10">
+    <changeSet author="Viktoria (generated)" id="1534368972022-12">
         <createIndex indexName="FKqs0gswacie18x93yv7tbn6a24" tableName="car_booking">
             <column name="car_id"/>
         </createIndex>

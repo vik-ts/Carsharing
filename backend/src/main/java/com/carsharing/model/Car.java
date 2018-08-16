@@ -15,7 +15,7 @@ import java.util.List;
 @Table(name = "car")
 @Data
 @NoArgsConstructor
-@EqualsAndHashCode(of={"id"}) @ToString(exclude={"id", "user"})
+@EqualsAndHashCode(of={"id"}) @ToString(exclude={"user", "carBookings", "calendar"})
 public class Car implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -67,7 +67,7 @@ public class Car implements Serializable {
     private String fuelType;
 
     @Column(name = "fuel_consumption")
-    private String fuelConsumption;
+    private Double fuelConsumption;
 
     @Column(name = "state")
     private String state;
@@ -83,6 +83,13 @@ public class Car implements Serializable {
 
     @Column(name = "ad_text", length = 500) @NotNull
     private String adText;
+
+    @OneToMany(
+            mappedBy = "car",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Calendar> calendar;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)

@@ -225,12 +225,13 @@ public class PaymentController {
         return (root, query, builder) ->
                 builder.and(builder.equal(root.get("carBooking").get("user"), user),
                             builder.isTrue(root.get("confirmedUser")),
-                            builder.isTrue(root.get("confirmedAdmin")));
+                            builder.isTrue(root.get("confirmedAdmin")),
+                            builder.isFalse(root.get("closed")));
     }
 
     @GetMapping(value = "activepayment/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Незакрытие платежи, выставленные арендатору за аренду авто",
-            response = Payment.class, responseContainer = "List"
+            response = PaymentResponse.class, responseContainer = "List"
     )
     @ApiResponses(value = {
             @ApiResponse(code = 404, message = "Пользователь не найден"),
@@ -270,7 +271,7 @@ public class PaymentController {
     }
 
     @PutMapping(value="activepayment", produces=MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Закрытие(оплата) выставленных платежей на аренду авто",
+    @ApiOperation(value = "Закрытие(оплата) незакрытых платежей на аренду авто",
             response = CSResponse.class
     )
     @ApiResponses(value = {
@@ -314,7 +315,7 @@ public class PaymentController {
     }
 
     @GetMapping(value = "allpayments/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Cписок всех платажей для участника (арендатора/арендодателя)",
+    @ApiOperation(value = "Cписок всех платежей для участника (арендатора/арендодателя)",
             response = PaymentResponse.class, responseContainer = "List"
     )
     @ApiResponses(value = {

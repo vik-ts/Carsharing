@@ -6,9 +6,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import javax.persistence.criteria.Join;
 
 import com.carsharing.model.Car;
 
+import javax.persistence.criteria.Expression;
+import java.util.Calendar;
 import java.util.Date;
 
 @Service
@@ -77,6 +80,18 @@ public class SearchCarsService {
                 builder.lessThanOrEqualTo(root.get(field), value);
     }
 
+    private Specification<Car> rentCondition(Date beginDate, Date endDate) {
+        return (root, query, builder) -> {
+            Join<Car, Calendar> calendar = root.join("calendar");
+
+            query.distinct(true);
+
+            return builder.and(builder.lessThanOrEqualTo(calendar.get("beginDate"), beginDate),
+                               builder.greaterThanOrEqualTo(
+                                       builder.function("ADDDATE", Date.class, calendar.get("beginDate"), calendar.get("countDays")), endDate));
+        };
+    }
+
     public Page<Car> find(Pageable pageRequest, String mark, String model, Short lowYearIssued, Short highYearIssued,
                           Integer lowMileage, Integer highMileage, Short seatsNumber, String gearboxType, String bodyType,
                           String drive, String engineType, String fuelType, Double lowPrice, Double highPrice,
@@ -129,6 +144,14 @@ public class SearchCarsService {
             spec = spec.and(greaterDouble("price", lowPrice));
         } else if (highPrice != null) {
             spec = spec.and(lessDouble("price", highPrice));
+        }
+
+        if (rentBeginDate != null && rentCountDays != null) {
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(rentBeginDate);
+            cal.add(Calendar.DATE, rentCountDays);
+
+            spec = spec.and(rentCondition(rentBeginDate, cal.getTime()));
         }
 
         return carRepository.findAll(spec, pageRequest);

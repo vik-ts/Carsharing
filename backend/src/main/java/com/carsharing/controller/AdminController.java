@@ -225,7 +225,6 @@ public class AdminController {
         List<InactiveCarBookingResponse> inactiveCarBookings = new ArrayList<>();
 
         for (CarBooking carBooking : carBookings) {
-
             inactiveCarBookings.add(new InactiveCarBookingResponse(carBooking));
         }
 

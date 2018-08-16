@@ -10,7 +10,7 @@ import lombok.*;
 @Table(name = "user_info")
 @Data
 @NoArgsConstructor
-@EqualsAndHashCode(of={"id"}) @ToString (exclude={"id", "user"})
+@EqualsAndHashCode(of={"id"}) @ToString
 public class UserInfo implements Serializable {
 
     @JsonIgnore

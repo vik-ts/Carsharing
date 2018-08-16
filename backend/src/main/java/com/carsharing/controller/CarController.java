@@ -131,13 +131,15 @@ public class CarController {
                     apiMessage, null), HttpStatus.NOT_FOUND);
         }
 
-        apiMessage = "Объявление об аренде авто с успешно обновлено";
-        log.info(apiMessage);
-
+        car.setId(updateCar.getId());
         car.setActivated(false);
         car.setRejected(false);
+
         updateCar.getUser().updateCar(car);
         carRepository.save(updateCar);
+
+        apiMessage = "Объявление об аренде авто с успешно обновлено";
+        log.info(apiMessage);
 
         return new ResponseEntity<>(new CSResponse<>(
                 apiMessage, null), HttpStatus.OK);
@@ -218,7 +220,7 @@ public class CarController {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Поиск объявлений об аренде авто успешно выполнен") })
     @ApiImplicitParams({
-            //@ApiImplicitParam(name = "x-token", value = "Токен для доступа к методу", required = true, dataType = "string", paramType = "header"),
+            @ApiImplicitParam(name = "x-token", value = "Токен для доступа к методу", required = true, dataType = "string", paramType = "header"),
             @ApiImplicitParam(name = "page", dataType = "int", paramType = "query",
                     value = "Номер страницы с результатом (0..N)"),
             @ApiImplicitParam(name = "size", dataType = "int", paramType = "query",

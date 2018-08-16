@@ -27,7 +27,7 @@ import java.util.List;
 @Table(name = "user")
 @Data
 //@NoArgsConstructor
-@EqualsAndHashCode(of=("id")) @ToString(exclude={"id"})
+@EqualsAndHashCode(of=("id")) @ToString(exclude={"cars", "carBookings", "userInfo"})
 public class User implements UserDetails, Serializable {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -60,8 +60,13 @@ public class User implements UserDetails, Serializable {
     private List<Car> cars;
 
     public void addCar(Car car) {
-        cars.add(car);
         car.setUser(this);
+
+        for (Calendar calendar : car.getCalendar()) {
+            calendar.setCar(car);
+        }
+
+        cars.add(car);
     }
 
     public void removeCar(Car car) {
@@ -75,7 +80,16 @@ public class User implements UserDetails, Serializable {
         if (indexCarForUpdate < 0) {
             addCar(car);
         } else {
-            BeanUtils.copyProperties(car, cars.get(indexCarForUpdate), "id", "user", "carBookings");
+            Car updCar = cars.get(indexCarForUpdate);
+
+            for (Calendar calendar : car.getCalendar()) {
+                calendar.setCar(updCar);
+            }
+
+            BeanUtils.copyProperties(car, updCar, "id", "user", "carBookings", "calendar");
+
+            updCar.getCalendar().clear();
+            updCar.getCalendar().addAll(car.getCalendar());
         }
     }
 

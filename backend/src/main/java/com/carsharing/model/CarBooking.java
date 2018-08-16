@@ -15,7 +15,7 @@ import java.util.Date;
 @Table(name = "car_booking")
 @Data
 //@NoArgsConstructor
-@EqualsAndHashCode(of={"id"}) @ToString(exclude={"id", "user", "car"})
+@EqualsAndHashCode(of={"id"}) @ToString
 public class CarBooking implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id

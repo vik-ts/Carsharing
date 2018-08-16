@@ -12,7 +12,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "payment")
 @Data
-@EqualsAndHashCode(of={"id"}) @ToString(exclude={"id", "carBooking"})
+@EqualsAndHashCode(of={"id"}) @ToString
 public class Payment implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
