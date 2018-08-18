@@ -1,4 +1,4 @@
-#window{
+#window {
     width: 400px;
     height: 200px;
     margin: 50px auto;
@@ -14,7 +14,7 @@
     font-weight:bold; 
 }
 
-.close{
+.close {
     margin-left: 364px;
     margin-top: 4px;
     cursor: pointer;

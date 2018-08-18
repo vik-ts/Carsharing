@@ -12,11 +12,12 @@
           <th>Цена за сут.</th>
           <th>Дата возврата</th>
           <th>Комментарий</th>
-          <th>Состояние</th>             
+          <th>Состояние</th>
+          <th class="col-sm-1"></th>             
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let booking of bookings; let i=index" [ngStyle]="{'background-color': booking.returnDate===null? 'white' : 'silver'}">
+        <tr *ngFor="let booking of bookings; let i=index" [ngStyle]="{'background-color': booking.returnDate!==null||booking.canceled===true? 'silver':'white'}">
           <td>{{ i + 1 }}</td>
           <td>{{ booking.userEmail }}</td>
           <td>{{ booking.carMark }}</td>
@@ -25,23 +26,29 @@
           <td>{{ booking.price }}</td>
           <td>{{ booking.returnDate | date: 'dd/MM/yyyy HH:mm' }}</td>
           <td>{{ booking.comment }}</td>
-          <td *ngIf="booking.returnDate!=null">
+          <td *ngIf="booking.canceled===true">
+            бронь отменена
+          </td>
+          <td *ngIf="booking.returnDate!=null&&booking.canceled===false">
             возвращено
           </td>
-          <td class="green" *ngIf="booking.activated === true&&booking.confirmed === true&&booking.returnDate===null">
+          <td class="green" *ngIf="booking.activated === true&&booking.confirmed === true&&booking.returnDate===null&&booking.canceled===false">
             забронировано
           </td>
-          <td class="blue" *ngIf="booking.activated === false&&booking.confirmed === false&&booking.rejected === false&&booking.returnDate===null">
+          <td class="blue" *ngIf="booking.activated === false&&booking.confirmed === false&&booking.rejected === false&&booking.returnDate===null&&booking.canceled===false">
             на активации у админа
           </td>
-          <td class="red" *ngIf="booking.activated === false&&booking.rejected === true">
+          <td class="red" *ngIf="booking.activated === false&&booking.rejected === true&&booking.canceled===false">
             отказано админом
           </td>
-          <td class="orange" *ngIf="booking.activated === true&&booking.rejected === false&&booking.confirmed === false&&booking.returnDate===null">
+          <td class="orange" *ngIf="booking.activated === true&&booking.rejected === false&&booking.confirmed === false&&booking.returnDate===null&&booking.canceled===false">
             необходимо подтвердить
           </td>
-          <td class="red" *ngIf="booking.activated === true&&booking.rejected === true&&booking.returnDate===null">
+          <td class="red" *ngIf="booking.activated === true&&booking.rejected === true&&booking.returnDate===null&&booking.canceled===false">
             отказано мной
+          </td>
+          <td class="col-sm-1"> 
+            <button class="btn btn-success" (click)="cancelBooking(booking.idCarBooking)"  [disabled]="booking.canceled===true||booking.returnDate!=null">отмена</button>       				
           </td>          
         </tr>
       </tbody>
@@ -52,4 +59,3 @@
     <button class="btn btn-success" (click)="backClicked()">Назад</button>   
   </div>  
 </div>
-

@@ -13,15 +13,15 @@ getUserInfoByUser(id) {
   return this.http.get('/userinfo/' + id).map(
     (res: Response) => {
       return res;
-  }
+    }
   );
 }
 
 putUserInfoByUser(id, userinfo) {
   return this.http.put('/userinfo/' + id, userinfo).map(
-  (res: Response) => {
-    return res;
-  }
+    (res: Response) => {
+      return res;
+    }
   );
 }
 
@@ -30,6 +30,6 @@ deleteUser(id) {
     (res: Response) => {
       return res;
     }
-    );
-  }
+  );
+}
 }

@@ -62,3 +62,35 @@ dd {
 .comment {
     width: 100%;
 }
+
+.MyMapCar {
+    width: 35%; 
+    height: 300px;
+}
+
+.tableCalendar {
+    width: 35%;
+    font-size: 12px;
+} 
+
+.tableCalendarTh { 
+    float: center;   
+    font-size: 13px;
+    font-style: oblique;
+    color: rgb(126, 6, 6);
+}
+
+.tablePhotos {
+    width: 71px;
+    font-size: 12px;
+}
+
+.rightpic {
+    float: left;
+    margin: 0 0 5px 5px; /* Отступы вокруг фотографии */
+ }
+ 
+ img {
+    width: 70px; 
+    height: 100px;
+}

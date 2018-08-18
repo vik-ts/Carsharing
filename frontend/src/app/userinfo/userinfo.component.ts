@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService} from '../services/user.service';
-import { ActivatedRoute } from '@angular/router';
-import { FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { Location } from '@angular/common';
 
@@ -12,14 +9,12 @@ import { Location } from '@angular/common';
   styleUrls: ['./userinfo.component.css']
 })
 export class UserinfoComponent implements OnInit {
-
   user = {};
   userinfo = {};
   message = '';
   reader = new FileReader();
-  form: FormGroup;
-  file: any;
-  url: any;
+  selectedFile: File;
+  imagePreview: string;
   id: any;
   email: string;
   password: string;
@@ -31,6 +26,7 @@ export class UserinfoComponent implements OnInit {
     this.id = this.auth.id;
     this.email = this.auth.email;
     this.password = '';
+    this.imagePreview = '';
     this.getUserInfo();
   }
 
@@ -48,31 +44,19 @@ export class UserinfoComponent implements OnInit {
     return false;
   }
 
-  onFileChange(event) {
-    /*
-    if (event.target.files && event.target.files.length > 0) {
-      this.file = event.target.files[0];
-      this.reader.readAsDataURL(this.file);
-      this.reader.onload = (onLoadPhotoEvent: any) => {
-        this.url = onLoadPhotoEvent.target.result;
-        this.form.get('userinfo.photo').setValue({
-          filename: this.file.name,
-          filetype: this.file.type,
-          value: this.reader.result.split(',')[1]
-        });
-      };
-    }*/
-    }
-
-    clearFile() { /*
-    this.form.get('userinfo.photo').setValue(null);
-    this.file.nativeElement.value = '';*/
-    }
-
+  onFileUpload (event) {
+    this.selectedFile = event.target.files[0];
+    this.reader = new FileReader();
+    this.reader.onload = () => {
+      this.imagePreview = 'data:image/jpg;base64,' + this.reader.result.split(',')[1];
+    };
+    this.reader.readAsDataURL(this.selectedFile);
+  }
 
   getUserInfo() {
    this.userService.getUserInfoByUser(this.id).subscribe(res => {
-   this.userinfo = res['body'];
+    this.userinfo = res['body'];
+    this.imagePreview = 'data:image/jpg;base64,' + this.userinfo['photo'];
    }, (err) => {
     this.message = 'Произошла ошибка. Личный кабинет не найден.';
    });
@@ -96,6 +80,9 @@ export class UserinfoComponent implements OnInit {
   }
 
   putUserInfo () {
+    if (this.reader.result !== null) {
+      this.userinfo['photo'] = this.reader.result.split(',')[1];
+    }
     this.userService.putUserInfoByUser(this.id, this.userinfo).subscribe(res => {
     this.message = 'Информация обновлена!';
     }, (err) => {
@@ -111,7 +98,7 @@ export class UserinfoComponent implements OnInit {
           this.auth.doLogout();
           } ,
           500);
-        });
+      });
     }
   }
 }

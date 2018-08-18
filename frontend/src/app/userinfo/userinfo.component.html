@@ -7,7 +7,12 @@
           <div id="box" style="display: none;">
             <div class="form-group">
               <label for="email">* Почта</label>
-              <input type="email" class="form-control" id="email" required [(ngModel)]="email" name="email">              
+              <input type="email" class="form-control" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" id="email" required [(ngModel)]="emailtext" name="email" #email="ngModel">              
+              <div *ngIf="email.errors &&(email.touched || email.dirty)" class ="alert alert-danger">
+                <div [hidden]="!email.errors?.pattern">
+                  Некорректный e-mail
+                </div>
+              </div>            
             </div>
             <div class="form-group">
               <label for="password">Введите новый пароль</label>
@@ -17,6 +22,14 @@
           <div class="form-group">
               <label for="telephone">Телефон</label>
               <input type="telephone" class="form-control" id="telephone" [(ngModel)]="userinfo.telephone" name="telephone" #telephone="ngModel">
+          </div>
+          <div class="form-group">
+              <label for="file">Фотография</label>
+              <input style="display:none" type="file" (change)="onFileUpload($event)" #selectedFile>              
+              <div class="image-preview"> 
+                <img [src]="imagePreview"> 
+              </div><br>
+              <button type=button class="btn btn-success" (click)="selectedFile.click()">Выбрать</button>        
           </div>       
           <br>
         <label>ПАСПОРТНЫЕ ДАННЫЕ</label><br><br>    
@@ -71,7 +84,7 @@
         </fieldset><br>  
         <div>{{message | uppercase}}</div><br>     
         <div class="form-group">
-          <button class="btn btn-success" (click)="backClicked()">Назад</button> 
+          <button type=button class="btn btn-success" (click)="backClicked()">Назад</button>
           <button type=button class="btn btn-primary"  (click)="delete()">Удалить</button>
           <button type="submit" class="btn btn-success" [disabled]="!userinfoForm.form.valid">ОК</button>
         </div>        

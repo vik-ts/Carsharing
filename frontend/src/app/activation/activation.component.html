@@ -46,9 +46,9 @@
     <button class="btn btn-success" (click)="backClicked()">Назад</button>
     <button class="btn btn-success" (click)="putCars()">Сохранить</button>
   </div>
-  <div id="window" (click)="show('none')">
+  <div id="window" (dblclick)="show('none')">
     <div class="container">
-      <h4 class="h4">* Щелкните по окну для его закрытия</h4><br>    
+      <h4 class="h4">* Закрытие окна осуществляется по двойному клику мыши</h4><br>    
       <h2 class="h2">Детальная информация</h2><br>           
       <dl class="list">
         <dt>Текст объявления:</dt><br>
@@ -64,9 +64,7 @@
         <dt>Пробег:</dt><br>
         <dd>{{ carDetail.mileage }}</dd><br>
         <dt>Количество мест (шт):</dt><br>
-        <dd>{{ carDetail.seatsNumber }}</dd><br>
-        <dt>Местонахождение автомобиля:</dt><br>
-        <dd>{{ carDetail.location }}</dd><br>
+        <dd>{{ carDetail.seatsNumber }}</dd><br>       
         <dt>Тип коробки передач:</dt><br>
         <dd>{{ carDetail.gearboxType }}</dd><br>
         <dt>Тип кузова:</dt><br>
@@ -86,12 +84,44 @@
         <dt>Информация о страховке:</dt><br>
         <dd>{{ carDetail.insurance }}</dd><br>
         <dt>Цена за сутки (BYN):</dt><br>
-        <dd>{{ carDetail.price }}</dd><br>
-        <dt>Календарь доступности автомобиля:</dt><br>
-        <dd>{{ carDetail.calendar }}</dd><br>
-        <dt>Фотографии:</dt><br>
-        <dd>{{ carDetail.photo }}</dd><br>      
-      </dl>     
+        <dd>{{ carDetail.price }}</dd><br>               
+      </dl>
+      <a class="tablePhotos" (click)="openBox('boxPhotos')">Фотографии (скрыть/показать)</a>
+      <br><br>
+      <div class="tablePhotos" id="boxPhotos" style="display: none;"> 
+        <table class="table table-striped table-bordered">
+          <thead>
+            <tr></tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let image of imagePreview; let i = index">
+              <td>
+                <img [src]="image.url" class="rightpic" />
+              </td>              
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <a class="tableCalendar" (click)="openBox('boxCalendar')">Календарь доступности автомобиля (скрыть/показать)</a>
+      <br><br>
+      <div class="tableCalendar" id="boxCalendar" style="display: none;"> 
+        <table class="table table-bordered">
+          <thead>
+            <tr>               
+              <th class="tableCalendarTh">Дата от</th>
+              <th class="tableCalendarTh">Кол-во дней</th>        
+            </tr>
+          </thead>
+          <tbody>        
+            <tr *ngFor="let calendar of carDetail.calendar">                
+              <td>{{ calendar.beginDate | date: 'dd/MM/yyyy HH:mm' }}</td>
+              <td>{{ calendar.countDays }}</td>               
+            </tr>
+          </tbody>
+        </table> 
+      </div>
+      <label>Местонахождение автомобиля {{notIndicated}}</label> 
+      <div id="MyMapCar" class="MyMapCar"></div>     
     </div>
   </div>
 </div>

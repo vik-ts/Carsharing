@@ -1,11 +1,18 @@
 fieldset {
     border: 1px solid rgb(8, 14, 77);
- }
- img {
-     width: 100px; 
-     height: 100px;
 }
-.rightpic {
+
+img {
+    width: 100px; 
+    height: 100px;
+}
+
+.form-group {   
+    margin-right: 1%;
+    margin-left: 1%;
+}
+
+.image-preview {
     float: right;
-    margin: 0 0 5px 5px; /* Отступы вокруг фотографии */
+    margin: 0 0 5px 5px;
 }

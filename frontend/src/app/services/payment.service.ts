@@ -57,5 +57,4 @@ getAllPayments(id) { // id user
   }
   );
 }
-
 }

@@ -32,6 +32,19 @@ export class UserBookingsComponent implements OnInit {
       });
   }
 
+  cancelBooking(idBooking) {
+    this.carBookingService.cancelBooking(idBooking).subscribe(res => {
+      this.message = res['message'];
+      this.getBookings();
+      }, (err) => {
+        if (err['status'] === 409) {
+       this.message = err['error']['message'];
+        } else {
+       this.message = err['message'];
+        }
+      });
+  }
+
   getBookings() {
     this.carBookingService.getUserBookings(this.id).subscribe(res => {
       this.bookings = res['body'];
@@ -43,6 +56,4 @@ export class UserBookingsComponent implements OnInit {
   backClicked() {
     this.location.back();
   }
-
 }
-

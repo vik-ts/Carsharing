@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 export class ActivationBookingComponent implements OnInit {
 
   bookings: {};
-  userinfo: {};
+  userinfo: any;
   message = '';
   inactivBookings = [];
   element: any;
@@ -20,6 +20,7 @@ export class ActivationBookingComponent implements OnInit {
   constructor(private adminService: AdminService, private userService: UserService, private location: Location, private router: Router) { }
 
   ngOnInit() {
+    this.userinfo = {};
     this.getBookings();
   }
 

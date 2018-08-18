@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { CarBookingService } from '../services/car-booking.service';
 import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-confirmation-booking',
@@ -16,7 +17,8 @@ export class ConfirmationBookingComponent implements OnInit {
   element: any;
   id: any;
 
-  constructor(private auth: AuthService, private location: Location, private carBookingService: CarBookingService) { }
+  constructor(private auth: AuthService, private location: Location, private carBookingService: CarBookingService,
+    private router: Router) { }
 
   ngOnInit() {
     this.id = this.auth.id;  // id User
@@ -97,7 +99,11 @@ export class ConfirmationBookingComponent implements OnInit {
       this.message = 'Не выбрано ни одной брони для подтверждения / отклонения.';
     } else {
       this.carBookingService.putConfirmBookings(this.unconfirmedBookings).subscribe(res => {
-      this.message = res['message'];
+        this.message = res['message'];
+        setTimeout(() => {
+          this.router.navigate(['/homeuser']);
+        },
+        2000);
       }, (err) => {
       this.message = err['message'];
       });

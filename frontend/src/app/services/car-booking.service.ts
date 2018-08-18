@@ -49,4 +49,11 @@ getCarUserBookings(id) {
   );
 }
 
+cancelBooking(id) { // id booking
+  return this.http.put('/cancelbooking/' + id, null).map(
+    (res) => {
+      return res;
+  }
+  );
+}
 }

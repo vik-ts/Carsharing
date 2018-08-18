@@ -34,7 +34,7 @@
           <td *ngIf="payment.closed === true">
             оплачен
           </td>
-          <td class="red" *ngIf="payment.confirmedUser === true&&payment.addAmountToPay === 0&&payment.closed === false">
+          <td class="red" *ngIf="payment.confirmedUser === true&&payment.confirmedAdmin === false&&payment.addAmountToPay === 0&&payment.closed === false">
             подтвержден, не оплачен
           </td>
           <td class="red" *ngIf="payment.confirmedUser === true&&payment.confirmedAdmin === true&&payment.closed === false">

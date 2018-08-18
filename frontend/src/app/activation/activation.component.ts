@@ -3,6 +3,8 @@ import { Location } from '@angular/common';
 import { AdminService} from '../services/admin.service';
 import { Router } from '@angular/router';
 
+declare var ymaps: any;
+
 @Component({
   selector: 'app-activation',
   templateUrl: './activation.component.html',
@@ -15,10 +17,15 @@ export class ActivationComponent implements OnInit {
   element: any;
   message = '';
   carDetail = {};
+  imagePreview: any[];
+  notIndicated: string;
+  MyMap: any;
 
   constructor(private adminService: AdminService, private router: Router, private location: Location) { }
 
   ngOnInit() {
+    this.imagePreview = [];
+    this.notIndicated = '';
     this.getCars();
   }
 
@@ -85,12 +92,85 @@ export class ActivationComponent implements OnInit {
   }
 
   goToDetail(carItem) {
+    let i;
+    this.imagePreview = [];
     this.carDetail = carItem;
+    for (i = 0; i < this.carDetail['carPhotos'].length; i++) {
+      this.imagePreview.push({
+     'url': 'data:image/jpg;base64,' + this.carDetail['carPhotos'][i]
+     });
+    }
+
+    if (this.carDetail['location'] === '') {
+      this.notIndicated = '(не указано)';
+      this.init('');
+    } else {
+      this.notIndicated = '';
+      ymaps.ready(this.init(JSON.parse(this.carDetail['location'])));
+    }
     return this.show('block');
   }
 
+  init(coords) {
+    let myPlacemark;
+    this.MyMap = new ymaps.Map('MyMapCar', {
+      center: [53.6884, 23.8258],
+      zoom: 9
+    }, {
+          searchControlProvider: 'yandex#search'
+    });
+
+    if (coords !== '') {
+      myPlacemark = createPlacemark(coords);
+      this.MyMap.geoObjects.add(myPlacemark);
+      getAddress(coords);
+    }
+
+    function createPlacemark(coord) {
+      return new ymaps.Placemark(coord, {
+        iconCaption: 'поиск...'
+      }, {
+        preset: 'islands#violetDotIconWithCaption',
+        draggable: true
+      });
+    }
+
+    function getAddress(coord) {
+      myPlacemark.properties.set('iconCaption', 'поиск...');
+      ymaps.geocode(coord).then(function (res) {
+        let firstGeoObject;
+         firstGeoObject = res.geoObjects.get(0);
+          myPlacemark.properties
+            .set({
+              // form a string with data about the object
+              iconCaption: [
+              // The name of the settlement or higher administrative-territorial formation
+                firstGeoObject.getLocalities().length ? firstGeoObject.getLocalities() : firstGeoObject.getAdministrativeAreas(),
+                // We get the path to the toponym, if the method returned null, we request the name of the building
+                firstGeoObject.getThoroughfare() || firstGeoObject.getPremise()
+                ].filter(Boolean).join(', '),
+                // set the string with the address of the object
+                balloonContent: firstGeoObject.getAddressLine()
+            });
+      });
+    }
+  }
+
   show(state) {
+    if (state === 'none') {
+      this.MyMap.destroy();
+    }
     document.getElementById('window').style.display = state;
+    return false;
+  }
+
+  openBox(box) {
+    const display = document.getElementById(box).style.display;
+    if (display === 'none') {
+        document.getElementById(box).style.display = 'block';
+    } else {
+       document.getElementById(box).style.display = 'none';
+    }
     return false;
   }
 

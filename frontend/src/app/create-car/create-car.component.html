@@ -1,127 +1,200 @@
-<div class="container"><br>  
-  <h1 class = "h1">Размещение объявления</h1><br> 
-  <div class="row"></div>
-    <div class="col-md-6">
-      <form (ngSubmit)="createCar()" #carForm="ngForm"> 
-        <a (click)="openBox('box')">Скрыть/показать Правила</a><br><br>
-          <div id="box" style="display: block;">
-            <h2 class = "h2">Правила подачи объявления, необходимые документы.</h2>
-            <ul>
-              <li>Все объявления принимаются к публикации только на русском языке.</li>
-              <li>Запрещено подавать одно и то же объявление повторно.</li>
-              <li>Запрещено в объявлениях указывать недостоверную информацию.</li>
-              <li>Загружаемые изображения должны соответствовать содержимому объявления.</li>
-              <li>Условием подачи объявления является наличие страховки на ТС.</li>
-             </ul> 
-             <h3 class = "h3">Объявления, поданные с нарушением данных Правил, будут удаляться.</h3>
-             <h3 class = "h3">Администрация не несёт ответственность за достоверность информации.</h3><br>                
-             <h3 class = "h3">Обучающее видео:</h3>
-             <iframe src="https://www.youtube.com/embed/RPOHD2BEH7A" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe><br><br>
-             <input type="checkbox" #checkbox (change)="OpenAddCar(checkbox.checked)">         
-             Принимаю условия подачи объявления.
+<div class="container">
+  <br>
+  <h1 class="h1">Размещение объявления</h1>
+  <br>
+  <form (ngSubmit)="createCar()" #carForm="ngForm">
+    <a (click)="openBox('box')">Скрыть/показать Правила</a>
+    <br>
+    <br>
+    <div id="box" style="display: block;">
+      <h2 class="h2">Правила подачи объявления, необходимые документы.</h2>
+      <ul>
+        <li>Все объявления принимаются к публикации только на русском языке.</li>
+        <li>Запрещено подавать одно и то же объявление повторно.</li>
+        <li>Запрещено в объявлениях указывать недостоверную информацию.</li>
+        <li>Загружаемые изображения должны соответствовать содержимому объявления.</li>
+        <li>Условием подачи объявления является наличие страховки на ТС.</li>
+      </ul>
+      <h3 class="h3">Объявления, поданные с нарушением данных Правил, будут удаляться.</h3>
+      <h3 class="h3">Администрация не несёт ответственность за достоверность информации.</h3>
+      <br>
+      <h3 class="h3">Обучающее видео:</h3>
+      <iframe src="https://www.youtube.com/embed/RPOHD2BEH7A" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+      <br>
+      <br>
+      <input type="checkbox" #checkbox (change)="OpenAddCar(checkbox.checked)"> Принимаю условия подачи объявления.
+    </div>
+    <div id="boxinput" style="display: none;">
+      <h3 class="h3">Заполните поля, помеченные звездочкой (*)</h3>
+      <fieldset>
+        <div class="form-group">
+          <label for="mark">* Марка</label>
+          <input type="mark" class="form-control" id="mark" required [(ngModel)]="car.mark" name="mark" #mark="ngModel">
+        </div>
+        <div class="form-group">
+          <label for="model">* Модель</label>
+          <input type="model" class="form-control" id="model" required [(ngModel)]="car.model" name="model" #model="ngModel">
+        </div>
+        <div class="form-group">
+          <label for="yearIssued">* Год выпуска</label>
+          <input type='number' class="form-control" id="yearIssued" required [(ngModel)]="car.yearIssued" name="yearIssued" #yearIssued="ngModel"
+            min=0 max=4 step=5>
+        </div>
+        <br>
+        <br>
+        <div class="form-group">
+          <label for="stateNumber">* Гос. номер</label>
+          <input type="stateNumber" class="form-control" id="stateNumber" required [(ngModel)]="car.stateNumber" name="stateNumber"
+            #stateNumber="ngModel">
+        </div>
+        <div class="form-group">
+          <label for="mileage">Пробег</label>
+          <input type='number' class="form-control" id="mileage" [(ngModel)]="car.mileage" name="mileage" #mileage="ngModel">
+        </div>
+        <div class="form-group">
+          <label for="seatsNumber">Количество мест (шт)</label>
+          <input type="number" class="form-control" id="seatsNumber" [(ngModel)]="car.seatsNumber" name="seatsNumber" #seatsNumber="ngModel"
+            min=0 max=4 step=5>
+        </div>
+        <div class="form-group">
+          <label for="gearboxType">Тип коробки передач</label>
+          <select [(ngModel)]="selectedGearboxTypes" (ngModelChange)="GearboxTypesChanged($event)" name="selectedGearboxTypes">
+            <option *ngFor="let c of gearboxTypes" [ngValue]="c"> {{c}} </option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="bodyType">Тип кузова</label>
+          <select [(ngModel)]="selectedBodyTypes" (ngModelChange)="BodyTypesChanged($event)" name="selectedBodyTypes">
+            <option *ngFor="let c of bodyTypes" [ngValue]="c"> {{c}} </option>
+          </select>
+        </div>
+        <br>
+        <br>
+        <div class="form-group">
+          <label for="drive">Привод</label>
+          <input type="drive" class="form-control" id="drive" [(ngModel)]="car.drive" name="drive" #drive="ngModel">
+        </div>
+        <div class="form-group">
+          <label for="engineType">* ДВС/электрическая</label>
+          <input type="engineType" class="form-control" id="engineType" required [(ngModel)]="car.engineType" name="engineType" #engineType="ngModel">
+        </div>
+        <br>
+        <br>
+        <div class="form-group">
+          <label for="fuelType">* Тип топлива</label>
+          <select [(ngModel)]="selectedFuelTypes" required (ngModelChange)="FuelTypesChanged($event)" name="selectedFuelTypes">
+            <option *ngFor="let c of fuelTypes" [ngValue]="c"> {{c}} </option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="fuelConsumption">Расход топлива (л/100 км)</label>
+          <input type='number' class="form-control" id="fuelConsumption" [(ngModel)]="car.fuelConsumption" name="fuelConsumption" #fuelConsumption="ngModel">
+        </div>
+        <div class="form-group">
+          <label for="state">Данные о состоянии машины</label>
+          <input type="state" class="form-control" id="state" [(ngModel)]="car.state" name="state" #state="ngModel">
+        </div>
+        <div class="form-group">
+          <label for="accessories">Наличие доп. аксессуаров</label>
+          <input type="accessories" class="form-control" id="accessories" [(ngModel)]="car.accessories" name="accessories" #accessories="ngModel">
+        </div>
+        <br>
+        <br>
+        <div class="form-group">
+          <label for="insurance">Информация о страховке</label>
+          <input type="insurance" class="form-control" id="insurance" [(ngModel)]="car.insurance" name="insurance" #insurance="ngModel">
+        </div>
+        <div class="form-group">
+          <label for="price">* Цена за сутки (BYN)</label>
+          <input type='number' class="form-control" id="price" required [(ngModel)]="car.price" name="price" #price="ngModel">
+        </div>
+        <div class="adTextarea">
+          <label for="adText">* Текст объявления</label>
+          <textarea type="Text" class="form-control" id="Text" required [(ngModel)]="car.adText" name="adText" #adText="ngModel"></textarea>
+        </div>
+        <br>
+        <div class="form-group">
+          <label for="location">Местонахождение автомобиля</label>
+          <div id="MyMapCar" class="MyMapCar"></div>
+        </div>
+        <div class="form-group">
+          <a (click)="openBox('boxPhoto')">Фотографии (max 8 шт, скрыть/показать)</a>
+          <input style="display:none" type="file" (change)="onFileUpload($event)" (click)="selectedFile.value = null" #selectedFile>
+          <button type=button [ngStyle]="{'display': imagePreview.length>=8? 'none' : 'block'}" class="btn btn-success" (click)="selectedFile.click()">Выбрать</button>
+          <br>
+          <div class="boxPhoto" id="boxPhoto" style="display: block;">
+            <table class="table table-striped table-bordered">
+              <thead>
+                <tr>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let image of imagePreview; let i = index">
+                  <td>
+                    <img [src]="image.url" class="rightpic" />
+                  </td>
+                  <td>
+                    <button class="btn btn-success" type="button" (click)="deletePhoto(i)">Удалить</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-            <div id="boxinput" style="display: none;">
-              <h3 class = "h3">Заполните поля, помеченные звездочкой (*)</h3>
-              <fieldset>          
-                <div class="form-group">
-                  <label for="mark">* Марка</label>
-                  <input type="mark" class="form-control" id="mark" required [(ngModel)]="car.mark" name="mark" #mark="ngModel">
-                </div>
-                <div class="form-group">
-                  <label for="model">* Модель</label>
-                  <input type="model" class="form-control" id="model" required [(ngModel)]="car.model" name="model" #model="ngModel">
-                </div>
-                <div class="form-group">
-                  <label for="yearIssued">* Год выпуска</label>
-                  <input type='number' class="form-control" id="yearIssued" required [(ngModel)]="car.yearIssued" name="yearIssued" #yearIssued="ngModel" min=0 max=4 step=5>                  
-                </div>
-                <div class="form-group">
-                  <label for="stateNumber">* Гос. номер</label>
-                  <input type="stateNumber" class="form-control" id="stateNumber" required [(ngModel)]="car.stateNumber" name="stateNumber" #stateNumber="ngModel">
-                </div>
-                <div class="form-group">
-                  <label for="mileage">Пробег</label>
-                  <input type="mileage" class="form-control" id="mileage" [(ngModel)]="car.mileage" name="mileage" #mileage="ngModel">
-                </div>
-                <div class="form-group">
-                  <label for="seatsNumber">Количество мест (шт)</label>
-                  <input type="number" class="form-control" id="seatsNumber" [(ngModel)]="car.seatsNumber" name="seatsNumber" #seatsNumber="ngModel" min=0 max=4 step=5>
-                </div>
-                <div class="form-group">
-                  <label for="location">Местонахождение автомобиля</label>
-                  <input type="location" class="form-control" id="location" [(ngModel)]="car.location" name="location" #location="ngModel">
-                </div>
-                <div class="form-group">
-                  <label for="gearboxType">Тип коробки передач</label>                               
-                  <select [(ngModel)]="selectedGearboxTypes" (ngModelChange)="GearboxTypesChanged($event)" name="selectedGearboxTypes">
-                    <option *ngFor="let c of gearboxTypes" [ngValue]="c"> {{c}} </option>
-                  </select>                
-                </div>
-                <div class="form-group">
-                  <label for="bodyType">Тип кузова</label>                
-                  <select [(ngModel)]="selectedBodyTypes" (ngModelChange)="BodyTypesChanged($event)" name="selectedBodyTypes">
-                    <option *ngFor="let c of bodyTypes" [ngValue]="c"> {{c}} </option>
-                  </select> 
-                </div>
-                <div class="form-group">
-                  <label for="drive">Привод</label>
-                  <input type="drive" class="form-control" id="drive" [(ngModel)]="car.drive" name="drive" #drive="ngModel">
-                </div>
-                <div class="form-group">
-                  <label for="engineType">* ДВС/электрическая</label>
-                  <input type="engineType" class="form-control" id="engineType" required [(ngModel)]="car.engineType" name="engineType" #engineType="ngModel">
-                </div>
-                <div class="form-group">
-                  <label for="fuelType">* Тип топлива</label>
-                  <select [(ngModel)]="selectedFuelTypes" required (ngModelChange)="FuelTypesChanged($event)" name="selectedFuelTypes">
-                    <option *ngFor="let c of fuelTypes" [ngValue]="c"> {{c}} </option>
-                  </select>
-                </div>                
-                <div class="form-group">
-                  <label for="fuelConsumption">Расход топлива (л/100 км)</label>
-                  <input type="fuelConsumption" class="form-control" id="fuelConsumption" [(ngModel)]="car.fuelConsumption" name="fuelConsumption" #fuelConsumption="ngModel">
-                </div>
-                <div class="form-group">
-                  <label for="state">Данные о состоянии машины</label>
-                  <input type="state" class="form-control" id="state" [(ngModel)]="car.state" name="state" #state="ngModel">
-                </div>
-                <div class="form-group">
-                  <label for="accessories">Наличие доп. аксессуаров</label>
-                  <input type="accessories" class="form-control" id="accessories" [(ngModel)]="car.accessories" name="accessories" #accessories="ngModel">
-                </div>
-                <div class="form-group">
-                  <label for="insurance">Информация о страховке</label>
-                  <input type="insurance" class="form-control" id="insurance" [(ngModel)]="car.insurance" name="insurance" #insurance="ngModel">
-                </div>
-                <div class="form-group">
-                  <label for="price">* Цена за сутки (BYN)</label>
-                  <input type="price" class="form-control" id="price" required [(ngModel)]="car.price" name="price" #price="ngModel">                                
-                </div>
-              </fieldset>
-              <div class="form-group">
-                <label for="calendar">* Календарь доступности автомобиля</label>
-                <input type="calendar" class="form-control" id="calendar" required [(ngModel)]="car.calendar" name="calendar" #calendar="ngModel">
-              </div>            
-              <!--<div class="form-group">
-                <img [src] = "url" class="rightpic"> 
-                <label for="photo">Фотографии</label>
-                <input type="file" accept="image/x-png,image/gif,image/jpeg" id="photo" (change)="onFileChange($event)" #fileInput><br>
-                <button type="button" class="btn btn-sm btn-default" (click)="clearFile()">Очистить</button>                     
-              </div>-->
-              <div class="form-group">
-                <label for="adText">* Текст объявления</label>
-                <textarea type="Text" class="form-control" id="Text" required [(ngModel)]="car.adText" name="adText" #adText="ngModel"></textarea>
-              </div> 
-              <div class="form-group">                
-                <label for="activated" type="activated">
-                <input type="checkbox" id="activated" name="activated" [(ngModel)]="car.activated" disabled>объявление неактивно</label>
-              </div>
-            </div>                    
-          <div>{{message | uppercase}}</div><br>                       
-          <div class="form-group">         
-            <button class="btn btn-success" (click)="backClicked()">Назад</button> 
-            <button type="submit" class="btn btn-success" [disabled]="!carForm.form.valid">ОК</button>
-          </div>          
-      </form>
-   </div>
+        </div>
+      </fieldset>
+      <br>
+      <fieldset>
+        <a (click)="openBox('boxCalendar')">* Календарь доступности автомобиля (скрыть/показать)</a>
+        <br>
+        <div class="boxCalendar" id="boxCalendar" style="display: block;">
+          <table class="table table-striped table-bordered">
+            <thead>
+              <tr>
+                <th>Дата от (со временем!)</th>
+                <th>Кол-во дней</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let field of fieldArray; let i = index">
+                <td>
+                  {{ field.beginDate | date: 'dd.MM.yyyy HH:mm' }}
+                </td>
+                <td>
+                  {{ field.countDays }}
+                </td>
+                <td>
+                  <button class="btn btn-success" type="button" (click)="deleteFieldValue(i)">Удалить</button>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <input class="form-control" type="datetime-local" id="newAttributeDate" [(ngModel)]="newAttribute.beginDate" name="newAttributeDate"
+                  />
+                </td>
+                <td>
+                  <input class="form-control" type="number" id="newAttributeCount" [(ngModel)]="newAttribute.countDays" name="newAttributeCount"
+                  />
+                </td>
+                <td>
+                  <button class="btn btn-success" type="button" (click)="addFieldValue()">Добавить</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </fieldset>
+      <br>
+      <div>
+        <label for="activated" type="activated">
+          <input type="checkbox" id="activated" name="activated" [(ngModel)]="car.activated" disabled>объявление неактивно</label>
+      </div>
+    </div>
+    <div [ngStyle]="{'color': colorMessage? 'black' : 'red'}">{{message | uppercase}}</div>
+    <br>
+    <div class="form-group">
+      <button type=button class="btn btn-success" (click)="backClicked()">Назад</button>
+      <button type="submit" class="btn btn-success" [disabled]="!carForm.form.valid">ОК</button>
+    </div>
+  </form>
 </div>

@@ -11,6 +11,6 @@ export class UserInfo {
     public issuedDateLicense: Date;
     public reallyLicense: Date;
     public category: string;
-    public photo: Blob;
+    public photo: string;
     public telephone: string;
 }
