@@ -9,7 +9,9 @@ import lombok.ToString;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+
 
 @Entity
 @Table(name = "car")
@@ -37,16 +39,16 @@ public class Car implements Serializable {
     private String model;
 
     @Column(name = "year_issued") @NotNull
-    private short yearIssued;
+    private Short yearIssued;
 
     @Column(name = "state_number") @NotNull
     private String stateNumber;
 
     @Column(name = "mileage")
-    private int mileage;
+    private Integer mileage;
 
     @Column(name = "seats_number")
-    private short seatsNumber;
+    private Short seatsNumber;
 
     @Column(name = "location")
     private String location;
@@ -79,7 +81,7 @@ public class Car implements Serializable {
     private String insurance;
 
     @Column(name = "price") @NotNull
-    private double price;
+    private Double price;
 
     @Column(name = "ad_text", length = 500) @NotNull
     private String adText;
@@ -89,7 +91,7 @@ public class Car implements Serializable {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private List<Calendar> calendar;
+    private List<Calendar> calendar = new ArrayList<>();
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
@@ -103,4 +105,12 @@ public class Car implements Serializable {
             orphanRemoval = true
     )
     private List<CarBooking> carBookings;
+
+    @JsonIgnore
+    @OneToMany(
+            mappedBy = "car",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<CarPhoto> carPhotos = new ArrayList<>();
 }

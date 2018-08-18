@@ -7,25 +7,22 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.Date;
 
 
 @Entity
-@Table(name = "calendar")
+@Table(name = "car_photo")
 @Data
 @NoArgsConstructor
-@EqualsAndHashCode(of={"id"}) @ToString
-public class Calendar implements Serializable {
+@EqualsAndHashCode(of={"id"}) @ToString(exclude={"car"})
+public class CarPhoto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonIgnore
     @Id private long id;
 
-    private Date beginDate;
-    private Short countDays;
+    @Column(name = "photo", length = 10000000)
+    private byte[] photo;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "car_id")
+    @OneToOne(fetch = FetchType.LAZY)
     private Car car;
 }

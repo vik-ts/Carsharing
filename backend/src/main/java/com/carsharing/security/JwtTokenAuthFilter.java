@@ -16,8 +16,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import  io.jsonwebtoken.MalformedJwtException;
-
 @Slf4j
 public class JwtTokenAuthFilter extends OncePerRequestFilter {
 

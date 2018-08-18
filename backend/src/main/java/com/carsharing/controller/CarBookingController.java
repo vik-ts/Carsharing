@@ -1,11 +1,9 @@
 package com.carsharing.controller;
 
 import com.carsharing.model.CarBooking;
-import com.carsharing.model.Payment;
 import com.carsharing.repository.CarBookingRepository;
 import com.carsharing.service.MailNotificationService;
 import com.carsharing.util.CSResponse;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -243,7 +241,7 @@ public class CarBookingController {
             response = CSResponse.class
     )
     @ApiResponses(value = {
-            @ApiResponse(code = 409, message = "До начала периода аренлы осталось менее 2 часов. Бронь на аренду авто не может быть аннулирована."),
+            @ApiResponse(code = 409, message = "До начала периода аренды осталось менее 2 часов. Бронь на аренду авто не может быть аннулирована."),
             @ApiResponse(code = 404, message = "Бронь на аренду авто не найдена"),
             @ApiResponse(code = 200, message = "Бронь на аренду авто успешно аннулирована")})
     @ApiImplicitParams({
@@ -268,7 +266,7 @@ public class CarBookingController {
         Calendar cal = Calendar.getInstance();
 
         if ((carBooking.getBeginDate().getTime() - cal.getTimeInMillis()) / (60 * 60 * 1000) % 24 < 2) {
-            apiMessage = "До начала периода аренлы осталось менее 2 часов. Бронь на аренду авто не может быть аннулирована.";
+            apiMessage = "До начала периода аренды осталось менее 2 часов. Бронь на аренду авто не может быть аннулирована.";
             log.warn(apiMessage);
 
             return new ResponseEntity<>(new CSResponse<>(

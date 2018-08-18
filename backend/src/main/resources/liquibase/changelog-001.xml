@@ -1,6 +1,6 @@
 <?xml version="1.1" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
-    <changeSet author="Viktoria (generated)" id="1534368972022-1">
+    <changeSet author="Viktoria (generated)" id="1534619470791-1">
         <createTable tableName="calendar">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints primaryKey="true"/>
@@ -10,7 +10,7 @@
             <column name="car_id" type="BIGINT"/>
         </createTable>
     </changeSet>
-    <changeSet author="Viktoria (generated)" id="1534368972022-2">
+    <changeSet author="Viktoria (generated)" id="1534619470791-2">
         <createTable tableName="car">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints primaryKey="true"/>
@@ -55,7 +55,7 @@
             <column name="user_id" type="BIGINT"/>
         </createTable>
     </changeSet>
-    <changeSet author="Viktoria (generated)" id="1534368972022-3">
+    <changeSet author="Viktoria (generated)" id="1534619470791-3">
         <createTable tableName="car_booking">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints primaryKey="true"/>
@@ -76,7 +76,16 @@
             <column name="user_id" type="BIGINT"/>
         </createTable>
     </changeSet>
-    <changeSet author="Viktoria (generated)" id="1534368972022-4">
+    <changeSet author="Viktoria (generated)" id="1534619470791-4">
+        <createTable tableName="car_photo">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="photo" type="MEDIUMBLOB"/>
+            <column name="car_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Viktoria (generated)" id="1534619470791-5">
         <createTable tableName="payment">
             <column name="add_amount_to_pay" type="DOUBLE"/>
             <column name="amount_to_pay" type="DOUBLE"/>
@@ -91,7 +100,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="Viktoria (generated)" id="1534368972022-5">
+    <changeSet author="Viktoria (generated)" id="1534619470791-6">
         <createTable tableName="user">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints primaryKey="true"/>
@@ -107,7 +116,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="Viktoria (generated)" id="1534368972022-6">
+    <changeSet author="Viktoria (generated)" id="1534619470791-7">
         <createTable tableName="user_info">
             <column name="birth_place" type="VARCHAR(255)"/>
             <column name="birthday" type="date"/>
@@ -117,7 +126,7 @@
             <column name="issued_date_passport" type="date"/>
             <column name="issued_license" type="VARCHAR(255)"/>
             <column name="issued_passport" type="VARCHAR(255)"/>
-            <column name="photo" type="TINYBLOB"/>
+            <column name="photo" type="MEDIUMBLOB"/>
             <column name="really_license" type="date"/>
             <column name="series_number_licence" type="VARCHAR(255)"/>
             <column name="series_number_passport" type="VARCHAR(255)"/>
@@ -127,28 +136,33 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="Viktoria (generated)" id="1534368972022-7">
+    <changeSet author="Viktoria (generated)" id="1534619470791-8">
         <addPrimaryKey columnNames="car_booking_id" constraintName="PRIMARY" tableName="payment"/>
     </changeSet>
-    <changeSet author="Viktoria (generated)" id="1534368972022-8">
+    <changeSet author="Viktoria (generated)" id="1534619470791-9">
         <addPrimaryKey columnNames="user_id" constraintName="PRIMARY" tableName="user_info"/>
     </changeSet>
-    <changeSet author="Viktoria (generated)" id="1534368972022-9">
+    <changeSet author="Viktoria (generated)" id="1534619470791-10">
         <createIndex indexName="FKcasi3mtqoifs10kunmetj5bkh" tableName="calendar">
             <column name="car_id"/>
         </createIndex>
     </changeSet>
-    <changeSet author="Viktoria (generated)" id="1534368972022-10">
+    <changeSet author="Viktoria (generated)" id="1534619470791-11">
+        <createIndex indexName="FKdqujkquui7gogwmspwr21rpmc" tableName="car_photo">
+            <column name="car_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="Viktoria (generated)" id="1534619470791-12">
         <createIndex indexName="FKj63x79w6k11o3w4lefpyhx1i5" tableName="car_booking">
             <column name="user_id"/>
         </createIndex>
     </changeSet>
-    <changeSet author="Viktoria (generated)" id="1534368972022-11">
+    <changeSet author="Viktoria (generated)" id="1534619470791-13">
         <createIndex indexName="FKja1j4mm4rqlv6cnhgp1qqgtuj" tableName="car">
             <column name="user_id"/>
         </createIndex>
     </changeSet>
-    <changeSet author="Viktoria (generated)" id="1534368972022-12">
+    <changeSet author="Viktoria (generated)" id="1534619470791-14">
         <createIndex indexName="FKqs0gswacie18x93yv7tbn6a24" tableName="car_booking">
             <column name="car_id"/>
         </createIndex>

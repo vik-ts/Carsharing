@@ -34,6 +34,169 @@
 
     <loadData tableName="calendar" encoding="UTF-8" file="classpath:/liquibase/init_data/calendar.csv">
     </loadData>
+
+    <loadData tableName="car_photo" encoding="UTF-8" file="classpath:/liquibase/init_data/car_photo.csv">
+    </loadData>
+
+    <update tableName="user_info">
+        <column name="photo" valueBlobFile="init_data/blob/ava2.jpg"/>
+        <where>user_id = 2</where>
+    </update>
+
+    <update tableName="user_info">
+        <column name="photo" valueBlobFile="init_data/blob/ava3.jpg"/>
+        <where>user_id = 3</where>
+    </update>
+
+    <update tableName="car_photo">
+        <column name="photo" valueBlobFile="init_data/blob/car1_1.jpeg"/>
+        <where>id = 1</where>
+    </update>
+
+    <update tableName="car_photo">
+        <column name="photo" valueBlobFile="init_data/blob/car1_2.jpeg"/>
+        <where>id = 2</where>
+    </update>
+
+    <update tableName="car_photo">
+        <column name="photo" valueBlobFile="init_data/blob/car1_3.jpeg"/>
+        <where>id = 3</where>
+    </update>
+
+    <update tableName="car_photo">
+        <column name="photo" valueBlobFile="init_data/blob/car2_1.jpeg"/>
+        <where>id = 4</where>
+    </update>
+
+    <update tableName="car_photo">
+        <column name="photo" valueBlobFile="init_data/blob/car2_2.jpeg"/>
+        <where>id = 5</where>
+    </update>
+
+    <update tableName="car_photo">
+        <column name="photo" valueBlobFile="init_data/blob/car3_1.jpeg"/>
+        <where>id = 6</where>
+    </update>
+
+    <update tableName="car_photo">
+        <column name="photo" valueBlobFile="init_data/blob/car3_2.jpeg"/>
+        <where>id = 7</where>
+    </update>
+
+    <update tableName="car_photo">
+        <column name="photo" valueBlobFile="init_data/blob/car3_3.jpeg"/>
+        <where>id = 8</where>
+    </update>
+
+    <update tableName="car_photo">
+        <column name="photo" valueBlobFile="init_data/blob/car4_1.jpeg"/>
+        <where>id = 9</where>
+    </update>
+
+    <update tableName="car_photo">
+        <column name="photo" valueBlobFile="init_data/blob/car4_2.jpeg"/>
+        <where>id = 10</where>
+    </update>
+
+    <update tableName="car_photo">
+        <column name="photo" valueBlobFile="init_data/blob/car6_1.jpeg"/>
+        <where>id = 11</where>
+    </update>
+
+    <update tableName="car_photo">
+        <column name="photo" valueBlobFile="init_data/blob/car6_2.jpeg"/>
+        <where>id = 12</where>
+    </update>
+
+    <update tableName="car_photo">
+        <column name="photo" valueBlobFile="init_data/blob/car6_3.jpeg"/>
+        <where>id = 13</where>
+    </update>
+
+    <update tableName="car_photo">
+        <column name="photo" valueBlobFile="init_data/blob/car6_4.jpeg"/>
+        <where>id = 14</where>
+    </update>
+
+    <update tableName="car_photo">
+        <column name="photo" valueBlobFile="init_data/blob/car7_1.jpeg"/>
+        <where>id = 15</where>
+    </update>
+
+    <update tableName="car_photo">
+        <column name="photo" valueBlobFile="init_data/blob/car7_2.jpeg"/>
+        <where>id = 16</where>
+    </update>
+
+    <update tableName="car_photo">
+        <column name="photo" valueBlobFile="init_data/blob/car7_3.jpeg"/>
+        <where>id = 17</where>
+    </update>
+
+    <update tableName="car_photo">
+        <column name="photo" valueBlobFile="init_data/blob/car8_1.jpeg"/>
+        <where>id = 18</where>
+    </update>
+
+    <update tableName="car_photo">
+        <column name="photo" valueBlobFile="init_data/blob/car8_2.jpeg"/>
+        <where>id = 19</where>
+    </update>
+
+    <update tableName="car_photo">
+        <column name="photo" valueBlobFile="init_data/blob/car8_3.jpeg"/>
+        <where>id = 20</where>
+    </update>
+
+    <update tableName="car_photo">
+        <column name="photo" valueBlobFile="init_data/blob/car8_4.jpeg"/>
+        <where>id = 21</where>
+    </update>
+
+    <update tableName="car_photo">
+        <column name="photo" valueBlobFile="init_data/blob/car8_5.jpeg"/>
+        <where>id = 22</where>
+    </update>
+
+    <update tableName="car_photo">
+        <column name="photo" valueBlobFile="init_data/blob/car9_1.jpeg"/>
+        <where>id = 23</where>
+    </update>
+
+    <update tableName="car_photo">
+        <column name="photo" valueBlobFile="init_data/blob/car9_2.jpeg"/>
+        <where>id = 24</where>
+    </update>
+
+    <update tableName="car_photo">
+        <column name="photo" valueBlobFile="init_data/blob/car10_1.jpeg"/>
+        <where>id = 25</where>
+    </update>
+
+    <update tableName="car_photo">
+        <column name="photo" valueBlobFile="init_data/blob/car10_2.jpeg"/>
+        <where>id = 26</where>
+    </update>
+
+    <update tableName="car_photo">
+        <column name="photo" valueBlobFile="init_data/blob/car11_1.jpeg"/>
+        <where>id = 27</where>
+    </update>
+
+    <update tableName="car_photo">
+        <column name="photo" valueBlobFile="init_data/blob/car11_2.jpeg"/>
+        <where>id = 28</where>
+    </update>
+
+    <update tableName="car_photo">
+        <column name="photo" valueBlobFile="init_data/blob/car11_3.jpeg"/>
+        <where>id = 29</where>
+    </update>
+
+    <update tableName="car_photo">
+        <column name="photo" valueBlobFile="init_data/blob/car12_1.jpeg"/>
+        <where>id = 30</where>
+    </update>
   </changeSet>
 
 </databaseChangeLog>

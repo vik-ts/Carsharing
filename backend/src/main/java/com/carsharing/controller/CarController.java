@@ -1,8 +1,10 @@
 package com.carsharing.controller;
 
+import com.carsharing.model.*;
 import com.carsharing.service.SearchCarsService;
 import com.carsharing.util.CSResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
@@ -10,16 +12,18 @@ import org.springframework.http.ResponseEntity;
 
 import lombok.extern.slf4j.Slf4j;
 
-import com.carsharing.model.User;
-import com.carsharing.model.Car;
 import com.carsharing.repository.UserRepository;
 import com.carsharing.repository.CarRepository;
-
 import io.swagger.annotations.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+import com.carsharing.controller.DTO.CarDTO;
+
 
 @RestController
 @Slf4j
@@ -46,7 +50,7 @@ public class CarController {
     })
     public ResponseEntity<?> createCar(
             @ApiParam(value = "ID пользователя", required = true) @PathVariable long id,
-            @ApiParam(value = "Объявление об аренде авто", required = true) @RequestBody Car car) {
+            @ApiParam(value = "Объявление об аренде авто", required = true) @RequestBody CarDTO carDTO) {
 
         String apiMessage;
 
@@ -63,10 +67,10 @@ public class CarController {
         apiMessage = "Объявление об аренде авто успешно создано";
         log.info(apiMessage);
 
-        car.setActivated(false);
-        car.setRejected(false);
-        car.setComment("");
-        user.addCar(car);
+        carDTO.setActivated(false);
+        carDTO.setRejected(false);
+
+        user.addCar(carDTO);
         userRepository.save(user);
 
         return new ResponseEntity<>(new CSResponse<>(
@@ -76,7 +80,7 @@ public class CarController {
 
     @GetMapping(value="car/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Получение объявления об аренде авто",
-            response = Car.class
+            response = CarDTO.class
     )
     @ApiResponses(value = {
             @ApiResponse(code = 404, message = "Объявление об аренде авто не найдено"),
@@ -103,7 +107,7 @@ public class CarController {
         log.info(apiMessage);
 
         return new ResponseEntity<>(new CSResponse<>(
-                apiMessage, car), HttpStatus.OK);
+                apiMessage, new CarDTO(car)), HttpStatus.OK);
     }
 
     @PutMapping(value="/car/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
@@ -117,7 +121,7 @@ public class CarController {
     })
     public ResponseEntity<?> updateCar(
             @ApiParam(value = "ID объявления об аренде авто", required = true) @PathVariable long id,
-            @ApiParam(value = "Объявление об аренде авто", required = true) @RequestBody Car car) {
+            @ApiParam(value = "Объявление об аренде авто", required = true) @RequestBody CarDTO carDTO) {
 
         String apiMessage;
 
@@ -131,11 +135,10 @@ public class CarController {
                     apiMessage, null), HttpStatus.NOT_FOUND);
         }
 
-        car.setId(updateCar.getId());
-        car.setActivated(false);
-        car.setRejected(false);
+        carDTO.setActivated(false);
+        carDTO.setRejected(false);
 
-        updateCar.getUser().updateCar(car);
+        updateCar.getUser().updateCar(updateCar, carDTO);
         carRepository.save(updateCar);
 
         apiMessage = "Объявление об аренде авто с успешно обновлено";
@@ -184,7 +187,7 @@ public class CarController {
 
     @GetMapping(value="/usercars/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Получение списка всех объявлений об аренде авто конкретного пользователя",
-            response = Car.class, responseContainer = "List")
+            response = CarDTO.class, responseContainer = "List")
     @ApiResponses(value = {
             @ApiResponse(code = 404, message = "Пользователь не найден"),
             @ApiResponse(code = 200, message = "Список объявлений об аренде авто успешно получен") })
@@ -206,11 +209,16 @@ public class CarController {
                     apiMessage, null), HttpStatus.NOT_FOUND);
         }
 
-        apiMessage = "Список объявлений об аренде авто для пользователя с ID " + id + " успешно получен";
+        List<CarDTO> carsDTO = new ArrayList<>();
+
+        for (Car car : user.getCars()) {
+            carsDTO.add(new CarDTO(car));
+        }
+        apiMessage = "Список объявлений об аренде авто успешно получен";
         log.info(apiMessage);
 
         return new ResponseEntity<>(new CSResponse<>(
-                apiMessage, user.getCars()), HttpStatus.OK);
+                apiMessage, carsDTO), HttpStatus.OK);
     }
 
 
@@ -243,7 +251,7 @@ public class CarController {
             @RequestParam(required = false) String fuelType,
             @RequestParam(required = false) Double lowPrice,
             @RequestParam(required = false) Double highPrice,
-            @RequestParam(required = false) Date rentBeginDate,
+            @RequestParam(required = false) @DateTimeFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS'Z'") Date rentBeginDate,
             @RequestParam(required = false) Short rentCountDays) {
 
         Page<Car> foundCars = searchCarsService.find(pageRequest, mark, model, lowYearIssued, highYearIssued,
@@ -253,6 +261,6 @@ public class CarController {
         String apiMessage = "Поиск объявлений об аренде авто успешно выполнен";
 
         return new ResponseEntity<>(new CSResponse<>(
-                apiMessage, foundCars), HttpStatus.OK);
+                apiMessage, foundCars.map(CarDTO::new)), HttpStatus.OK);
     }
 }

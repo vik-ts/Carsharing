@@ -8,13 +8,12 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.Calendar;
 import java.util.Date;
+
 
 @Entity
 @Table(name = "car_booking")
 @Data
-//@NoArgsConstructor
 @EqualsAndHashCode(of={"id"}) @ToString
 public class CarBooking implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)

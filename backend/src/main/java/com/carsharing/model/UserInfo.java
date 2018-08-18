@@ -6,6 +6,7 @@ import javax.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
+
 @Entity
 @Table(name = "user_info")
 @Data
@@ -52,7 +53,7 @@ public class UserInfo implements Serializable {
     @Column(name = "category")
     private String category;
 
-    @Column(name = "photo")
+    @Column(name = "photo", length = 10000000)
     private byte[] photo;
 
     @JsonIgnore

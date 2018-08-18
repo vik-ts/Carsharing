@@ -10,7 +10,6 @@ import javax.persistence.criteria.Join;
 
 import com.carsharing.model.Car;
 
-import javax.persistence.criteria.Expression;
 import java.util.Calendar;
 import java.util.Date;
 

@@ -1,5 +1,6 @@
 package com.carsharing.controller;
 
+import com.carsharing.controller.DTO.CarDTO;
 import com.carsharing.model.Payment;
 import com.carsharing.repository.PaymentRepository;
 import com.carsharing.service.MailNotificationService;
@@ -26,6 +27,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import lombok.Data;
 
 
@@ -145,7 +148,7 @@ public class AdminController {
 
     @GetMapping(value="inactivecars", produces=MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Получение списка всех неактивных объявлений об аренде авто",
-            response = Car.class, responseContainer = "List"
+            response = CarDTO.class, responseContainer = "List"
     )
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Список неактивных объявлений об аренде авто успешно получен") })
@@ -161,8 +164,10 @@ public class AdminController {
         apiMessage = "Список неактивных объявлений об аренде авто успешно получен";
         log.info(apiMessage);
 
+        List<CarDTO> carsDTO = inactiveCars.stream().map(CarDTO::new).collect(Collectors.toList());
+
         return new ResponseEntity<>(new CSResponse<>(
-                apiMessage, inactiveCars), HttpStatus.OK);
+                apiMessage, carsDTO), HttpStatus.OK);
     }
 
     @PutMapping(value="inactivecars", produces=MediaType.APPLICATION_JSON_VALUE)

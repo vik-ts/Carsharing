@@ -4,14 +4,12 @@ import java.io.Serializable;
 
 import javax.persistence.*;
 
+import com.carsharing.controller.DTO.UserInfoDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-import org.hibernate.mapping.Set;
-import org.springframework.beans.BeanUtils;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.validation.constraints.Email;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -23,10 +21,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import com.carsharing.controller.DTO.CarDTO;
+
+
 @Entity
 @Table(name = "user")
 @Data
-//@NoArgsConstructor
 @EqualsAndHashCode(of=("id")) @ToString(exclude={"cars", "carBookings", "userInfo"})
 public class User implements UserDetails, Serializable {
 
@@ -59,12 +59,11 @@ public class User implements UserDetails, Serializable {
     )
     private List<Car> cars;
 
-    public void addCar(Car car) {
-        car.setUser(this);
+    public void addCar(CarDTO carDTO) {
+        Car car = new Car();
 
-        for (Calendar calendar : car.getCalendar()) {
-            calendar.setCar(car);
-        }
+        car.setUser(this);
+        CarDTO.CopyPropFromCarDTOToCar(carDTO, car);
 
         cars.add(car);
     }
@@ -74,23 +73,8 @@ public class User implements UserDetails, Serializable {
         car.setUser(null);
     }
 
-    public void updateCar(Car car) {
-        int indexCarForUpdate = cars.indexOf(car);
-
-        if (indexCarForUpdate < 0) {
-            addCar(car);
-        } else {
-            Car updCar = cars.get(indexCarForUpdate);
-
-            for (Calendar calendar : car.getCalendar()) {
-                calendar.setCar(updCar);
-            }
-
-            BeanUtils.copyProperties(car, updCar, "id", "user", "carBookings", "calendar");
-
-            updCar.getCalendar().clear();
-            updCar.getCalendar().addAll(car.getCalendar());
-        }
+    public void updateCar(Car car, CarDTO carDTO) {
+        CarDTO.CopyPropFromCarDTOToCar(carDTO, car);
     }
 
     @OneToMany(
@@ -119,10 +103,8 @@ public class User implements UserDetails, Serializable {
         this.userInfo = userInfo;
     }
 
-    public void updateUserInfo(UserInfo userInfo) {
-        if ((userInfo != null) && (this.userInfo != null)) {
-            BeanUtils.copyProperties(userInfo, this.userInfo, "id", "user");
-        }
+    public void updateUserInfo(UserInfoDTO userInfoDTO) {
+        UserInfoDTO.CopyPropFromUserInfoDTOToUserInfo(userInfoDTO, this.userInfo);
     }
 
     public void setPassword(String password) {

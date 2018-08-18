@@ -1,5 +1,6 @@
 package com.carsharing.controller;
 
+import com.carsharing.controller.DTO.UserInfoDTO;
 import com.carsharing.util.CSResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -10,10 +11,10 @@ import org.springframework.http.ResponseEntity;
 import lombok.extern.slf4j.Slf4j;
 
 import com.carsharing.model.User;
-import com.carsharing.model.UserInfo;
 import com.carsharing.repository.UserRepository;
 
 import io.swagger.annotations.*;
+
 
 @RestController
 @Slf4j
@@ -25,7 +26,7 @@ public class UserController {
 
     @GetMapping(value="userinfo/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Получение информации о пользователе",
-            response = UserInfo.class
+            response = UserInfoDTO.class
     )
     @ApiResponses(value = {
             @ApiResponse(code = 404, message = "Пользователь не найден"),
@@ -48,7 +49,7 @@ public class UserController {
                             apiMessage, null), HttpStatus.NOT_FOUND);
         }
 
-        UserInfo userInfo = user.getUserInfo();
+        UserInfoDTO userInfo = new UserInfoDTO(user.getUserInfo());
 
         apiMessage = "Информация о пользователе с ID " + id + " успешно получена";
         log.info(apiMessage);
@@ -69,7 +70,7 @@ public class UserController {
     })
     public ResponseEntity<?> updateUserInfo(
             @ApiParam(value = "ID пользователя", required = true) @PathVariable long id,
-            @ApiParam(value = "Информация о пользователе", required = true) @RequestBody UserInfo userInfo) {
+            @ApiParam(value = "Информация о пользователе", required = true) @RequestBody UserInfoDTO userInfoDTO) {
 
         String apiMessage;
 
@@ -83,7 +84,7 @@ public class UserController {
                     apiMessage,null), HttpStatus.NOT_FOUND);
         }
 
-        user.updateUserInfo(userInfo);
+        user.updateUserInfo(userInfoDTO);
         userRepository.save(user);
 
         apiMessage = "Информация о пользователе с ID " + id + " успешно обновлена";
