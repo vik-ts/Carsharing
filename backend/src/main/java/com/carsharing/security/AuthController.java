@@ -1,4 +1,4 @@
-﻿package com.carsharing.security;
+package com.carsharing.security;
 
 import java.io.Serializable;
 import java.util.Random;
