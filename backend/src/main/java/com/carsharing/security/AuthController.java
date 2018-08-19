@@ -1,4 +1,4 @@
-package com.carsharing.security;
+﻿package com.carsharing.security;
 
 import java.io.Serializable;
 import java.util.Random;
@@ -91,7 +91,7 @@ public class AuthController {
                     apiMessage, null), HttpStatus.CONFLICT);
         }
 
-        String password = "1"; //generatePassword(5);
+        String password = generatePassword(5);
 
         userRepository.save(new User(email, password, 1));
 

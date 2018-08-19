@@ -16,7 +16,7 @@ export class UserinfoComponent implements OnInit {
   selectedFile: File;
   imagePreview: string;
   id: any;
-  email: string;
+  emailtext: string;
   password: string;
   userUpdate = {};
 
@@ -24,7 +24,7 @@ export class UserinfoComponent implements OnInit {
 
   ngOnInit() {
     this.id = this.auth.id;
-    this.email = this.auth.email;
+    this.emailtext = this.auth.email;
     this.password = '';
     this.imagePreview = '';
     this.getUserInfo();
@@ -63,10 +63,13 @@ export class UserinfoComponent implements OnInit {
   }
 
   editUserInfo() {
-    if ((this.email !== this.auth.email) || (this.password !== '')) {
-      this.userUpdate = {'email': this.email, 'password': this.password};
+    if ((this.emailtext !== this.auth.email) || (this.password !== '')) {
+      this.userUpdate = {'email': this.emailtext, 'password': this.password};
       this.auth.putUser(this.id, this.userUpdate).subscribe(res => {
-        this.putUserInfo();
+        this.auth.token = null;
+        this.auth.doLogin(this.userUpdate).subscribe(res1 => {
+          this.putUserInfo();
+        }, (err: any) => {});
       }, (err: any) => {
         if ((err.status === 404) || (err.status === 409)) {
           this.message = err.error['message'];

@@ -1,6 +1,9 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { async, ComponentFixture, TestBed, ComponentFixtureAutoDetect } from '@angular/core/testing';
 import { ConfirmationAdditionalPaymentComponent } from './confirmation-additional-payment.component';
+import { RouterTestingModule } from '@angular/router/testing';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+import { AdminService} from '../services/admin.service';
 
 describe('ConfirmationAdditionalPaymentComponent', () => {
   let component: ConfirmationAdditionalPaymentComponent;
@@ -8,7 +11,9 @@ describe('ConfirmationAdditionalPaymentComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ConfirmationAdditionalPaymentComponent ]
+      declarations: [ ConfirmationAdditionalPaymentComponent ],
+      providers: [AdminService, { provide: ComponentFixtureAutoDetect, useValue: true }],
+      imports: [RouterTestingModule, HttpClientModule, FormsModule]
     })
     .compileComponents();
   }));

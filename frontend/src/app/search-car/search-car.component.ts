@@ -116,7 +116,7 @@ export class SearchCarComponent implements OnInit {
     if (this.highPrice !== null) {
       strFilter = strFilter + 'highPrice=' + this.highPrice + '&';
     }
-    if ((this.rentBeginDate !== null) && (this.rentCountDays !== null)) {
+    if ((this.rentBeginDate !== null) && (JSON.stringify(this.rentBeginDate) !== '""') && (this.rentCountDays !== null)) {
       let s, myDate;
       s = this.rentBeginDate;
       myDate = new Date(s.valueOf().replace(/-/g, '/').replace('T', ' '));

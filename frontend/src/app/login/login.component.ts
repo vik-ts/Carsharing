@@ -25,6 +25,10 @@ export class LoginComponent implements OnInit {
       .subscribe(res => {
         this.colorMessage = true;
         this.message = res['message'];
+        setTimeout(() => {
+          this.router.navigate(['/homeuser']);
+        },
+        1000);
         }, (err) => {
         this.colorMessage = false;
         if (err['status'] === 404) {

@@ -73,18 +73,18 @@
                   <label for="highPrice">до</label>
                   <input type="number" class="form-control" id="highPrice" [(ngModel)]="highPrice" name="highPrice">                                
                 </div>
-              </div><br>              
+              </div><br>                          
               <div class="row">
                 <div class="col-sm-6">
                   <label for="rentBeginDate">Дата от (со временем!)</label>
                   <input type="datetime-local" class="form-control" id="rentBeginDate" [(ngModel)]="rentBeginDate" name="rentBeginDate">
                 </div>
                 <div class="col-sm-6">
-                  <label for="rentCountDays">Период (дней)</label>
+                  <label for="rentCountDays">Период (полных дней)</label>
                   <input type="number" class="form-control" id="rentCountDays" [(ngModel)]="rentCountDays" name="rentCountDays">
                 </div>
               </div>
-              <h4 class="h4">* Дату необходимо указывать со временем</h4><br>             
+              <h4 class="h4">* Дату необходимо указывать со временем, при указании даты обязательно заполняем период</h4><br>             
               <br>
               <button type=button class="btn btn-success" (click)="Filter()">Применить</button>                   
             </fieldset>     
@@ -117,7 +117,7 @@
                   <img [src]="getUrl(car)" class="rightpic"/>              
                 </td>
                 <td *ngIf="getUrl(car) === null" class="gray">
-                    нет фото             
+                  нет фото  
                 </td>
                 <td>{{ car.mark }}</td>
                 <td>{{ car.model }}</td>        

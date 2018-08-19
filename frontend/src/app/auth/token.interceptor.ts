@@ -24,7 +24,7 @@ export class TokenInterceptor implements HttpInterceptor {
       }
     }, (err: any) => {
       if (err instanceof HttpErrorResponse) {
-        if (err.status === 403) {
+        if ((err.status === 403) || (err.status === 401)) {
           this.auth.mustLogin();
         }
       }

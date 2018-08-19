@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { PaymentService } from '../services/payment.service';
 import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-closing-payment',
@@ -17,7 +18,7 @@ export class ClosingPaymentComponent implements OnInit {
   id: any;
   paymentDetail = {};
 
-  constructor(private auth: AuthService, private location: Location, private paymentService: PaymentService) { }
+  constructor(private auth: AuthService, private location: Location, private paymentService: PaymentService, private router: Router) { }
 
   ngOnInit() {
     this.id = this.auth.id;  // id User
@@ -76,6 +77,10 @@ export class ClosingPaymentComponent implements OnInit {
     } else {
       this.paymentService.putUnclosedPayments(this.unclosedPayments).subscribe(res => {
       this.message = res['message'];
+        setTimeout(() => {
+          this.router.navigate(['/homeuser']);
+        },
+        2000);
       }, (err) => {
       this.message = err['message'];
       });

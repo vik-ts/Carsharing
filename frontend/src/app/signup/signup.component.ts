@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { User} from '../models/user';
 import { AuthService} from '../services/auth.service';
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-signup',
@@ -14,7 +15,7 @@ export class SignupComponent implements OnInit {
   message = '';
   colorMessage: boolean;
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private location: Location, private router: Router) { }
 
   ngOnInit() {
   }
@@ -46,5 +47,9 @@ export class SignupComponent implements OnInit {
         1000);
     }
     return false;
+  }
+
+  backClicked() {
+    this.location.back();
   }
 }

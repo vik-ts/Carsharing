@@ -44,10 +44,6 @@ export class AuthService {
       this.isAdmin = res['body'].isAdmin;
       this.token = res['body'].token;
       this.email = res['body'].email;
-      setTimeout(() => {
-        this.router.navigate(['/homeuser']);
-      },
-      1000);
       return res;
     });
   }

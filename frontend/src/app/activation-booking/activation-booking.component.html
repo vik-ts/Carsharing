@@ -46,10 +46,19 @@
       <div class="container">
         <h4 class="h4">* Щелкните по окну для его закрытия</h4><br>    
         <h2 class="h2">Личная карточка</h2><br>        
-        <dl class="list">
+        <dl class="list">          
           <dt>Телефон</dt><br>
-          <dd>{{ userinfo.telephone }}</dd><br>          
-        </dl>
+          <dd>{{ userinfo.telephone }}</dd><br>
+          <dt>Фото</dt><br>
+          <dd> 
+            <div *ngIf="imagePreview===null">
+              нет фото
+            </div>
+            <div *ngIf="imagePreview!==null">        
+              <img [src]="imagePreview"/>
+            </div> 
+          </dd>          
+        </dl><br><br><br><br>
         <label>Паспортные данные</label><br><br>                 
         <dl class="list">         
           <dt>ФИО</dt><br>

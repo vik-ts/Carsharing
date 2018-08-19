@@ -6,14 +6,14 @@
         <div class="form-group">
           <label for="email">Email</label>
           <input type="email" class="form-control" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" id="email" required [(ngModel)]="user.email" name="email" #email="ngModel">
-          <div *ngIf="email.errors &&(email.touched || email.dirty)" class ="aler alert-danger">
+          <div *ngIf="email.errors &&(email.touched || email.dirty)" class ="alert alert-danger">
             <div [hidden]="!email.errors?.pattern">
               Некорректный e-mail
             </div>
-          </div>     
+          </div>    
         </div>       
         <div class="form-group">          
-          <a href="/" class="btn btn-primary">Назад</a>    
+          <button class="btn btn-success" (click)="backClicked()">Назад</button>    
           <button type="submit" class="btn btn-success" [disabled]="!signupform.form.valid">OK</button>
         </div>        
         <div [ngStyle]="{'color': colorMessage? 'black' : 'red'}">{{message | uppercase}}</div>         

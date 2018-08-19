@@ -16,10 +16,12 @@ export class ActivationBookingComponent implements OnInit {
   message = '';
   inactivBookings = [];
   element: any;
+  imagePreview: string;
 
   constructor(private adminService: AdminService, private userService: UserService, private location: Location, private router: Router) { }
 
   ngOnInit() {
+    this.imagePreview = null;
     this.userinfo = {};
     this.getBookings();
   }
@@ -82,8 +84,12 @@ export class ActivationBookingComponent implements OnInit {
   }
 
   goToUserInfo(idUser) {
+    this.imagePreview = null;
     this.userService.getUserInfoByUser(idUser).subscribe(res => {
     this.userinfo = res['body'];
+    if (this.userinfo['photo'] !== null) {
+      this.imagePreview = 'data:image/jpg;base64,' + this.userinfo['photo'];
+    }
       }, (err) => {
        this.message = 'Произошла ошибка. Личный кабинет не найден.';
       });
