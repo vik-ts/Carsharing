@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -19,6 +20,7 @@ import com.carsharing.security.AuthUserDetailsService;
 import com.carsharing.security.AuthEntryPoint;
 import com.carsharing.security.JwtTokenAuthFilter;
 
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 @Configurable
 @EnableWebSecurity
 // Modifying or overriding the default spring boot security.
@@ -60,6 +62,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     // specify that inside this method
     @Override
     public void configure(WebSecurity web) throws Exception {
+        //for Swagger
         web.ignoring().antMatchers(
                 "/webjars/**",
                 "/v2/api-docs/**",
@@ -67,8 +70,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 "/configuration/security/**",
                 "/swagger-resources/**",
                 "/swagger-ui.html/**",
-                "/swagger-ui.html#/**"
-                );
+                "/swagger-ui.html#/**");
+
+        //for Angular5 frontend
+        web.ignoring().antMatchers(HttpMethod.GET,
+                "/", "/index.html", "/favicon.ico", "/*.js",
+                "/home", "/signup", "/userinfo", "/login", "/createcar",
+                "/activation", "/homeuser", "/usercars", "/editcar/**",
+                "/searchcar", "carbooking/**", "/activationbooking",
+                "/confirmbooking", "/userbookings", "/caruserbookings",
+                "/confirmpayment", "/confirmaddpayment", "/closingpayment",
+                "/allpayments");
     }
 
     // This method is used for override HttpSecurity of the web Application.
@@ -88,7 +100,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
 
                 .antMatchers(HttpMethod.POST, "/registration", "/login").permitAll()
-                .antMatchers("/searchcars", "/booking").permitAll()
 
                 .anyRequest().authenticated().and()
 

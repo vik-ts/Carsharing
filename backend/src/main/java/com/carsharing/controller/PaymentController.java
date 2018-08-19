@@ -85,7 +85,7 @@ class PaymentResponse implements Serializable {
 
 @RestController
 @Slf4j
-@Api
+@Api(description = "API для обработки оплат после аренды авто")
 public class PaymentController {
     @Autowired
     CarBookingRepository carBookingRepository;
@@ -203,7 +203,7 @@ public class PaymentController {
                 payment.setPaymentRequisites(unconfirmedPayment.getPaymentRequisites());
                 payment.setConfirmedUser(true);
 
-                if (payment.getAmountToPay() == 0) {
+                if (payment.getAddAmountToPay() == 0) {
                     payment.setConfirmedAdmin(true);
                 }
                 payment.setRejectedAdmin(false);

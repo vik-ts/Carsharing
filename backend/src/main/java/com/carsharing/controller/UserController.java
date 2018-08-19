@@ -18,7 +18,7 @@ import io.swagger.annotations.*;
 
 @RestController
 @Slf4j
-@Api
+@Api(description = "API для работы с пользователями")
 public class UserController {
 
     @Autowired

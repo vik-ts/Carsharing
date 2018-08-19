@@ -117,7 +117,7 @@ public class User implements UserDetails, Serializable {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(this.role == 0 ? "ADMIN" : "USER"));
+        authorities.add(new SimpleGrantedAuthority(this.role == 0 ? "ROLE_ADMIN" : "ROLE_USER"));
         return authorities;
     }
 

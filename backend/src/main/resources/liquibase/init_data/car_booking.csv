@@ -1,13 +1,13 @@
 ﻿id,activated,rejected,confirmed,canceled,comment,begin_date,count_days,return_date,car_id,user_id
-1,false,false,false,false,null,"2018-08-11 11:00:00",1,null,1,3
-2,true,false,false,false,null,"2018-08-11 11:00:00",1,null,2,3
+1,false,false,false,false,null,"2018-08-25 11:00:00",1,null,1,3
+2,true,false,false,false,null,"2018-08-25 11:00:00",1,null,2,3
 3,false,true,false,false,"админ: неправильно заполнен ЛК","2018-08-11 11:00:00",1,null,3,3
-4,true,false,true,false,null,"2018-08-11 11:00:00",1,null,4,3
-5,true,true,false,false,"арендодатель: авто уже забронировано","2018-08-11 11:00:00",1,null,5,3
-6,true,false,true,true,"арендодатель: авто поломалось","2018-08-11 11:00:00",1,null,6,3
-7,false,false,false,true,"арендатор: не актуально","2018-08-11 11:00:00",1,null,7,3
-8,true,false,true,false,null,"2018-08-11 11:00:00",1,"2018-08-12 10:00:00",8,3
-9,true,false,true,false,null,"2018-08-11 11:00:00",1,"2018-08-12 10:00:00",9,3
-10,true,false,true,false,null,"2018-08-11 11:00:00",1,"2018-08-12 10:00:00",10,3
-11,true,false,true,false,null,"2018-08-11 11:00:00",1,"2018-08-12 10:00:00",11,3
-12,true,false,true,false,null,"2018-08-11 11:00:00",1,"2018-08-12 10:00:00",12,3
+4,true,false,true,false,null,"2018-08-25 11:00:00",1,null,4,3
+5,true,true,false,false,"арендодатель: авто уже забронировано","2018-08-25 11:00:00",1,null,5,3
+6,true,false,true,true,null,"2018-08-25 11:00:00",1,null,6,3
+7,false,false,false,true,null,"2018-08-25 11:00:00",1,null,7,3
+8,true,false,true,false,null,"2018-08-11 11:00:00",1,"2018-08-26 10:00:00",8,3
+9,true,false,true,false,null,"2018-08-11 11:00:00",1,"2018-08-27 10:00:00",9,3
+10,true,false,true,false,null,"2018-08-11 11:00:00",1,"2018-08-27 10:00:00",10,3
+11,true,false,true,false,null,"2018-08-11 11:00:00",1,"2018-08-26 10:00:00",11,3
+12,true,false,true,false,null,"2018-08-11 11:00:00",1,"2018-08-25 10:00:00",12,3

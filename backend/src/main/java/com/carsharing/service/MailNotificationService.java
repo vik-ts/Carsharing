@@ -1,5 +1,6 @@
 package com.carsharing.service;
 
+import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
@@ -52,7 +53,7 @@ public class MailNotificationService {
             mail.setText("Ваше объявление об аренде авто ОТКЛОНЕНО.");
         }
 
-        mail.setText("Комментарий от администратора: " + (comment.length() == 0? "<отсутствуют>" : comment));
+        mail.setText("Комментарий от администратора: " + (Strings.isNullOrEmpty(comment) ? "<отсутствуют>" : comment));
 
         try {
             javaMailSender.send(mail);
@@ -84,7 +85,7 @@ public class MailNotificationService {
         }
 
         mail.setTo(email);
-        mail.setText("Комментарий от администратора: " + (comment.length() == 0? "<отсутствуют>" : comment));
+        mail.setText("Комментарий от администратора: " + (Strings.isNullOrEmpty(comment) ? "<отсутствуют>" : comment));
 
         try {
             javaMailSender.send(mail);
@@ -113,7 +114,7 @@ public class MailNotificationService {
         }
 
         mail.setTo(email);
-        mail.setText("Комментарий от арендодателя: " + (comment.length() == 0? "<отсутствуют>" : comment));
+        mail.setText("Комментарий от арендодателя: " + (Strings.isNullOrEmpty(comment) ? "<отсутствуют>" : comment));
 
         try {
             javaMailSender.send(mail);

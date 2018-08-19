@@ -43,7 +43,7 @@ class AuthResponse implements Serializable {
 
 @RestController
 @Slf4j
-@Api
+@Api(description = "API для авторизации в системе")
 public class AuthController {
 
     @Autowired

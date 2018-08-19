@@ -80,7 +80,7 @@ class CarBookingResponse implements Serializable {
 
 @RestController
 @Slf4j
-@Api
+@Api(description = "API для бронирования авто")
 public class CarBookingController {
 
     @Autowired

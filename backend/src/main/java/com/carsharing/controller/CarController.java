@@ -27,7 +27,7 @@ import com.carsharing.controller.DTO.CarDTO;
 
 @RestController
 @Slf4j
-@Api
+@Api(description = "API для работы с объявлениями об аренде авто")
 public class CarController {
 
     @Autowired

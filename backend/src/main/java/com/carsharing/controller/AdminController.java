@@ -8,6 +8,7 @@ import com.carsharing.util.CSResponse;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -127,9 +128,10 @@ class UnconfirmedPaymentRequestForAdmin implements Serializable {
     private String comment;
 }
 
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 @RestController
 @Slf4j
-@Api
+@Api(description = "API для администратора системы")
 public class AdminController {
     @Autowired
     UserRepository userRepository;
