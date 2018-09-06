@@ -16,6 +16,7 @@ public class ForwardController {
             "/confirmbooking", "/userbookings", "/caruserbookings",
             "/confirmpayment", "/confirmaddpayment", "/closingpayment",
             "/allpayments"})
+
     public String redirect() {
         // Forward to home page so that route is preserved.
         return "forward:/index.html";

@@ -31,7 +31,8 @@ import com.carsharing.controller.DTO.CarDTO;
 public class User implements UserDetails, Serializable {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id private long id;
+    @Id
+    private long id;
 
     @Column(name = "email") /*@Email*/ @NotNull @Size(max = 65)
     @NonNull private String email;
@@ -50,7 +51,8 @@ public class User implements UserDetails, Serializable {
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY
     )
-    @NonNull private UserInfo userInfo;
+    @NonNull
+    private UserInfo userInfo;
 
     @OneToMany(
             mappedBy = "user",

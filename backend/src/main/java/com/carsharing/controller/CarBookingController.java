@@ -135,6 +135,7 @@ public class CarBookingController {
                 carBookingRequest.getBeginDate(),
                 carBookingRequest.getCountDays()
         );
+
         carBookingRepository.save(carBooking);
 
         apiMessage = "Бронь на аренду авто успешно создана";
